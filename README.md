@@ -23,6 +23,8 @@ git push -uf origin main
 ## Build
 ```
 git clone git@gitlab.tudelft.nl:cor/ro47007/2023/team-8/bullproof-tech.git
+cd bullproof-tech
+git submodule update --init --recursive
 cd bullproof_ws
 catkin_make
 ```
