@@ -20,6 +20,13 @@ git branch -M main
 git push -uf origin main
 ```
 
+## Build
+```
+git clone git@gitlab.tudelft.nl:cor/ro47007/2023/team-8/bullproof-tech.git
+cd bullproof_ws
+catkin_make
+```
+
 ## Integrate with your tools
 
 - [ ] [Set up project integrations](https://gitlab.tudelft.nl/cor/ro47007/2023/team-8/bullproof-tech/-/settings/integrations)
