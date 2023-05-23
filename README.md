@@ -48,6 +48,6 @@ To shut down mirte, run the following command in the `$mirte`:
 $mirte sudo shutdown now
 ```
 
-Once all processes are shutdown, you may remove the power or turn off the onboard Orange Pi. 
+Once all processes are shutdown, you may  turn off the Mirte robot.
 
 **Do not turn it off in any other way. This may cause the entire Mirte robot to be corrupted**
