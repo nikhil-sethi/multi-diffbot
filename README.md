@@ -34,7 +34,7 @@ It will then ask for a password, this password is "bullproof". Once connected, y
 In order to connect to the ROS master running on Mirte (in order to publish or subscribe to its nodes), the following should be run in the user shell `$` (not `$mirte`):
 
 ```bash
-$ export ROS_MASTER_URI=https://192.168.42.1/11311
+$ export ROS_MASTER_URI=https://192.168.42.1:11311
 $ export ROS_IP=<your_wlan_ip>
 ```
 If you do not know what your WLAN IP address is, run `$ ifconfig` or `$ hostname -I` to check.
