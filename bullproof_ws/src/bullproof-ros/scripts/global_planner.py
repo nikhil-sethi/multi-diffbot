@@ -3,6 +3,7 @@ import rospy
 from nav_msgs.msg import OccupancyGrid
 from std_msgs.msg import String
 import numpy as np
+import cv2
 
 
 # class GlobalPlanner:
@@ -32,19 +33,23 @@ import numpy as np
 #       return data
 	
 
-def visualize(map,width,height):
-    map = np.reshape(map,(height,width))
-    for i, row in enumerate(map):
-        print('this is row',i,':',row)
+def visualize(map,height,width):
+    map = np.reshape(map,(height,width)).astype(float)
+    # for i, row in enumerate(map):
+    #     print('this is row',i,':',row)
+
+    cv2.imshow('image', map)
+    cv2.waitKey(1)
     
 
 
 def callback(msg):
-    rospy.loginfo(rospy.get_caller_id() + "I heard %s", msg.data)
+    rospy.loginfo('bye' + str(rospy.Time.now()))
     map = msg.data
-    width = msg.info.width
-    height = msg.info.width
-    visualize(map,width,height)
+    info = msg.info
+    width = info.width
+    height = info.height
+    visualize(map, height, width)
 	
 def get_occupancy_map():
     rospy.init_node('listener', anonymous=True)
@@ -57,18 +62,12 @@ def get_occupancy_map():
 
 
 
-
-
 if __name__ == '__main__':
     get_occupancy_map()
     
     # rospy.init_node("sub_py_node")
-    
     # rospy.loginfo("[SUBSCRIBER PY  NODE] namespace of node = " + rospy.get_namespace())
-    
     # rospy.spin()
-    
-    
     # sub = map_subscriber()
     # sub.subscriberCallback()
     
