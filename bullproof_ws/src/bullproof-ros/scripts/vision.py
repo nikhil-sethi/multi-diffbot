@@ -1,17 +1,10 @@
 #!/usr/bin/env python3
 import numpy as np
-
-# grid = np.zeros((5,5),dtype=int)
-# a = grid.tolist()
-# print(type(a))
-# print(' siizzeee = ', grid.size)
-# flat_grid = grid.reshape((grid.size,)) * 100
-# print(list(np.round(flat_grid)))
-# print(' aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-
+import cv2
 import rospy
 from nav_msgs.msg import OccupancyGrid
 from std_msgs.msg import String
+
 
 # class OccupancyMap:
 # 	def __init__(self, name):
@@ -29,18 +22,37 @@ from std_msgs.msg import String
 		
 
 
-
-
 # https://w3.cs.jmu.edu/spragunr/CS354_S15/labs/mapping/mapper.py
 
 
+
+def img_to_occupancy(file, width=None, height=None):
+    color_img = cv2.imread(file)
+    grey_img = np.mean(color_img, axis=2)
+    bitmap = np.round(-grey_img/255+1).astype(int)
+    occupancy_map = bitmap*100
+
+    # max pooling
+    # if width and height:
+        # M, N = occupancy_map.shape
+        # K = width
+        # L = height
+        # MK = M // K
+        # NL = N // L
+        # occupancy_map = bitmap[:MK*K, :NL*L].reshape(MK, K, NL, L).max(axis=(1, 3))
+        # # or
+        # cv2.resize(occupancy_map, (height, width)).astype(int)
+
+    return occupancy_map
+
+
 def generate_occupancy_map():
-    pub = rospy.Publisher('chatter', String, queue_size=10)
-    pub2 = rospy.Publisher('map', OccupancyGrid, queue_size=10)#, latch=True)
+    pub = rospy.Publisher('map', OccupancyGrid, queue_size=1) #, latch=True)
     rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(1) # 1hz
     while not rospy.is_shutdown():
-        hello_str = "hello world %s" % rospy.get_time()
+        rospy.loginfo('hello:' + str(rospy.Time.now()))
+        # print(rospy.Time.now())
         
         grid_msg = OccupancyGrid()
         # header
@@ -48,22 +60,23 @@ def generate_occupancy_map():
         grid_msg.header.frame_id = "map"
         
 		# info
+        # color_img = cv2.imread('bullproof_ws/src/bullproof-ros/scripts/top_view_black_white.jpeg')
+        color_img = cv2.imread('src/bullproof-ros/images/top_view_black_white.jpeg')
+        height, width = color_img.shape[:2] # in pixels (or squares. all the same.)
+        # print('height=', height)
+        # print('width=', width)
+
         grid_msg.info.resolution = 1 # Width of each grid square in meters
-        grid_msg.info.width = 10
-        grid_msg.info.height = 10
-        grid = np.zeros((10,10), dtype=int) # 10x10 grid with values between 0 and 1
-        grid[1,1] = 100
-        grid[5,8] = 100
+        grid_msg.info.width = width
+        grid_msg.info.height = height
+
+        grid = img_to_occupancy('src/bullproof-ros/images/top_view_black_white.jpeg', width=width, height=height) # downscaling does not work yet
         
         flat_grid = grid.reshape((grid.size)) # make into one long list
         
         grid_msg.data = list(flat_grid) # occupancy grid message must be list of integers between 0 and 100
-        # grid_msg.data = grid.tolist() # occupancy grid message must be list of integers between 0 and 100
 
-        rospy.loginfo(hello_str)
-        
-        pub.publish(hello_str)
-        pub2.publish(grid_msg)
+        pub.publish(grid_msg)
         rate.sleep()
 
 
