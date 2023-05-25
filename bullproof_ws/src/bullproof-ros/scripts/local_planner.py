@@ -10,7 +10,7 @@ class LocalPlanner:
 		self.control_pub = rospy.Publisher('')
 		self.name = name
 	def run(self):
-		while rospy.isS
+		pass
 
 if __name__ == '__main__':
 	local_planner = LocalPlanner('local_planner')
