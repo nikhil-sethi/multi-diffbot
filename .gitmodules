@@ -1,9 +1,9 @@
 [submodule "bullproof_ws/src/ldlidar_stl_ros"]
 	path = bullproof_ws/src/ldlidar_stl_ros
 	url = https://github.com/ldrobotSensorTeam/ldlidar_stl_ros
-[submodule "bullproof_ws/src/mirte-ros-packages"]
-	path = bullproof_ws/src/mirte-ros-packages
-	url = https://github.com/mirte-robot/mirte-ros-packages
+# [submodule "bullproof_ws/src/mirte-ros-packages"]
+# 	path = bullproof_ws/src/mirte-ros-packages
+# 	url = https://github.com/mirte-robot/mirte-ros-packages
 [submodule "diffbot_ws/src/diffbot"]
 	path = diffbot_ws/src/diffbot
 	url = git@github.com:nikhil-sethi/diffbot.git
