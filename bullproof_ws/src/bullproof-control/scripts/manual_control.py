@@ -16,8 +16,6 @@ def control_mirte():
         if not stopInput:
             if key == keyboard.Key.up:
                 move_cmd.linear.x += inp_strength
-                move_cmd.angular.z += rad_strength
-
             if key == keyboard.Key.down:
                 move_cmd.linear.x -= inp_strength
             if key == keyboard.Key.left:
