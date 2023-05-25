@@ -16,9 +16,10 @@ To build the repository, open the `bullproof-tech` folder in a terminal and run 
 ``` bash
 git submodule update --init --recursive
 cd bullproof_ws
+rosdep install --from-paths src --ignore-src -r -y
 catkin_make
 ```
-This will update any submodules and then build the workspace for ROS within the workspace folder `bullproof_ws`.
+This will update any submodules, install dependencies and then build the workspace for ROS within the workspace folder `bullproof_ws`.
 
 ## Connecting to the robot
 Firstly, one must connect to the WiFi network that the Mirte robot creates. Look for and connect to the following WiFi network:
