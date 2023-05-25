@@ -30,3 +30,11 @@ Once connected, one can connect to the `$mirte` shell via ssh by running the fol
 ssh mirte@192.168.42.1
 ```
 It will then ask for a password, this password is "bullproof". Once connected, you now have access to the `$mirte` shell.
+
+## Fake localization using diffbot
+```
+cd diffbot_ws
+source devel/setup.bash
+catkin_make
+roslaunch diffbot_navigation diffbot.launch
+```
