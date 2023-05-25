@@ -1,3 +1,6 @@
-bullproof_ws/build
-bullproof_ws/install
-bullproof_ws/devel
+# bullproof_ws/build
+# bullproof_ws/install
+# bullproof_ws/devel
+build
+devel
+install
