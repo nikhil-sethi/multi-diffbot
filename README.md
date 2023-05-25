@@ -65,5 +65,12 @@ In order to manually control the Mirte robot using arrow keys on your keyboard, 
 cd bullproof_ws
 source devel/setup.bash
 roslaunch bullproof-control manual_control.launch
+```
 
+## Fake localization using diffbot
+```
+cd diffbot_ws
+source devel/setup.bash
+catkin_make
+roslaunch diffbot_navigation diffbot.launch
 ```
