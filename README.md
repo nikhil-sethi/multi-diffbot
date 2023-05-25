@@ -67,10 +67,26 @@ source devel/setup.bash
 roslaunch bullproof-control manual_control.launch
 ```
 
-## Fake localization using diffbot
+## Simulation
+
+Useful to simulate the map of robohouse. 
+Planning with movebase using 2D NAV goals is supported.
+```bash
+roslaunch bullproof-bringup bullproof_sim.launch
 ```
-cd diffbot_ws
-source devel/setup.bash
-catkin_make
-roslaunch diffbot_navigation diffbot.launch
-```
+
+## TODO
+
+- [] Planning
+    - [] Optimal location calculation algorithm
+    - [] Tune movebase params to match real mirte dynamics 
+- [] Perception
+    - [] Detection algo
+    - [] Publish map + poses on required topics
+- [] HRI
+    - [] Behaviour trees
+    - [] Handle mirte overtake request
+- [] Control
+- [] Simulation
+    - [] Add farmer and bull robots + topics
+    - [] 
