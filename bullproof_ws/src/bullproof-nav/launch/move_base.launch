@@ -7,7 +7,8 @@
     <rosparam file="$(find bullproof-nav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find bullproof-nav)/config/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find bullproof-nav)/config/global_costmap_params.yaml" command="load" /> 
-    <rosparam file="$(find bullproof-nav)/config/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find bullproof-nav)/config/base_local_planner_params.yaml" command="load" />   
+    <remap from="cmd_vel" to="/mirte/mobile_base_controller/cmd_vel"/>
  </node>
 
 </launch> 
