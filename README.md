@@ -2,6 +2,7 @@
 
 MDP Project of 2022/2023 Q4, Group 8, Lely
 
+# Installation, Setup and Robot Shutdown
 ## Cloning repository
 To clone this repository, please open a terminal in the folder where you would like to create the repository and run the following command:
 
@@ -48,6 +49,20 @@ To shut down mirte, run the following command in the `$mirte`:
 $mirte sudo shutdown now
 ```
 
-Once all processes are shutdown, you may  turn off the Mirte robot.
+Once all processes are shutdown, you may  turn off the Mirte robot using the on-board power switch.
 
 **Do not turn it off in any other way. This may cause the entire Mirte robot to be corrupted**
+
+
+# bullproof-control
+This repository contains a package named bullproof-control. This package takes care of the motion control of the Mirte robot. 
+
+## manual_control.launch
+In order to manually control the Mirte robot using arrow keys on your keyboard, you can launch `manual_control.launch` as follows:
+
+```bash
+cd bullproof_ws
+source devel/setup.bash
+roslaunch bullproof-control manual_control.launch
+
+```
