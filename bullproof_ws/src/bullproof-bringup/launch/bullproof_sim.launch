@@ -1,5 +1,0 @@
-<launch>
-    <include file="$(find mirte_sim)/launch/mirte.launch"/>
-    <include file="$(find bullproof-perception)/launch/fake_perception.launch"/>
-    <include file="$(find bullproof-nav)/launch/move_base.launch"/>
-</launch>
