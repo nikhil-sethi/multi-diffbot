@@ -35,6 +35,9 @@ cd bullproof_ws
 rosdep install --from-paths src --ignore-src -r -y
 catkin_make
 ```
+
+>** _NOTE:_ ** Make sure you are using rosdep for ROS noetic! Any other version may result in unwanted consequences.
+
 This will update any submodules, install dependencies and then build the workspace for ROS within the workspace folder `bullproof_ws`.
 
 ## Connecting to the robot
@@ -106,7 +109,7 @@ roslaunch bullproof_control manual_control.launch
 ## ldlidar_stl_ros
 Submodule containing the packages for the LIDAR on-board the Mirte robot. Cannot be started seperately.
 ## mirte-ros-packages
-Metapackage containing the on-board ROS packages used by the Mirte robot, used for simulating robot. These cannot be started sep
+Metapackage containing the on-board ROS packages used by the Mirte robot, used for simulating robot.
 ## TODO
 
 - [] Planning
