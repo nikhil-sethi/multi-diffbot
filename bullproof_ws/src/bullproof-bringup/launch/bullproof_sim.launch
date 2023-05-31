@@ -1,5 +1,7 @@
 <launch>
-    <include file="$(find mirte_sim)/launch/mirte.launch"/>
+    <include file="$(find bullproof-bringup)/launch/all_bots.launch"/>
     <include file="$(find bullproof-perception)/launch/fake_perception.launch"/>
-    <include file="$(find bullproof-nav)/launch/move_base.launch"/>
+    <include file="$(find bullproof_nav)/launch/move_base.launch">
+        <arg name="robot_name" value="mirte"/>
+    </include>
 </launch>

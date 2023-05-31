@@ -1,0 +1,6 @@
+geometry_msgs/Pose2D pose
+---
+bool reached
+---
+float32 distance_left
+
