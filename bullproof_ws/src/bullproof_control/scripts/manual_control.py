@@ -37,7 +37,7 @@ def control_mirte():
     rospy.init_node('keyboard_control')
 
     # Create publishers for left and right motor commands
-    movecmd_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+    movecmd_pub = rospy.Publisher('/mobile_base_controller/cmd_vel', Twist, queue_size=10)
 
     rate = rospy.Rate(10)  # Publish rate in Hz
     
