@@ -1,7 +1,10 @@
 <launch>
     <include file="$(find bullproof-bringup)/launch/all_bots.launch"/>
     <include file="$(find bullproof-perception)/launch/fake_perception.launch"/>
+    
+    <!-- <group ns="farmer">
     <include file="$(find bullproof_nav)/launch/move_base.launch">
-        <arg name="robot_name" value="mirte"/>
+        <arg name="robot_name" value="farmer"/>
     </include>
+    </group> -->
 </launch>

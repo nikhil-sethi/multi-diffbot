@@ -26,7 +26,7 @@
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rvizconfig)" required="true"/>
 
     <group ns="mirte">
-        <param name="tf_prefix" value="mirte" />
+        <param name="tf_prefix" value="mirte_tf" />
         <include file="$(find mirte_sim)/launch/mirte_spawn.launch" >
         <arg name="init_pose" value="-x 1 -y 1 -z 0" />
         <arg name="robot_name"  value="mirte" />
@@ -34,7 +34,7 @@
     </group>
 
     <group ns="farmer">
-        <param name="tf_prefix" value="farmer" />
+        <param name="tf_prefix" value="farmer_tf" />
         <include file="$(find mirte_sim)/launch/mirte_spawn.launch" >
         <arg name="init_pose" value="-x 2.6 -y 1 -z 0" />
         <arg name="robot_name"  value="farmer" />
