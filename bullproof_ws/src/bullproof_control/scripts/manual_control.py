@@ -11,8 +11,8 @@ def control_mirte():
     # Create function to execute motor commands on key input (manual control)
     def on_press(key):
         global move_cmd, stopInput
-        inp_strength = 0.1
-        rad_strength = 1
+        inp_strength = 2
+        rad_strength = 2
         if not stopInput:
             if key == keyboard.Key.up:
                 move_cmd.linear.x += inp_strength
@@ -37,7 +37,7 @@ def control_mirte():
     rospy.init_node('keyboard_control')
 
     # Create publishers for left and right motor commands
-    movecmd_pub = rospy.Publisher('/mobile_base_controller/cmd_vel', Twist, queue_size=10)
+    movecmd_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
     rate = rospy.Rate(10)  # Publish rate in Hz
     

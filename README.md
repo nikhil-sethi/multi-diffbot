@@ -43,6 +43,7 @@ If you do not know what your WLAN IP address is, run `$ ifconfig` or `$ hostname
 
 Once connected, you can now execute any scripts or commands to the ROS master on the Mirte robot. This must be re-done for every new shell instance. You do not need to run `$roscore` locally.
 
+## Starting the ROS 
 ## Shutting down the robot
 To shut down mirte, run the following command in the `$mirte`:
 
@@ -64,7 +65,7 @@ In order to manually control the Mirte robot using arrow keys on your keyboard, 
 ```bash
 cd bullproof_ws
 source devel/setup.bash
-roslaunch bullproof-control manual_control.launch
+roslaunch bullproof_control manual_control.launch
 ```
 
 ## Simulation
@@ -72,7 +73,7 @@ roslaunch bullproof-control manual_control.launch
 Useful to simulate the map of robohouse. 
 Planning with movebase using 2D NAV goals is supported.
 ```bash
-roslaunch bullproof-bringup bullproof_sim.launch
+roslaunch bullproof_bringup bullproof_sim.launch
 ```
 
 ## TODO
