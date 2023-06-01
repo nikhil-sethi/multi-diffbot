@@ -3,7 +3,7 @@ Team Logo:
 
 <img src="https://drive.google.com/uc?id=1R4BYatSzIrdLh8kk5JZJNoghUWQ8TwpW" alt="Team Logo" width="50%" height="50%" title="Team Logo"> 
 
-This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, developed for Lely. This ReadMe file contains instructions to install and set up the robot, information about the packages contained in the repository and a brief overview of the software architecture used in the robot.
+This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, developed for Lely. This ReadMe file contains instructions to install and set up the robot, information about the packages contained in the repository and a brief overview of the node structure used by the robot.
 
 
 ## Table of Contents
@@ -21,7 +21,7 @@ This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, 
     - [bullproof_perception](#bullproof_perception)
     - [ldlidar_stl_ros](#ldlidar_stl_ros)
     - [mirte-ros-packages](#mirte-ros-packages)
-- [Software Architecture](#software-architecture)
+- [Node Structure](#node-structure)
     - [move_base](#move_base)
 - [ToDo's](#todos)
 # Installation, Setup and Robot Shutdown
@@ -124,7 +124,7 @@ While this is running, you will be able to control the Mirte robot.
 ## bullproof_hri
 `bullproof_hri` contains the behavioural tree for the Mirte robot. More information to be added.
 ## bullproof_nav
-`bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Software Architecture](#software-architecture).
+`bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Node Structure](#node-structure).
 
 ### move_base.launch
 The [move_base](http://wiki.ros.org/move_base) package can be started seperately. To do so, run the following command:
@@ -137,15 +137,22 @@ This is not necessary in general use, as [bullproof_bringup](#bullproof_bringup)
 `bullproof_perception` contains the perception stack used by this project. More information to be added.
 
 ## ldlidar_stl_ros
-Submodule containing the packages for the LIDAR on-board the Mirte robot. Cannot be started seperately.
+`ldlidar_stl_Ros` is a submodule containing the packages for the LIDAR on-board the Mirte robot. Cannot be started seperately.
 ## mirte-ros-packages
-Metapackage containing the on-board ROS packages used by the Mirte robot, used for simulating robot in [bullproof_sim.launch](#bullproof_simlaunch).
+`mirte-ros-packages` is a metapackage containing the on-board ROS packages used by the Mirte robot, used for simulating robot in [bullproof_sim.launch](#bullproof_simlaunch).
 
-# Software Architecture
-To be added: overview of node structure and software architecture.
+# Node Structure
+The general node structure of this project is represented by the following graph:
+
+> Placeholder image for final node structure (current taken from `bullproof_sim.launch`)
+
+<img src="https://drive.google.com/uc?id=1f5DZ_yPpFG-neMNjb9PidmG9BIYcrOTB"
+alt="move_base" title="Node Structure"> 
+
+An in-depth explanation of each node is given in the following sections:
 
 ## move_base
-The node `move_base` is created by the [move_base](#move_base) package. The nodes has the following inputs and outputs
+The node `move_base` is created by the [move_base](#move_base) package. The nodes has the following inputs and outputs:
 
 **Inputs:** 
 - */map* (nav_msgs/GetMap) - Occupancy Map
@@ -157,9 +164,13 @@ The node `move_base` is created by the [move_base](#move_base) package. The node
 
 A diagram of the navigation stack setup is shown below:
 
-<img src="https://drive.google.com/uc?id=1A0BswrecwWxQcZoPOjms6ZzEVeOoMyzp
-" alt="move_base" title="Navigation Stack"> 
-Source: http://wiki.ros.org/move_base
+<img src="https://drive.google.com/uc?id=1A0BswrecwWxQcZoPOjms6ZzEVeOoMyzp" alt="move_base" title="Navigation Stack"> 
+
+> Source: http://wiki.ros.org/move_base
+
+For the local planner, the packages is configured to use the `teb_local_planner` This has additional benefits over the basic ROSTrajectoryPlanner, as it allows the robot to move back- as well as forward. For more info, please check out the [teb_local_planner Wiki here](http://wiki.ros.org/teb_local_planner).
+
+The result of this `move_base` implementation can be seen in the [following video](https://drive.google.com/uc?id=1aDXfBCpLTQjYPrEhuM-sRDxeSWZhZGoR), where [bullproof_sim.launch](#bullproof_simlaunch) is used to show the Navigation stack in action.
 
 
 # ToDo's
