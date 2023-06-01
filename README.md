@@ -145,7 +145,7 @@ Metapackage containing the on-board ROS packages used by the Mirte robot, used f
 To be added: overview of node structure and software architecture.
 
 ## move_base
-The node `move_base` is created by the [move_base](#move_base) package. The nodes has the following inputs and outputs
+The node `move_base` is created by the [move_base](#move_base) package. The nodes has the following inputs and outputs:
 
 **Inputs:** 
 - */map* (nav_msgs/GetMap) - Occupancy Map
@@ -159,7 +159,7 @@ A diagram of the navigation stack setup is shown below:
 
 <img src="https://drive.google.com/uc?id=1A0BswrecwWxQcZoPOjms6ZzEVeOoMyzp
 " alt="move_base" title="Navigation Stack"> 
-
+Source: http://wiki.ros.org/move_base
 
 
 # ToDo's
