@@ -1,7 +1,8 @@
 # BullProof Techologies
-Team Logo:
 
-<img src="https://drive.google.com/uc?id=1R4BYatSzIrdLh8kk5JZJNoghUWQ8TwpW" alt="Team Logo" width="50%" height="50%" title="Team Logo"> 
+<img src="https://drive.google.com/uc?id=1R4BYatSzIrdLh8kk5JZJNoghUWQ8TwpW" alt="Team Logo" width="30%" height="30%" title="Team Logo"> 
+
+> Team Logo of BullProof Technologies
 
 This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, developed for Lely. This ReadMe file contains instructions to install and set up the robot, information about the packages contained in the repository and a brief overview of the node structure used by the robot.
 
@@ -144,10 +145,10 @@ This is not necessary in general use, as [bullproof_bringup](#bullproof_bringup)
 # Node Structure
 The general node structure of this project is represented by the following graph:
 
-> Placeholder image for final node structure (current taken from `bullproof_sim.launch`)
-
 <img src="https://drive.google.com/uc?id=1f5DZ_yPpFG-neMNjb9PidmG9BIYcrOTB"
 alt="move_base" title="Node Structure"> 
+
+> Placeholder image for final node structure (current taken from `bullproof_sim.launch`)
 
 An in-depth explanation of each node is given in the following sections:
 
@@ -170,7 +171,7 @@ A diagram of the navigation stack setup is shown below:
 
 For the local planner, the packages is configured to use the `teb_local_planner` This has additional benefits over the basic ROSTrajectoryPlanner, as it allows the robot to move back- as well as forward. For more info, please check out the [teb_local_planner Wiki here](http://wiki.ros.org/teb_local_planner).
 
-The result of this `move_base` implementation can be seen in the [following video](https://drive.google.com/uc?id=1aDXfBCpLTQjYPrEhuM-sRDxeSWZhZGoR), where [bullproof_sim.launch](#bullproof_simlaunch) is used to show the Navigation stack in action.
+The result of this `move_base` implementation can be seen in [this video](https://drive.google.com/uc?id=1aDXfBCpLTQjYPrEhuM-sRDxeSWZhZGoR), where [bullproof_sim.launch](#bullproof_simlaunch) is used to show the Navigation stack in action.
 
 
 # ToDo's
