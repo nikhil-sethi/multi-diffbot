@@ -172,10 +172,8 @@ For the local planner, the packages is configured to use the `teb_local_planner`
 
 The result of this `move_base` implementation can be seen in the following video:
 
-![https://drive.google.com/uc?id=1aDXfBCpLTQjYPrEhuM-sRDxeSWZhZGoR]
+<video src="https://drive.google.com/uc?id=1aDXfBCpLTQjYPrEhuM-sRDxeSWZhZGoR" width="70%">
 
-<video src="https://www.youtube.com/watch?v=SjfWAegYaNE" controls="controls" style="max-width: 730px;">
-</video>
 # ToDo's
 
 -  Planning
