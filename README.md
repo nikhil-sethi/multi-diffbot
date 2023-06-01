@@ -170,9 +170,8 @@ A diagram of the navigation stack setup is shown below:
 
 For the local planner, the packages is configured to use the `teb_local_planner` This has additional benefits over the basic ROSTrajectoryPlanner, as it allows the robot to move back- as well as forward. For more info, please check out the [teb_local_planner Wiki here](http://wiki.ros.org/teb_local_planner).
 
-The result of this `move_base` implementation can be seen in the following video:
+The result of this `move_base` implementation can be seen in the [following video](https://drive.google.com/uc?id=1aDXfBCpLTQjYPrEhuM-sRDxeSWZhZGoR), where [bullproof_sim.launch](#bullproof_simlaunch) is used to show the Navigation stack in action.
 
-<video src="https://drive.google.com/uc?id=1aDXfBCpLTQjYPrEhuM-sRDxeSWZhZGoR" width="70%">
 
 # ToDo's
 
