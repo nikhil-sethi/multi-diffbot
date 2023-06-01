@@ -159,7 +159,7 @@ A diagram of the navigation stack setup is shown below:
 
 <img src="https://drive.google.com/uc?id=1A0BswrecwWxQcZoPOjms6ZzEVeOoMyzp
 " alt="move_base" title="Navigation Stack"> 
-
+Source: http://wiki.ros.org/move_base
 
 
 # ToDo's
