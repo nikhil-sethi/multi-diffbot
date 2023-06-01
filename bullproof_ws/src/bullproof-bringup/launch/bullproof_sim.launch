@@ -7,4 +7,10 @@
         <arg name="robot_name" value="farmer"/>
     </include>
     </group> -->
+
+    <!-- <group ns="bull">
+    <include file="$(find bullproof_nav)/launch/move_base.launch">
+        <arg name="robot_name" value="bull"/>
+    </include>
+    </group> -->
 </launch>

@@ -6,14 +6,14 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from geometry_msgs.msg import PoseStamped, Pose2D
 from actionlib_msgs.msg import GoalStatusArray
 import math
-i=0
+
 def movebase_client():
 
-    client = actionlib.SimpleActionClient('/farmer/move_base_simple',MoveBaseAction)
+    client = actionlib.SimpleActionClient('/bull/move_base_simple',MoveBaseAction)
     client.wait_for_server()
 
     goal = MoveBaseGoal()
-    goal.target_pose.header.frame_id = "/farmer/base_link"
+    goal.target_pose.header.frame_id = "/bull/base_link"
     goal.target_pose.header.stamp = rospy.Time.now()
     goal.target_pose.pose.position.x = 0.5
     goal.target_pose.pose.orientation.w = 1.0
@@ -31,7 +31,7 @@ def goal_publish(status):
     if status==3:
         wp = goals[i%len(goals)]
         target_pose = PoseStamped()
-        target_pose.header.frame_id = "farmer_tf/map"
+        target_pose.header.frame_id = "bull_tf/map"
         target_pose.header.stamp = rospy.Time.now()
         target_pose.pose.position.x = wp.x
         target_pose.pose.position.y = wp.y
@@ -50,17 +50,15 @@ def goal_status_callback(msg:GoalStatusArray):
 
 if __name__ == '__main__':
     # try:
-    rospy.init_node('farmer_client_py')
+    rospy.init_node('bull_client_py')
     #     result = movebase_client()
     #     if result:
-    #         rospy.loginfo("Goal execution dgoal_pub = rospy.Publisher("farmer/move_base_simple/goal", PoseStamped, queue_size=10)
-    goals = [Pose2D(2.6, 1.2, 0),
-            Pose2D(2.6, 2.6, 1.57),
-            Pose2D(0.4, 2.6, 3.14),
-            Pose2D(0.4, 1.2, -1.57)]
-    # i=0
-    goal_pub = rospy.Publisher("farmer/move_base_simple/goal", PoseStamped, queue_size=10)
-    goal_status_sub = rospy.Subscriber("farmer/move_base/status", GoalStatusArray, goal_status_callback, queue_size=10)
+    #         rospy.loginfo("Goal execution dgoal_pub = rospy.Publisher("bull/move_base_simple/goal", PoseStamped, queue_size=10)
+    goals = [Pose2D(2.0, 1.0, 0),
+            Pose2D(1.0, 2.0, 0)]
+
+    goal_pub = rospy.Publisher("bull/move_base_simple/goal", PoseStamped, queue_size=10)
+    goal_status_sub = rospy.Subscriber("bull/move_base/status", GoalStatusArray, goal_status_callback, queue_size=10)
     rospy.sleep(2)
 
     # just to get things started up and set and active status=1
