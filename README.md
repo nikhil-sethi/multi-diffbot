@@ -22,6 +22,7 @@ This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, 
     - [ldlidar_stl_ros](#ldlidar_stl_ros)
     - [mirte-ros-packages](#mirte-ros-packages)
 - [Software Architecture](#software-architecture)
+    - [move_base](#move_base)
 - [ToDo's](#todos)
 # Installation, Setup and Robot Shutdown
 ## Cloning repository
@@ -142,6 +143,24 @@ Metapackage containing the on-board ROS packages used by the Mirte robot, used f
 
 # Software Architecture
 To be added: overview of node structure and software architecture.
+
+## move_base
+The node `move_base` is created by the [move_base](#move_base) package. The nodes has the following inputs and outputs
+
+**Inputs:** 
+- */map* (nav_msgs/GetMap) - Occupancy Map
+- */odomo* (nav_msgs/Odometry) - Robot Odometry Pose
+- */move_base_simple/goal* (geometry_msgs/PoseStamped) - 2D Nav Goal
+
+**Outputs:**
+- */cmd_vel* (geometry_msgs/Twist) - Commanded velocity to robot
+
+A diagram of the navigation stack setup is shown below:
+
+<img src="https://drive.google.com/uc?id=1A0BswrecwWxQcZoPOjms6ZzEVeOoMyzp
+" alt="move_base" title="Navigation Stack"> 
+
+
 
 # ToDo's
 
