@@ -1,9 +1,8 @@
 # BullProof Techologies
 
-MDP Project of 2022/2023 Q4, Group 8, Lely.
+This repostory contains the Multi-Disciplinary Project of 2022/2023 Q4, Group 8, Lely.
 
-# Table of Contents
-
+## Table of Contents
 - [Installation, Setup and Robot Shutdown](#installation-setup-and-robot-shutdown)
     - [Cloning repostory](#cloning-repository)
     - [Building the workspace](#building-the-workspace)
@@ -18,6 +17,7 @@ MDP Project of 2022/2023 Q4, Group 8, Lely.
     - [bullproof_perception](#bullproof_perception)
     - [ldlidar_stl_ros](#ldlidar_stl_ros)
     - [mirte-ros-packages](#mirte-ros-packages)
+
 # Installation, Setup and Robot Shutdown
 ## Cloning repository
 To clone this repository, please open a terminal in the folder where you would like to create the repository and run the following command:
@@ -36,7 +36,7 @@ rosdep install --from-paths src --ignore-src -r -y
 catkin_make
 ```
 
->** _NOTE:_ ** Make sure you are using rosdep for ROS noetic! Any other version may result in unwanted consequences.
+> **NOTE:** Make sure you are using rosdep for ROS noetic! Any other version may result in unwanted consequences.
 
 This will update any submodules, install dependencies and then build the workspace for ROS within the workspace folder `bullproof_ws`.
 
