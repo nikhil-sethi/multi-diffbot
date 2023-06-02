@@ -1,57 +1,57 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+
 import rospy
-from pynput import keyboard
 from geometry_msgs.msg import Twist
+from pynput import keyboard
 
-# Global variables to store motor commands
-move_cmd = Twist()
-stopInput = False
+max_forward = 0.42
+max_angular = 1.7
 
-def control_mirte():
-    # Create function to execute motor commands on key input (manual control)
-    def on_press(key):
-        global move_cmd, stopInput
-        inp_strength = 2
-        rad_strength = 2
-        if not stopInput:
-            if key == keyboard.Key.up:
-                move_cmd.linear.x += inp_strength
-            if key == keyboard.Key.down:
-                move_cmd.linear.x -= inp_strength
-            if key == keyboard.Key.left:
-                move_cmd.angular.z += rad_strength
-            if key == keyboard.Key.right:
-                move_cmd.angular.z -= rad_strength
-            stopInput = True
-        if key == keyboard.Key.esc: # exit out of input listen loop
-            return False
-        
+def on_press(key):
+    try:
+        if key == keyboard.Key.up:
+            move_forward()
+        elif key == keyboard.Key.down:
+            move_backward()
+        elif key == keyboard.Key.left:
+            turn_left()
+        elif key == keyboard.Key.right:
+            turn_right()
+    except AttributeError:
+        pass
 
-    # Stop robot if key is released
-    def on_release(key):
-        global move_cmd, stopInput
-        stopInput = False
-        move_cmd = Twist()
-    
+def on_release(key):
+    stop_motion()
 
-    rospy.init_node('keyboard_control')
+def move_forward():
+    twist = Twist()
+    twist.linear.x = max_forward # Set the linear velocity to move forward
+    cmd_vel_pub.publish(twist)
 
-    # Create publishers for left and right motor commands
-    movecmd_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+def move_backward():
+    twist = Twist()
+    twist.linear.x = -max_forward # Set the linear velocity to move backward
+    cmd_vel_pub.publish(twist)
 
-    rate = rospy.Rate(10)  # Publish rate in Hz
-    
-    # Create the keyboard listener
+def turn_left():
+    twist = Twist()
+    twist.angular.z = max_angular  # Set the angular velocity to turn left
+    cmd_vel_pub.publish(twist)
+
+def turn_right():
+    twist = Twist()
+    twist.angular.z = -max_angular  # Set the angular velocity to turn right
+    cmd_vel_pub.publish(twist)
+
+def stop_motion():
+    twist = Twist()  # Set all velocities to 0 to stop the motion
+    cmd_vel_pub.publish(twist)
+
+if __name__ == '__main__':
+    rospy.init_node('keyboard_control_node')
+    cmd_vel_pub = rospy.Publisher('/mobile_base_controller/cmd_vel', Twist, queue_size=1)
+
     listener = keyboard.Listener(on_press=on_press, on_release=on_release)
     listener.start()
 
-    while not rospy.is_shutdown():
-        movecmd_pub.publish(move_cmd)
-        rate.sleep()
-    return
-
-if __name__ == '__main__':
-    try:
-        control_mirte()
-    except rospy.ROSInterruptException:
-        pass
+    rospy.spin()

@@ -268,7 +268,7 @@ if __name__ == '__main__':
 
         if not args.local:
             # environment at generation time
-            CMAKE_PREFIX_PATH = r'/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_perception;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_control;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_bringup;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag_ros;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag;/opt/ros/noetic'.split(';')
+            CMAKE_PREFIX_PATH = r'/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_perception;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_hri;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_control;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_bringup;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag_ros;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag;/opt/ros/noetic'.split(';')
         else:
             # don't consider any other prefix path than this one
             CMAKE_PREFIX_PATH = []

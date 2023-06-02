@@ -1,6 +1,8 @@
 # bullproof_ws/build
 # bullproof_ws/install
 # bullproof_ws/devel
+# bullproof_ws/devel/isolated
+# bullproof_ws/devel/isolated
 build
 devel
 install

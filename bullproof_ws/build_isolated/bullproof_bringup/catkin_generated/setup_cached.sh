@@ -8,8 +8,8 @@
 
 # modified environment variables
 export CMAKE_PREFIX_PATH='/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_bringup:/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag_ros:/opt/ros/noetic:/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag'
-export LD_LIBRARY_PATH='/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag_ros/lib:/opt/ros/noetic/lib:/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag/lib'
+export LD_LIBRARY_PATH='/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_bringup/lib:/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag_ros/lib:/opt/ros/noetic/lib:/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag/lib'
 export PATH='/opt/ros/noetic/bin:/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
-export PKG_CONFIG_PATH='/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag_ros/lib/pkgconfig:/opt/ros/noetic/lib/pkgconfig:/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag/lib/pkgconfig'
+export PKG_CONFIG_PATH='/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_bringup/lib/pkgconfig:/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag_ros/lib/pkgconfig:/opt/ros/noetic/lib/pkgconfig:/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag/lib/pkgconfig'
 export ROSLISP_PACKAGE_DIRECTORIES="/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_bringup/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
 export ROS_PACKAGE_PATH="/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/src/bullproof_bringup:$ROS_PACKAGE_PATH"

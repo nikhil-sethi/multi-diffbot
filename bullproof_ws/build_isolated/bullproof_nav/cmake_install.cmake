@@ -129,7 +129,55 @@ file(INSTALL DESTINATION "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/instal
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/bullproof_nav/action" TYPE FILE FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/src/bullproof_nav/action/NavPose2D.action")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/bullproof_nav/msg" TYPE FILE FILES
+    "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/bullproof_nav/msg/NavPose2DAction.msg"
+    "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/bullproof_nav/msg/NavPose2DActionGoal.msg"
+    "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/bullproof_nav/msg/NavPose2DActionResult.msg"
+    "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/bullproof_nav/msg/NavPose2DActionFeedback.msg"
+    "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/bullproof_nav/msg/NavPose2DGoal.msg"
+    "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/bullproof_nav/msg/NavPose2DResult.msg"
+    "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/bullproof_nav/msg/NavPose2DFeedback.msg"
+    )
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/bullproof_nav/cmake" TYPE FILE FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/build_isolated/bullproof_nav/catkin_generated/installspace/bullproof_nav-msg-paths.cmake")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/include/bullproof_nav")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/roseus/ros" TYPE DIRECTORY FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/roseus/ros/bullproof_nav")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/common-lisp/ros" TYPE DIRECTORY FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/common-lisp/ros/bullproof_nav")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gennodejs/ros" TYPE DIRECTORY FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/share/gennodejs/ros/bullproof_nav")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  execute_process(COMMAND "/usr/bin/python3" -m compileall "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/lib/python3/dist-packages/bullproof_nav")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python3/dist-packages" TYPE DIRECTORY FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/lib/python3/dist-packages/bullproof_nav")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/build_isolated/bullproof_nav/catkin_generated/installspace/bullproof_nav.pc")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/bullproof_nav/cmake" TYPE FILE FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/build_isolated/bullproof_nav/catkin_generated/installspace/bullproof_nav-msg-extras.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -141,6 +189,14 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/bullproof_nav" TYPE FILE FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/src/bullproof_nav/package.xml")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/bullproof_nav" TYPE PROGRAM FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/build_isolated/bullproof_nav/catkin_generated/installspace/farmer_client.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/bullproof_nav" TYPE PROGRAM FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/build_isolated/bullproof_nav/catkin_generated/installspace/mirte_client.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

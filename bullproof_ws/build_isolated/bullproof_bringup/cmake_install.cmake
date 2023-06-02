@@ -143,6 +143,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/bullproof_bringup" TYPE FILE FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/src/bullproof_bringup/package.xml")
 endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/bullproof_bringup" TYPE PROGRAM FILES "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/build_isolated/bullproof_bringup/catkin_generated/installspace/sim_publisher.py")
+endif()
+
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/build_isolated/bullproof_bringup/gtest/cmake_install.cmake")

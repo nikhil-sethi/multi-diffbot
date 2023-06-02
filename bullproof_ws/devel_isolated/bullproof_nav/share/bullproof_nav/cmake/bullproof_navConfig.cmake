@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(bullproof_nav_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT " " STREQUAL " ")
+if(NOT "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/include " STREQUAL " ")
   set(bullproof_nav_INCLUDE_DIRS "")
-  set(_include_dirs "")
+  set(_include_dirs "/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/include")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT " " STREQUAL " ")
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/lib;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_control/lib;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_bringup/lib;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag_ros/lib;/opt/ros/noetic/lib)
+    foreach(path /home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/lib;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_hri/lib;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_control/lib;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_bringup/lib;/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/apriltag_ros/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -177,7 +177,7 @@ foreach(library ${libraries})
   endif()
 endforeach()
 
-set(bullproof_nav_EXPORTED_TARGETS "")
+set(bullproof_nav_EXPORTED_TARGETS "bullproof_nav_generate_messages_cpp;bullproof_nav_generate_messages_eus;bullproof_nav_generate_messages_lisp;bullproof_nav_generate_messages_nodejs;bullproof_nav_generate_messages_py")
 # create dummy targets for exported code generation targets to make life of users easier
 foreach(t ${bullproof_nav_EXPORTED_TARGETS})
   if(NOT TARGET ${t})
@@ -214,7 +214,7 @@ foreach(depend ${depends})
   _list_append_deduplicate(bullproof_nav_EXPORTED_TARGETS ${${bullproof_nav_dep}_EXPORTED_TARGETS})
 endforeach()
 
-set(pkg_cfg_extras "")
+set(pkg_cfg_extras "bullproof_nav-msg-extras.cmake")
 foreach(extra ${pkg_cfg_extras})
   if(NOT IS_ABSOLUTE ${extra})
     set(extra ${bullproof_nav_DIR}/${extra})

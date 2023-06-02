@@ -3,6 +3,6 @@ prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_
 Name: bullproof_nav
 Description: Description of bullproof_nav
 Version: 0.0.1
-Cflags: 
+Cflags: -I/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_nav/include
 Libs: -L${prefix}/lib 
 Requires: 
