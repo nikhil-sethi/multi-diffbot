@@ -1,4 +1,4 @@
-# mirte:
+farmer:
   # Settings for ros_control hardware interface
   hardware_interface:
      joints:

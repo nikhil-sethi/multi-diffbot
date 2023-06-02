@@ -1,0 +1,36 @@
+<launch>
+    <arg name="robot_name"/>
+    <arg name="init_pose"/>
+
+    <param name="robot_description"
+    command="$(find xacro)/xacro $(find mirte_description)/urdf/$(arg robot_name).urdf.xacro" />
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+     args="$(arg init_pose) -urdf -param /$(arg robot_name)/robot_description -model $(arg robot_name)"
+     respawn="false" output="screen" />
+
+    <!-- The odometry estimator, throttling, fake laser etc. go here -->
+    <!-- All the stuff as from usual robot launch file -->
+    <include file="$(find mirte_control)/launch/mirte_control.launch">
+        <arg name="model" value="$(arg robot_name)" />
+    </include>
+<!-- 
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+         <rosparam file="$(find bullproof_nav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+         <rosparam file="$(find bullproof_nav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+         <rosparam file="$(find bullproof_nav)/config/local_costmap_params.yaml" command="load"/>
+         <rosparam file="$(find bullproof_nav)/config/global_costmap_params.yaml" command="load"/> 
+         <rosparam file="$(find bullproof_nav)/config/base_local_planner_params.yaml" command="load" />   
+         <remap from="cmd_vel" to="/$(arg robot_name)/mobile_base_controller/cmd_vel"/>
+    
+        <param name="global_costmap/global_frame" value="$(arg robot_name)/map"/>
+        <param name="global_costmap/robot_base_frame" value="$(arg robot_name)/base_link"/>
+        <param name="local_costmap/global_frame" value="$(arg robot_name)/map"/>
+        <param name="local_costmap/robot_base_frame" value="$(arg robot_name)/base_link"/>
+    </node> -->
+
+    <include file="$(find bullproof_nav)/launch/move_base.launch">
+        <arg name="robot_name" value="$(arg robot_name)"/>
+    </include>
+
+</launch>

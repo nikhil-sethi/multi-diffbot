@@ -175,7 +175,7 @@
   - origin [block]: origin, position and orientation of the link;
 -->
   <xacro:macro name="base"
-               params="base_prop mesh:='' scale:='' *origin ">
+               params="base_prop mesh:='' scale:='' *origin gazebo_color rviz_color">
     <link name="base_link">
     <xacro:box_inertia m="${base_prop['base']['mass']}" 
                        x="${base_prop['base']['x_size']}" 
@@ -194,7 +194,7 @@
             <mesh filename="package://${package_name}/meshes/${robot_name}/${mesh}" />
           </xacro:if>
         </geometry>
-        <material name="white" />
+        <material name="${rviz_color}" />
       </visual>
     </xacro:if>
     <xacro:if value="${mesh == '' }" >
@@ -203,7 +203,7 @@
         <geometry>
           <box size="${base_prop['base']['x_size']} ${base_prop['base']['y_size']} ${base_prop['base']['z_size']}"/>
         </geometry>
-        <material name="white" />
+        <material name="${rviz_color}" />
       </visual>
     </xacro:if>  
     <collision>
@@ -213,8 +213,11 @@
       </geometry>
     </collision>
     </link>
+    <gazebo reference="base_link">
+      <material>${gazebo_color}</material>
+    </gazebo>
   </xacro:macro>
-
+  
 <!-- ===================== Footprint xacro ==========================================
 
   Xacro to create the base link. For more detail information and usage, see:
