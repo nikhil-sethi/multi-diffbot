@@ -1,8 +1,0 @@
-prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/install_isolated
-
-Name: bullproof_control
-Description: Description of bullproof_control
-Version: 0.0.1
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

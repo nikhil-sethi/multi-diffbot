@@ -1,8 +1,0 @@
-prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/mirte_control
-
-Name: mirte_control
-Description: Description of mirte_control
-Version: 0.1.0
-Cflags: -I/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/src/mirte-ros-packages/mirte_control/include
-Libs: -L${prefix}/lib 
-Requires: roscpp std_msgs mirte_msgs message_runtime controller_manager hardware_interface

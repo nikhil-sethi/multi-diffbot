@@ -1,8 +1,0 @@
-prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/install_isolated
-
-Name: bullproof_bringup
-Description: Description of bullproof_bringup
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,8 +1,0 @@
-prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/install_isolated
-
-Name: bullproof_hri
-Description: Description of bullproof_hri
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

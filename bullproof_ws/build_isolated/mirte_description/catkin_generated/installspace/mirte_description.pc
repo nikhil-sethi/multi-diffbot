@@ -1,8 +1,0 @@
-prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/install_isolated
-
-Name: mirte_description
-Description: Description of mirte_description
-Version: 1.1.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

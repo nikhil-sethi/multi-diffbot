@@ -1,8 +1,0 @@
-prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/install_isolated
-
-Name: bullproof_nav
-Description: Description of bullproof_nav
-Version: 0.0.1
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: 

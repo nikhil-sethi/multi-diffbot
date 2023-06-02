@@ -1,8 +1,0 @@
-prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/bullproof_perception
-
-Name: bullproof_perception
-Description: Description of bullproof_perception
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
