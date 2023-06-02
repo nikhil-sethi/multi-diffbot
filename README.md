@@ -61,7 +61,7 @@ $mirte ssh mirte@192.168.42.1
 It will then ask for a password, this password is "bullproof". Once connected, you now have access to the `$mirte` shell. This is required to shut the robot down later.
 
 ## Connecting to the camera
-(coming soon)
+(@Tanya)
 
 ## Starting the robot
 In order to start up the robot, the package `bullproof-bringup` should be used. See the section [bullproof-bringup](#bullproof_bringup) for more information on how to start up the robot.
@@ -127,7 +127,7 @@ roslaunch bullproof_control manual_control.launch
 ```
 While this is running, you will be able to control the Mirte robot.
 ## bullproof_hri
-`bullproof_hri` contains the behavioural tree for the Mirte robot. More information to be added.
+`bullproof_hri` contains the behavioural tree for the Mirte robot. The behaviour tree determines if the robot is following the farmer, blocking the cow, or helping the farmer exit.
 ## bullproof_nav
 `bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Node Structure](#node-structure).
 
@@ -139,7 +139,7 @@ roslaunch bullproof_nav move_base.launch
 This is not necessary in general use, as [bullproof_bringup](#bullproof_bringup) already starts this package too, but can be useful for debugging.
 
 ## bullproof_perception
-`bullproof_perception` contains the perception stack used by this project. More information to be added.
+`bullproof_perception` contains the perception stack used by this project. (@Tanya)
 
 ## ldlidar_stl_ros
 `ldlidar_stl_ros` is a submodule containing the packages for the LIDAR on-board the Mirte robot. Cannot be started seperately. 
@@ -156,13 +156,13 @@ alt="node_arch" title="Node Structure">
 An in-depth explanation of each node is given in the following sections:
 
 ## camera_top_view
-(coming soon)
+(@Tanya)
 
 ## map_server
-(coming soon)
+(@Tanya)
 
 ## map_update
-(coming soon)
+(@Tanya)
 
 ## farmer_planner
 This node publishes cyclical poses for the farmer who patrols the stable
@@ -191,22 +191,3 @@ For the local planner, the packages is configured to use the `teb_local_planner`
 
 > **NOTE:** You might need to install the TEB local planner if you don't have it. You can do this using `sudo apt-get install ros-noetic-teb-local-planner`
 
-
-# ToDo
-
-- Planning
-    - Optimal location calculation algorithm -- almost done
-    - Add dynamic obstacles to move base
-- Perception
-    - Detection algo
-    - Publish map + poses on required topics
-    - Add the dynamic map
-- HRI
-    - Behaviour trees
-    - Handle mirte overtake request 
-- Control
-    - Tune movebase params to match real mirte dynamics 
-- Simulation
-    - Add farmer and bull robots + topics --done
-- Project
-    - Finalise ReadMe documentation with finished packages and camera instructions
