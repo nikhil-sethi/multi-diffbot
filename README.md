@@ -1,6 +1,7 @@
 # BullProof Techologies
-
-<img src="https://drive.google.com/uc?id=1R4BYatSzIrdLh8kk5JZJNoghUWQ8TwpW" alt="Team Logo" width="30%" height="30%" title="Team Logo"> 
+<p align="center">
+<img src="https://drive.google.com/uc?id=1R4BYatSzIrdLh8kk5JZJNoghUWQ8TwpW" alt="Team Logo" width="30%" height="30%" title="Team Logo" > 
+</p>
 
 > Team Logo of BullProof Technologies
 
@@ -111,7 +112,10 @@ This launch file starts the simulation of a differential drive robot similar to 
 ```bash
 roslaunch bullproof_bringup bullproof_sim.launch
 ```
-Once started, the robot and farmer can be controlled using 2D navigation goals.
+Once started, the robot (white) and farmer (red) should start to navigate around the space automatically:
+<p align="center">
+<img src="https://drive.google.com/uc?id=1qubNvOLLL7IKf-U4dReCadMFlcMEae_g" width="400"> 
+</p>
 
 ## bullproof_control
 `bullproof_control` is responsible for the motion control of the Mirte robot. Since Mirte has an on-board differential drive controller, which can be accessed through the topic `/mobile_base_controller/cmd_vel`, this package only contains a method to manually control the Mirte.
@@ -138,19 +142,33 @@ This is not necessary in general use, as [bullproof_bringup](#bullproof_bringup)
 `bullproof_perception` contains the perception stack used by this project. More information to be added.
 
 ## ldlidar_stl_ros
-`ldlidar_stl_Ros` is a submodule containing the packages for the LIDAR on-board the Mirte robot. Cannot be started seperately.
+`ldlidar_stl_ros` is a submodule containing the packages for the LIDAR on-board the Mirte robot. Cannot be started seperately. 
+
 ## mirte-ros-packages
 `mirte-ros-packages` is a metapackage containing the on-board ROS packages used by the Mirte robot, used for simulating robot in [bullproof_sim.launch](#bullproof_simlaunch).
 
-# Node Structure
-The general node structure of this project is represented by the following graph:
+# Software architecture
+The general software architecture of this project is represented by the following graph:
 
-<img src="https://drive.google.com/uc?id=1f5DZ_yPpFG-neMNjb9PidmG9BIYcrOTB"
-alt="move_base" title="Node Structure"> 
-
-> Placeholder image for final node structure (current taken from `bullproof_sim.launch`)
+<img src="https://drive.google.com/uc?id=1UTpOm2Vy6-1HAnEzOcGxgt-OdvMn5Rqz"
+alt="node_arch" title="Node Structure"> 
 
 An in-depth explanation of each node is given in the following sections:
+
+## camera_top_view
+(coming soon)
+
+## map_server
+(coming soon)
+
+## map_update
+(coming soon)
+
+## farmer_planner
+This node publishes cyclical poses for the farmer who patrols the stable
+
+## robot_planner
+This node calculates the optimal location for the robot to be in the space occupied by the farmer and the bull. It also connects to move_base and publishes the optimal location as a 2D NAV goal.
 
 ## move_base
 The node `move_base` is created by the [move_base](#move_base) package. The nodes has the following inputs and outputs:
@@ -171,21 +189,24 @@ A diagram of the navigation stack setup is shown below:
 
 For the local planner, the packages is configured to use the `teb_local_planner` This has additional benefits over the basic ROSTrajectoryPlanner, as it allows the robot to move back- as well as forward. For more info, please check out the [teb_local_planner Wiki here](http://wiki.ros.org/teb_local_planner).
 
-The result of this `move_base` implementation can be seen in [this video](https://drive.google.com/uc?id=1aDXfBCpLTQjYPrEhuM-sRDxeSWZhZGoR), where [bullproof_sim.launch](#bullproof_simlaunch) is used to show the Navigation stack in action.
+> **NOTE:** You might need to install the TEB local planner if you don't have it. You can do this using `sudo apt-get install ros-noetic-teb-local-planner`
 
 
-# ToDo's
+# ToDo
 
--  Planning
-    - Optimal location calculation algorithm
-    - Tune movebase params to match real mirte dynamics 
+- Planning
+    - Optimal location calculation algorithm -- almost done
+    - Add dynamic obstacles to move base
 - Perception
     - Detection algo
     - Publish map + poses on required topics
+    - Add the dynamic map
 - HRI
     - Behaviour trees
-    - Handle mirte overtake request
+    - Handle mirte overtake request 
 - Control
+    - Tune movebase params to match real mirte dynamics 
 - Simulation
-    - Add farmer and bull robots + topics
-- Finalise ReadMe documentation with finished packages and camera instructions
+    - Add farmer and bull robots + topics --done
+- Project
+    - Finalise ReadMe documentation with finished packages and camera instructions

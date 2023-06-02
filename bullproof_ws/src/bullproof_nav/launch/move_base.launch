@@ -62,5 +62,6 @@
          <remap from="/move_base/status"                                                to="/$(arg robot_name)/move_base/status" />
          <remap from="/move_base_simple/goal"                                           to="/$(arg robot_name)/move_base_simple/goal" />
          
-   </node>
+      </node>
+
 </launch> 

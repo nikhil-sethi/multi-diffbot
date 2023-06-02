@@ -28,8 +28,8 @@
     <group ns="mirte">
         <param name="tf_prefix" value="mirte_tf" />
         <include file="$(find mirte_sim)/launch/mirte_spawn.launch" >
-        <arg name="init_pose" value="-x 1 -y 1 -z 0" />
-        <arg name="robot_name"  value="mirte" />
+            <arg name="init_pose" value="-x 1 -y 1 -z 0" />
+            <arg name="robot_name"  value="mirte" />
         </include>
     </group>
 

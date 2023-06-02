@@ -66,7 +66,7 @@ if __name__=="__main__":
     pose_sub = rospy.Subscriber("mirte/gazebo/odom_gt", Odometry, pose_callback, queue_size=10)
     rospy.sleep(2)
 
-    timer = rospy.Timer(rospy.Duration.from_sec(0.5), nav_func)
+    timer = rospy.Timer(rospy.Duration.from_sec(0.2), nav_func)
     # just to get things started up and set and active status=1
     # goal_publish(3)
     
