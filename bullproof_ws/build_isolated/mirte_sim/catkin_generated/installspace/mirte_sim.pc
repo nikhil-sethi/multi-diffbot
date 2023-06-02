@@ -1,0 +1,8 @@
+prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/install_isolated
+
+Name: mirte_sim
+Description: Description of mirte_sim
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

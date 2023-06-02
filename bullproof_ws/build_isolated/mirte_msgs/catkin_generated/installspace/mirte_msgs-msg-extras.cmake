@@ -1,0 +1,2 @@
+set(mirte_msgs_MESSAGE_FILES "msg/Encoder.msg;msg/color.msg;msg/Intensity.msg;msg/IntensityDigital.msg;msg/Keypad.msg")
+set(mirte_msgs_SERVICE_FILES "srv/GetDistance.srv;srv/GetIntensity.srv;srv/GetIntensityDigital.srv;srv/GetEncoder.srv;srv/GetKeypad.srv;srv/SetPinMode.srv;srv/GetPinValue.srv;srv/SetPinValue.srv;srv/SetLEDValue.srv;srv/SetOLEDImage.srv;srv/SetServoAngle.srv;srv/get_virtual_color.srv;srv/get_barcode.srv;srv/SetMotorSpeed.srv;srv/Move.srv;srv/Turn.srv")

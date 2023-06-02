@@ -53,7 +53,7 @@ def callback(msg):
 	
 def get_occupancy_map():
     rospy.init_node('listener', anonymous=True)
-    rospy.Subscriber('map', OccupancyGrid, callback)
+    rospy.Subscriber('map', OccupancyGrid, callback)ccupancyGrid
 
     # print(' heeeeeerrrrrreeeeee')
     # print(sub)

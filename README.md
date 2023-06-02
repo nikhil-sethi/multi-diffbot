@@ -16,6 +16,8 @@ This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, 
     - [Starting the robot](#starting-the-robot)
     - [Shutting down the robot](#shutting-down-the-robot)
 - [Packages](#packages)
+    - [apriltag](#apriltag)
+    - [apriltag_ros](#apriltag_ros)
     - [bullproof_bringup](#bullproof_bringup)
     - [bullproof_control](#bullproof_control)
     - [bullproof_hri](#bullproof_hri)
@@ -60,8 +62,6 @@ $mirte ssh mirte@192.168.42.1
 ```
 It will then ask for a password, this password is "bullproof". Once connected, you now have access to the `$mirte` shell. This is required to shut the robot down later.
 
-## Connecting to the camera
-(@Tanya)
 
 ## Starting the robot
 In order to start up the robot, the package `bullproof-bringup` should be used. See the section [bullproof-bringup](#bullproof_bringup) for more information on how to start up the robot.
@@ -101,6 +101,12 @@ source devel/setup.bash
 
 This must be done before running any of the following commands described in the other packages.
 
+## apriltag
+`apriltag` is the apriltag library for the AprilTag 3 visual fiducial detector made by the APRIL Robotics Lab at The University of Michigan.
+
+## apriltag_ros
+`apriltag_ros` is the apriltag ROS wrapper of the apriltag library package made by the APRIL Robotics Lab at The University of Michigan. the configuration file has been edited to match the used camera and printed APRIL tags.
+
 ## bullproof_bringup
 `bullproof_bringup` is responsible for the start-up of the robot or simulation. This package contains the following launch files that the user can use:
 
@@ -139,7 +145,7 @@ roslaunch bullproof_nav move_base.launch
 This is not necessary in general use, as [bullproof_bringup](#bullproof_bringup) already starts this package too, but can be useful for debugging.
 
 ## bullproof_perception
-`bullproof_perception` contains the perception stack used by this project. (@Tanya)
+`bullproof_perception` contains the perception stack used by this project.
 
 ## ldlidar_stl_ros
 `ldlidar_stl_ros` is a submodule containing the packages for the LIDAR on-board the Mirte robot. Cannot be started seperately. 
@@ -156,13 +162,13 @@ alt="node_arch" title="Node Structure">
 An in-depth explanation of each node is given in the following sections:
 
 ## camera_top_view
-(@Tanya)
+This node uses the apriltag library and topview camera to get the positions of the bull, the farmer, and the robot.
 
 ## map_server
-(@Tanya)
+This node contains the map of the stable containing the obstacles (e.g. stable walls)
 
 ## map_update
-(@Tanya)
+This node updates the positions of the bull, the farmer and the robot.
 
 ## farmer_planner
 This node publishes cyclical poses for the farmer who patrols the stable

@@ -1,0 +1,8 @@
+prefix=/home/tanyaspee/mdp/bullproof-tech/bullproof_ws/devel_isolated/mirte_telemetrix
+
+Name: mirte_telemetrix
+Description: Description of mirte_telemetrix
+Version: 0.1.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: rospy std_msgs mirte_msgs message_runtime
