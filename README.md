@@ -35,7 +35,7 @@ git clone git@gitlab.tudelft.nl:cor/ro47007/2023/team-8/bullproof-tech.
 ```
 The repository should now be cloned on your machine.
 ## Building the workspace
-To build the repository, open the `bullproof-tech` folder in a terminal and run the following commands:
+To build the repository, open the `bullproof-tech` folder (=location of the repository) in a terminal and run the following commands:
 
 ``` bash
 git submodule update --init --recursive
@@ -44,7 +44,7 @@ rosdep install --from-paths src --ignore-src -r -y
 catkin_make
 ```
 
-> **NOTE:** Make sure you are using rosdep for ROS Noetic! Any other version may result in unwanted consequences.
+> **NOTE:** Beware of the suggestion 'rosdep2 install...'. Make sure you are using rosdep for ROS Noetic! Any other version may result in unwanted consequences.
 
 This will update any submodules, install dependencies and then build the workspace for ROS within the workspace folder `bullproof_ws`.
 
@@ -92,7 +92,7 @@ Once all processes are shutdown, you may  turn off the Mirte robot using the on-
 # Packages
 This repository contains several packages, which can be started together via the package [bullproof_bringup](#bullproof_bringup) or individually via their own launch files. The following sections describe the packages contained within this repository.
 
-To run any of the launch files, ensure that you are in the workspace and have sourced `setup.bash` by running the following commands:
+To run any of the launch files, ensure that you are in the workspace folder (bullproof_ws) and have sourced `setup.bash`. To do that, go to the main repository folder (bullproof-tech) and run the following commands:
 
 ```bash
 cd bullproof_ws
@@ -132,7 +132,7 @@ While this is running, you will be able to control the Mirte robot.
 `bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Node Structure](#node-structure).
 
 ### move_base.launch
-The [move_base](http://wiki.ros.org/move_base) package can be started seperately. To do so, run the following command:
+The [move_base](http://wiki.ros.org/move_base) package allows for moving the robot. This package handles both navigation and motion control. It can be started seperately. To do so, run the following command:
 ```bash
 roslaunch bullproof_nav move_base.launch
 ```
