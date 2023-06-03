@@ -29,7 +29,7 @@ int main(int argc, char** argv){
 
     ros::Subscriber robot_sub = nh.subscribe("/mirte/gazebo/odom_gt", 10, &OdomCallback);
     ros::Subscriber farmer_sub = nh.subscribe("/farmer/gazebo/odom_gt", 10, &OdomCallback);
-
+    ros::Subscriber bull_sub = nh.subscribe("/bull/gazebo/odom_gt", 10, &OdomCallback);
 
     ros::spin();
     return 0;

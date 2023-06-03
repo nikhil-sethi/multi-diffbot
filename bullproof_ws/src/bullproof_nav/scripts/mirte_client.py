@@ -4,6 +4,7 @@ from nav_msgs.msg import Odometry
 import math
 
 farmer_pose = Pose2D()
+bull_pose = Pose2D()
 pose = Pose2D()
 r_safe = 0.4
 
@@ -17,6 +18,18 @@ def farmer_pose_callback(msg:Odometry):
     theta = 2*math.acos(full_pose.orientation.w)
     farmer_pose.theta = theta
 
+
+def bull_pose_callback(msg:Odometry):
+    global bull_pose
+
+    full_pose:Pose = msg.pose.pose
+
+    bull_pose.x = full_pose.position.x
+    bull_pose.y = full_pose.position.y
+    theta = 2*math.acos(full_pose.orientation.w)
+    bull_pose.theta = theta
+
+
 def pose_callback(msg:Odometry):
     global pose
     full_pose:Pose = msg.pose.pose
@@ -28,7 +41,7 @@ def pose_callback(msg:Odometry):
     
 
 def nav_func(event=None):
-    global goal_pub, farmer_pose, pose
+    global goal_pub, farmer_pose, bull_pose, pose
     dx = farmer_pose.x - pose.x
     dy = farmer_pose.y - pose.y
 
