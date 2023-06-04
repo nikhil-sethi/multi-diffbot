@@ -29,7 +29,7 @@
   <xacro:footprint wheel_props="${front_wheel_props}" />
 
   <!-- Base link -->
-  <xacro:base base_prop="${base_props}" mesh="${base_props['base']['mesh']}" gazebo_color="Gazebo/brown" rviz_color="brown">
+  <xacro:base base_prop="${base_props}" mesh="${base_props['base']['mesh']}" gazebo_color="Gazebo/Blue" rviz_color="blue">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:base>
 

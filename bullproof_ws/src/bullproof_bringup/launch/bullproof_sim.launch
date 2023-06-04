@@ -1,6 +1,6 @@
 <launch>
     <include file="$(find bullproof_bringup)/launch/all_bots.launch"/>
-    <include file="$(find bullproof_perception)/launch/fake_perception.launch"/>
-    <!-- <include file="$(find bullproof_nav)/launch/clients.launch"/> -->
+    <include file="$(find bullproof_perception)/launch/bullproof_perception.launch"/>
+    <include file="$(find bullproof_nav)/launch/bullproof_nav.launch"/>
     <!-- <node name="vel_forward" pkg="bullproof_bringup" type="sim_publisher.py" output="screen"/> -->
 </launch>

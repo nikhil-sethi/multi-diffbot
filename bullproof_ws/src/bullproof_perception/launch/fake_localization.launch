@@ -1,0 +1,7 @@
+<launch>
+    <arg name="model" default="mirte"/>
+    
+    <node pkg="tf" type="static_transform_publisher" name="$(arg model)_map" args="0.0 0.0 0 0 0 0 map $(arg model)_tf/map 20"/>
+    <node pkg="bullproof_perception" type="fake_localizer" name="fake_localizer" ns="$(arg model)"/>
+
+</launch>

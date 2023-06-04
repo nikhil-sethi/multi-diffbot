@@ -7,6 +7,7 @@ from geometry_msgs.msg import PoseStamped, Pose2D
 from actionlib_msgs.msg import GoalStatusArray
 import math
 
+i=0
 def movebase_client():
 
     client = actionlib.SimpleActionClient('/bull/move_base_simple',MoveBaseAction)

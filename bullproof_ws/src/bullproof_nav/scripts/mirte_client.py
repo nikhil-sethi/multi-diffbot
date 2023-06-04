@@ -57,7 +57,7 @@ def nav_func(event=None):
     y_opt =  farmer_pose.y - r_safe*dy_c
     
     pose_opt = PoseStamped()
-    pose_opt.header.frame_id = "farmer_tf/map"
+    pose_opt.header.frame_id = "mirte_tf/map"
     pose_opt.header.stamp = rospy.Time.now()
     pose_opt.pose.position.x = x_opt
     pose_opt.pose.position.y = y_opt
