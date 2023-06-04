@@ -126,14 +126,29 @@ Once started, the robot (white) and farmer (red) should start to navigate around
 ## bullproof_control
 `bullproof_control` is responsible for the motion control of the Mirte robot. Since Mirte has an on-board differential drive controller, which can be accessed through the topic `/mobile_base_controller/cmd_vel`, this package only contains a method to manually control the Mirte.
 ### manual_control.launch
-In order to manually control the Mirte robot using arrow keys on your keyboard, you can launch `manual_control.launch` as follows:
+In order to manually control the Mirte robot using arrow keys on your keyboard, first ensure you have the python package `pynput` installed. If not, install it via:
+
+```bash
+pip install pynput
+```
+Then, you can launch `manual_control.launch` as follows:
 
 ```bash
 roslaunch bullproof_control manual_control.launch
 ```
 While this is running, you will be able to control the Mirte robot.
 ## bullproof_hri
-`bullproof_hri` contains the behavioural tree for the Mirte robot. The behaviour tree determines if the robot is following the farmer, blocking the cow, or helping the farmer exit.
+`bullproof_hri` contains the state machine for the Mirte robot. The state machine determines if the robot is following the farmer, blocking the cow, or helping the farmer exit as well as all other functionality.
+
+In order to run the state machine, run the following command:
+```bash
+roslaunch bullproof_hri state_machine.launch
+```
+
+Once running, the state machine can be visualised by running:
+``` bash
+rosrun smach_viewer smach_viewer.py
+```
 ## bullproof_nav
 `bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Software Architecture](#software-architecture).
 
