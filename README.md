@@ -214,7 +214,7 @@ An in-depth explanation of each node is given in the following sections:
 - */map_dynamic* (nav_msgs/GetMap) - Occupancy Map
 
 ## farmer_planner
-`farmer_planner`publishes cyclical poses for the farmer who patrols the stable. The node has the following in- and outputs:
+`farmer_planner`publishes cyclical poses for the farmer who patrols the stable. The node has the following in- and outputs:O
 
 **Inputs:** 
 - */odom* (nav_msgs/Odometry) - Robot Odometry Pose 
@@ -251,5 +251,5 @@ A diagram of the navigation stack setup is shown below:
 
 For the local planner, the packages is configured to use the `teb_local_planner` This has additional benefits over the basic ROSTrajectoryPlanner, as it allows the robot to move back- as well as forward. For more info, please check out the [teb_local_planner Wiki here](http://wiki.ros.org/teb_local_planner).
 
-> **NOTE:** You might need to install the TEB local planner if you don't have it. You can do this using `sudo apt-get install ros-noetic-teb-local-planner`
+> **NOTE:** While rosdep should take care of dependencies, you might need to install the TEB local planner manually. You can do this using `sudo apt-get install ros-noetic-teb-local-planner`
 
