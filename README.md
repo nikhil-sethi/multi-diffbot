@@ -26,8 +26,13 @@ This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, 
     - [ldlidar_stl_ros](#ldlidar_stl_ros)
     - [mirte-ros-packages](#mirte-ros-packages)
 - [Software Architecture](#software-architecture)
+    - [camera_top_view](#camera_top_view)
+    - [map_server](#map_server)
+    - [map_update](#map_update)
+    - [farmer_planner](#farmer_planner)
+    - [robot_planner](#robot_planner)
     - [move_base](#move_base)
-- [ToDo's](#todos)
+
 # Installation, Setup and Robot Shutdown
 ## Cloning repository
 To clone this repository, please open a terminal in the folder where you would like to create the repository and run the following command:
@@ -177,22 +182,58 @@ alt="node_arch" title="Node Structure">
 An in-depth explanation of each node is given in the following sections:
 
 ## camera_top_view
-This node uses the apriltag library and topview camera to get the positions of the bull, the farmer, and the robot.
+`camera_top_view` uses the apriltag library and topview camera to get the positions of the bull, the farmer, and the robot. The node has the following in- and outputs:
+
+**Inputs:** 
+- No topics as input, this directly takes the camera image
+
+**Outputs:**
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose
+- */webcam/image_compressed* (msg_type TBC) - Compressed Overhead Image
+
 
 ## map_server
-This node contains the map of the stable containing the obstacles (e.g. stable walls)
+`map_server`contains the map of the stable containing the obstacles (e.g. stable walls). The node has the following in- and outputs:
+
+
+**Inputs:** 
+- */webcam/image_compressed* (msg_type TBC) - Compressed Overhead Image
+
+**Outputs:**
+- */map* (nav_msgs/OccupancyGrid) - Occupancy Grip of the Robot Workspace
 
 ## map_update
-This node updates the positions of the bull, the farmer and the robot.
+`map_update`updates the positions of the bull, the farmer and the robot. The node has the following in- and outputs:
+
+
+**Inputs:** 
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose 
+- */map* (nav_msgs/OccupancyGrid) - Occupancy Grip of the Robot Workspace
+
+**Outputs:**
+- */map_dynamic* (nav_msgs/GetMap) - Occupancy Map
 
 ## farmer_planner
-This node publishes cyclical poses for the farmer who patrols the stable
+`farmer_planner`publishes cyclical poses for the farmer who patrols the stable. The node has the following in- and outputs:
+
+**Inputs:** 
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose 
+
+**Outputs:**
+- */move_base_simple/goal* (geometry_msgs/PoseStamped) - 2D Nav Goal
+
 
 ## robot_planner
-This node calculates the optimal location for the robot to be in the space occupied by the farmer and the bull. It also connects to move_base and publishes the optimal location as a 2D NAV goal.
+`robot_planner` calculates the optimal location for the robot to be in the space occupied by the farmer and the bull. It also connects to move_base and publishes the optimal location as a 2D NAV goal.
+
+**Inputs:** 
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose 
+
+**Outputs:**
+- */move_base_simple/goal* (geometry_msgs/PoseStamped) - 2D Nav Goal
 
 ## move_base
-The node `move_base` is created by the [move_base](#move_base) package. The nodes has the following inputs and outputs:
+The node `move_base` is created by the [move_base](#move_base) package. The node has the following inputs and outputs:
 
 **Inputs:** 
 - */map_dynamic* (nav_msgs/GetMap) - Occupancy Map

@@ -49,11 +49,11 @@
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  
-  <exec_depend>rospy</exec_depend>
-  <exec_depend>ros-noetic-smach</exec_depend>
-  <exec_depend>ros-noetic-smach-viewer</exec_depend>
-  <exec_depend>python-pynput</exec_depend>
+
+  <depend>rospy</depend>
+  <depend>ros-noetic-smach</depend>
+  <depend>ros-noetic-smach-viewer</depend>
+  <depend>python-pynput</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
