@@ -25,7 +25,7 @@ This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, 
     - [bullproof_perception](#bullproof_perception)
     - [ldlidar_stl_ros](#ldlidar_stl_ros)
     - [mirte-ros-packages](#mirte-ros-packages)
-- [Node Structure](#node-structure)
+- [Software Architecture](#software-architecture)
     - [move_base](#move_base)
 - [ToDo's](#todos)
 # Installation, Setup and Robot Shutdown
@@ -135,7 +135,7 @@ While this is running, you will be able to control the Mirte robot.
 ## bullproof_hri
 `bullproof_hri` contains the behavioural tree for the Mirte robot. The behaviour tree determines if the robot is following the farmer, blocking the cow, or helping the farmer exit.
 ## bullproof_nav
-`bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Node Structure](#node-structure).
+`bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Software Architecture](#software-architecture).
 
 ### move_base.launch
 The [move_base](http://wiki.ros.org/move_base) package allows for moving the robot. This package handles both navigation and motion control. It can be started seperately. To do so, run the following command:
@@ -153,7 +153,7 @@ This is not necessary in general use, as [bullproof_bringup](#bullproof_bringup)
 ## mirte-ros-packages
 `mirte-ros-packages` is a metapackage containing the on-board ROS packages used by the Mirte robot, used for simulating robot in [bullproof_sim.launch](#bullproof_simlaunch).
 
-# Software architecture
+# Software Architecture
 The general software architecture of this project is represented by the following graph:
 
 <img src="https://drive.google.com/uc?id=1UTpOm2Vy6-1HAnEzOcGxgt-OdvMn5Rqz"
@@ -180,8 +180,8 @@ This node calculates the optimal location for the robot to be in the space occup
 The node `move_base` is created by the [move_base](#move_base) package. The nodes has the following inputs and outputs:
 
 **Inputs:** 
-- */map* (nav_msgs/GetMap) - Occupancy Map
-- */odomo* (nav_msgs/Odometry) - Robot Odometry Pose
+- */map_dynamic* (nav_msgs/GetMap) - Occupancy Map
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose 
 - */move_base_simple/goal* (geometry_msgs/PoseStamped) - 2D Nav Goal
 
 **Outputs:**
