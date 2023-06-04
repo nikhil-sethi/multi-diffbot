@@ -5,13 +5,40 @@
 #include <tf/transform_broadcaster.h>
 #include <iostream>
 #include <string>
+#include <std_msgs/String.h>
+#include <ros/console.h>
 
-void OdomCallback(const nav_msgs::OdometryConstPtr& msg){
-    static tf::TransformBroadcaster br;
-    tf::Transform transform;
-    std::string frame_id = msg->header.frame_id;
+class FakeLocalizer{
+    public:
+        FakeLocalizer(ros::NodeHandle& nh);
+
+        void OdomCallback(const nav_msgs::OdometryConstPtr& msg);
+
+        void transformPublisher(const ros::TimerEvent& event);
+
+        private:
+            tf::Transform transform;
+            std::string frame_id;
+            std::string child_frame_id;
+            tf::TransformBroadcaster br;
+            ros::Timer timer;
+            ros::NodeHandle nh_;
+            ros::Subscriber odom_sub;
+};
+
+FakeLocalizer::FakeLocalizer(ros::NodeHandle& nh):nh_(nh){
+    // br = std::make_shared<tf::TransformBroadcaster>(nh);
+    frame_id="";
+    odom_sub = nh_.subscribe("gazebo/odom_gt", 10, &FakeLocalizer::OdomCallback, this);
+
+    timer = nh_.createTimer(ros::Duration(0.5), &FakeLocalizer::transformPublisher, this);
+
+}
+
+void FakeLocalizer::OdomCallback(const nav_msgs::OdometryConstPtr& msg){
+    frame_id = msg->header.frame_id;
     int end = frame_id.find("/");
-    std::string tf_prefix =frame_id.substr(0, end);
+    child_frame_id = frame_id.substr(0, end) + "/base_footprint";
 
     geometry_msgs::Point position = msg->pose.pose.position;
     transform.setOrigin(tf::Vector3(position.x, position.y, position.z));
@@ -19,18 +46,20 @@ void OdomCallback(const nav_msgs::OdometryConstPtr& msg){
     geometry_msgs::Quaternion orientation = msg->pose.pose.orientation;    
     transform.setRotation(tf::Quaternion(orientation.x, orientation.y, orientation.z, orientation.w));
 
-    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), frame_id, tf_prefix + "/base_footprint"));
-
+    // br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), frame_id, tf_prefix ));
 }
 
+void FakeLocalizer::transformPublisher(const ros::TimerEvent& event){
+    if (frame_id!=""){
+        br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), frame_id, child_frame_id));}
+    // ROS_INFO("dfg %s", frame_id);
+}
+
+
 int main(int argc, char** argv){
-    ros::init(argc, argv, "diffbot_fake_localizer");
+    ros::init(argc, argv, "fake_localizer");
     ros::NodeHandle nh;
-
-    ros::Subscriber robot_sub = nh.subscribe("/mirte/gazebo/odom_gt", 10, &OdomCallback);
-    ros::Subscriber farmer_sub = nh.subscribe("/farmer/gazebo/odom_gt", 10, &OdomCallback);
-    ros::Subscriber bull_sub = nh.subscribe("/bull/gazebo/odom_gt", 10, &OdomCallback);
-
+    FakeLocalizer fake_localizer(nh); 
     ros::spin();
     return 0;
 };

@@ -7,6 +7,6 @@
         </include>
         
         <!-- planning script -->
-        <!-- <node pkg="bullproof_nav" name="$(arg model)_client" type="$(arg model)_client.py" ns="/"/> -->
+        <node pkg="bullproof_nav" name="$(arg model)_client" type="$(arg model)_client.py" ns="/"/>
     </group>
 </launch>

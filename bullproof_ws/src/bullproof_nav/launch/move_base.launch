@@ -1,12 +1,20 @@
 <launch>
       <arg name="robot_name" default="mirte"/>
+      <arg name="local_planner" default="dwa"/>
       <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+         <!-- global_costmap -->
          <rosparam file="$(find bullproof_nav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+         <rosparam file="$(find bullproof_nav)/config/global_costmap_params.yaml" command="load"/> 
+
+         <!-- local_costmap -->
          <rosparam file="$(find bullproof_nav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
          <rosparam file="$(find bullproof_nav)/config/local_costmap_params.yaml" command="load"/>
-         <rosparam file="$(find bullproof_nav)/config/global_costmap_params.yaml" command="load"/> 
-         <rosparam file="$(find bullproof_nav)/config/base_local_planner_params.yaml" command="load" />   
          
+         <!-- _local_planner_params -->
+         <rosparam file="$(find bullproof_nav)/config/base_local_planner_params.yaml" command="load" />
+         <!-- <rosparam file="$(find bullproof_nav)/config2/teb_local_planner_params.yaml" command="load" />   -->
+
          <remap from="cmd_vel" to="/$(arg robot_name)/mobile_base_controller/cmd_vel"/>
          <remap from="map" to="/map"/>
 
@@ -14,10 +22,17 @@
          <param name="global_costmap/robot_base_frame" value="$(arg robot_name)_tf/base_link"/>
          <param name="local_costmap/global_frame" value="$(arg robot_name)_tf/map"/>
          <param name="local_costmap/robot_base_frame" value="$(arg robot_name)_tf/base_link"/>
+         <param name="local_costmap/obstacle_layer/scan/sensor_frame" value="$(arg robot_name)_tf/rplidar_lase_link"/>
+         
+         <param name="TebLocalPlannerROS/include_costmap_obstacles" value="False" />
+         <param name="TebLocalPlannerROS/include_dynamic_obstacles" value="True" />
+
+         <param name="base_global_planner" value="navfn/NavfnROS" />
          <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
          <param name="controller_frequency" value="10.0" />
+         <param name="controller_patience" value="15.0" />
 
-         <remap from="/move_base_simple/goal"                                           to="/$(arg robot_name)/move_base_simple/goal" />
+         <!-- <remap from="/move_base_simple/goal"                                           to="/$(arg robot_name)/move_base_simple/goal" />
          <remap from="/move_base/TebLocalPlannerROS/global_plan"                        to="/$(arg robot_name)/move_base/TebLocalPlannerROS/global_plan" />
          <remap from="/move_base/TebLocalPlannerROS/local_plan"                         to="/$(arg robot_name)/move_base/TebLocalPlannerROS/local_plan" />
          <remap from="/move_base/TebLocalPlannerROS/teb_markers"                        to="/$(arg robot_name)/move_base/TebLocalPlannerROS/teb_markers" />
@@ -60,8 +75,6 @@
          <remap from="/move_base/parameter_updates"                                     to="/$(arg robot_name)/move_base/parameter_updates" />
          <remap from="/move_base/result"                                                to="/$(arg robot_name)/move_base/result" />
          <remap from="/move_base/status"                                                to="/$(arg robot_name)/move_base/status" />
-         <remap from="/move_base_simple/goal"                                           to="/$(arg robot_name)/move_base_simple/goal" />
-         
+         <remap from="/move_base_simple/goal"                                           to="/$(arg robot_name)/move_base_simple/goal" /> -->
       </node>
-
 </launch> 

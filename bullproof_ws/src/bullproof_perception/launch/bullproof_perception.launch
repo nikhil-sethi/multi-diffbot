@@ -19,8 +19,8 @@
     </include>
 
     <!-- bull -->
-    <!-- <include file="$(find bullproof_perception)/launch/fake_perception.launch">
-        <arg name="model" value="bull">
-    </include> -->
+    <include file="$(find bullproof_perception)/launch/fake_localization.launch">
+        <arg name="model" value="bull"/>
+    </include>
 
 </launch>

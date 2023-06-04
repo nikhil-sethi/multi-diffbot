@@ -57,7 +57,7 @@ if __name__ == '__main__':
     goals = [Pose2D(2.6, 1.2, 0),
             Pose2D(2.6, 2.6, 1.57),
             Pose2D(0.4, 2.6, 3.14),
-            Pose2D(0.4, 1.2, -1.57)]
+            Pose2D(0.4, 1.2, 4.71)]
     # i=0
     goal_pub = rospy.Publisher("farmer/move_base_simple/goal", PoseStamped, queue_size=10)
     goal_status_sub = rospy.Subscriber("farmer/move_base/status", GoalStatusArray, goal_status_callback, queue_size=10)
