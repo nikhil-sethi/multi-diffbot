@@ -184,7 +184,6 @@ catkin_install_python(PROGRAMS
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
   launch/state_machine.launch
-  # myfile2
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
