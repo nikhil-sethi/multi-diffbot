@@ -1,9 +1,28 @@
 import rospy
 from geometry_msgs.msg import Pose, Pose2D, PoseStamped
 from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Quaternion
 import math
-from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
+def euler_from_quaternion(q:Quaternion):
+    
+    angles = [0,0,0]
+    # // roll (x-axis rotation)
+    sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
+    cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
+    angles[0] = math.atan2(sinr_cosp, cosr_cosp);
+
+    # // pitch (y-axis rotation)
+    sinp = math.sqrt(1 + 2 * (q.w * q.y - q.x * q.z));
+    cosp = math.sqrt(1 - 2 * (q.w * q.y - q.x * q.z));
+    angles[1] = 2 * math.atan2(sinp, cosp) - math.pi / 2;
+
+    # // yaw (z-axis rotation)
+    siny_cosp = 2 * (q.w * q.z + q.x * q.y);
+    cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
+    angles[2] = math.atan2(siny_cosp, cosy_cosp);
+
+    return angles
 
 class RobotPlanner:
     def __init__(self) -> None:
@@ -12,10 +31,10 @@ class RobotPlanner:
         self.goal_pub = rospy.Publisher("mirte/move_base_simple/goal", PoseStamped, queue_size=10)
         
         self.farmer_pose_sub = rospy.Subscriber("farmer/gazebo/odom_gt", Odometry, self.farmer_pose_update, queue_size=10)
-        self.farmer_pose = Pose2D()
+        self.farmer_pose = Pose()
         self.robot_pose_sub = rospy.Subscriber("mirte/gazebo/odom_gt", Odometry, self.robot_pose_update, queue_size=10)
-        self.robot_pose = Pose2D()
-
+        self.robot_pose = Pose()
+        rospy.sleep(1)
         timer = rospy.Timer(rospy.Duration.from_sec(0.2), self.run)
 
     @staticmethod
@@ -25,17 +44,17 @@ class RobotPlanner:
         return Pose2D(full_pose.position.x, full_pose.position.y, 2*math.acos(full_pose.orientation.w))
 
     def farmer_pose_update(self, msg:Odometry):
-        self.farmer_pose = self.pose2d_from_odom(msg)
+        self.farmer_pose = msg.pose.pose
 
     def bull_pose_update(self, msg:Odometry):
         self.bull_pose = self.pose2d_from_odom(msg)
 
     def robot_pose_update(self, msg:Odometry):
-        self.robot_pose = self.pose2d_from_odom(msg)
+        self.robot_pose = msg.pose.pose
 
     def run(self, event=None):
-        dx = self.farmer_pose.x - self.robot_pose.x
-        dy = self.farmer_pose.y - self.robot_pose.y
+        dx = self.farmer_pose.position.x - self.robot_pose.position.x
+        dy = self.farmer_pose.position.y - self.robot_pose.position.y
 
         mag = math.sqrt(dx**2 + dy**2)
         
@@ -44,17 +63,19 @@ class RobotPlanner:
         # dy_c = dy/mag 
 
         # theta_opt = math.tan(dy/dx)
-        theta_opt = self.farmer_pose.theta
-        x_opt = self.farmer_pose.x - self.r_safe*math.cos(theta_opt)
-        y_opt =  self.farmer_pose.y - self.r_safe*math.sin(theta_opt)
+        angles = euler_from_quaternion(self.farmer_pose.orientation)
+        
+        # rospy.loginfo(theta_opt)
+        x_opt = self.farmer_pose.position.x - self.r_safe*math.cos(angles[-1])
+        y_opt =  self.farmer_pose.position.y - self.r_safe*math.sin(angles[-1])
         
         pose_opt = PoseStamped()
         pose_opt.header.frame_id = "mirte_tf/map"
         pose_opt.header.stamp = rospy.Time.now()
         pose_opt.pose.position.x = x_opt
         pose_opt.pose.position.y = y_opt
-        pose_opt.pose.orientation.w = math.cos(theta_opt/2)
-        pose_opt.pose.orientation.z = math.sin(theta_opt/2)
+        pose_opt.pose.orientation = self.farmer_pose.orientation
+        # pose_opt.pose.orientation.z = abs(math.sin(theta_opt/2))
 
         self.goal_pub.publish(pose_opt)
 
