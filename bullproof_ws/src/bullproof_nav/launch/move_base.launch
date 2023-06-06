@@ -29,7 +29,7 @@
 
          <param name="base_global_planner" value="navfn/NavfnROS" />
          <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-         <param name="controller_frequency" value="10.0" />
+         <param name="controller_frequency" value="15.0" />
          <param name="controller_patience" value="15.0" />
 
          <!-- <remap from="/move_base_simple/goal"                                           to="/$(arg robot_name)/move_base_simple/goal" />
