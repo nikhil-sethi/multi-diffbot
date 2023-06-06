@@ -1,0 +1,3 @@
+<launch>
+    <node name="state_machine" pkg="bullproof_hri" type="state_machine.py" output="screen"/>
+</launch>

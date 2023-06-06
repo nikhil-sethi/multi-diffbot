@@ -54,6 +54,7 @@
   <exec_depend>move_base</exec_depend>
   <depend>actionlib</depend>
   <depend>actionlib_msgs</depend>
+  <depend>teb-local-planner</depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

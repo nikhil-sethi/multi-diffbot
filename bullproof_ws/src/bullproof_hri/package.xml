@@ -50,6 +50,10 @@
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>rospy</depend>
+  <depend>ros-noetic-smach</depend>
+  <depend>ros-noetic-smach-viewer</depend>
+  <depend>python-pynput</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
