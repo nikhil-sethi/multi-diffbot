@@ -112,10 +112,12 @@ class RobotPlanner:
             self.waypoint_status = msg.status_list[-1].status
 
     def cancel_current_goal(self):
-        cancel_pub = rospy.Publisher('move_base/cancel', GoalID, queue_size=1)
+        cancel_pub = rospy.Publisher('mirte/move_base/cancel', GoalID, queue_size=1)
         goal_id = GoalID()
-        goal_id.id = ""
+        goal_id.stamp = rospy.Time.now()
         cancel_pub.publish(goal_id)
+        if self.robot_role == 0:
+            self.waypoint_publish(GoalStatus.SUCCEEDED) # restart the waypoint following
 
     def run(self, event=None):
         # Reset navgoal if role change occured
