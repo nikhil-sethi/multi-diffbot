@@ -123,7 +123,31 @@ This launch file starts the simulation of a differential drive robot similar to 
 ```bash
 roslaunch bullproof_bringup bullproof_sim.launch
 ```
-Once started, the robot (white) and farmer (red) should start to navigate around the space automatically:
+Once started, the robot (white), farmer (red) and bull (blue) will be loaded into Gazebo. 
+
+You have manual control over the farmer. It can be controlled with the arrow keys.
+
+The simulation also launches the state machine from [bullproof_hri](#bullproof_hri). Currently, this state machine can only be triggered to change states manually. The states are as follows:
+
+
+<p align="center">
+<img src="https://drive.google.com/uc?id=1FjvX1z5Dz65cs1aukSxj8IT8ldGVMP9e" width="400"> 
+</p>
+
+> Note: The manual changing between states is temporary.
+- To toggle between the Clean_Stable and Follow_Farmer state, press E.
+
+- To toggle between the Follow_Farmer and Protect_Farmer state, press R.
+
+- To quit the state machine (not the simulation), press Q.
+
+Pressing R while in the Clean_Stable state will not do anything, you must be in an adjacent state to move towards it.
+
+When in the Clean_Stable state, the Mirte robot will automatically navigate around the stable. When in the Follow_Farmer state, the Mirte robot will follow the farmer (which you control).
+
+> Note: The Protect_Farmer state is not yet implemented.
+
+As an example, in the Follow_Farmer state, the Mirte will start to follow the farmer automatically:
 <p align="center">
 <img src="https://drive.google.com/uc?id=1qubNvOLLL7IKf-U4dReCadMFlcMEae_g" width="400"> 
 </p>
@@ -143,7 +167,7 @@ roslaunch bullproof_control manual_control.launch
 ```
 While this is running, you will be able to control the Mirte robot.
 ## bullproof_hri
-`bullproof_hri` contains the state machine for the Mirte robot. The state machine determines if the robot is following the farmer, blocking the cow, or helping the farmer exit as well as all other functionality.
+`bullproof_hri` contains the state machine for the Mirte robot. The state machine determines if the robot is following the farmer, blocking the cow, or helping the farmer exit as well as all other functionality. This state machine is already described in [bullproof_bringup](#bullproof_bringup).
 
 In order to run the state machine, run the following command:
 ```bash
