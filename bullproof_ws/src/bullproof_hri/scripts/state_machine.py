@@ -12,7 +12,7 @@ class Clean_Stable(smach.State):
     """ Robot cleans stable, no farmer detected (F2 in activity diagram) """
     def __init__(self):
         smach.State.__init__(self, outcomes=['start_following', 'quit'])
-        self.pub = rospy.Publisher('robot_role', Int32, queue_size=10)
+        self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
         self.publish_thread = None
         self.run = False
 
@@ -62,7 +62,7 @@ class Follow_Farmer(smach.State):
     """ Robot follows farmer, farmer has been detected but no aggressive cow (F3 in activity diagram) """
     def __init__(self):
         smach.State.__init__(self, outcomes=['start_cleaning', 'start_protecting', 'quit'])
-        self.pub = rospy.Publisher('robot_role', Int32, queue_size=10)
+        self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
         self.publish_thread = None
         self.run = False
 
@@ -112,7 +112,7 @@ class Protect_Farmer(smach.State):
     """ Robot protects farmer, both farmer and aggressive cow are detected (F6 in activity diagram) """
     def __init__(self):
         smach.State.__init__(self, outcomes=['start_following', 'quit'])
-        self.pub = rospy.Publisher('robot_role', Int32, queue_size=10)
+        self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
         self.publish_thread = None
         self.run = False
 
