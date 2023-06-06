@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   roscpp
   nav_msgs
+  sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -163,6 +164,8 @@ target_link_libraries(fake_localizer
 catkin_install_python(PROGRAMS
   scripts/testing.py
   scripts/vision.py
+  scripts/detection.py
+  scripts/fake_camera.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -190,6 +193,7 @@ catkin_install_python(PROGRAMS
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
   launch/fake_perception.launch
+  launch/fake_camera.launch
   # myfile2
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
