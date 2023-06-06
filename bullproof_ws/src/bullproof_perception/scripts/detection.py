@@ -42,7 +42,7 @@ def get_detections():
     locations_mirte_pub = rospy.Publisher('locations/mirte', Pose2D, queue_size=1)
     locations_bull_pub = rospy.Publisher('locations/bull', Pose2D, queue_size=1)
     while not rospy.is_shutdown():
-        rospy.Subscriber('apriltag_ros', AprilTagDetectionArray, callback_april_detections)
+        rospy.Subscriber('tag_detections', AprilTagDetectionArray, callback_april_detections)
         rospy.sleep(1)
 
 
