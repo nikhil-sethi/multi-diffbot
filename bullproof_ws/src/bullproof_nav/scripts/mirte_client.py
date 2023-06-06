@@ -3,26 +3,33 @@ from geometry_msgs.msg import Pose, Pose2D, PoseStamped
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Quaternion
 import math
+import enum
 
 def euler_from_quaternion(q:Quaternion):
     
     angles = [0,0,0]
     # // roll (x-axis rotation)
-    sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
-    cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
-    angles[0] = math.atan2(sinr_cosp, cosr_cosp);
+    sinr_cosp = 2 * (q.w * q.x + q.y * q.z)
+    cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y)
+    angles[0] = math.atan2(sinr_cosp, cosr_cosp)
 
     # // pitch (y-axis rotation)
-    sinp = math.sqrt(1 + 2 * (q.w * q.y - q.x * q.z));
-    cosp = math.sqrt(1 - 2 * (q.w * q.y - q.x * q.z));
-    angles[1] = 2 * math.atan2(sinp, cosp) - math.pi / 2;
+    sinp = math.sqrt(1 + 2 * (q.w * q.y - q.x * q.z))
+    cosp = math.sqrt(1 - 2 * (q.w * q.y - q.x * q.z))
+    angles[1] = 2 * math.atan2(sinp, cosp) - math.pi / 2
 
     # // yaw (z-axis rotation)
-    siny_cosp = 2 * (q.w * q.z + q.x * q.y);
-    cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
-    angles[2] = math.atan2(siny_cosp, cosy_cosp);
+    siny_cosp = 2 * (q.w * q.z + q.x * q.y)
+    cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z)
+    angles[2] = math.atan2(siny_cosp, cosy_cosp)
 
     return angles
+
+class Robot_role(enum.IntEnum):
+    CLEAN = 0
+    FOLLOW = 1
+    PROTECT = 2
+
 
 class RobotPlanner:
     def __init__(self) -> None:
@@ -34,8 +41,13 @@ class RobotPlanner:
         self.farmer_pose = Pose()
         self.robot_pose_sub = rospy.Subscriber("mirte/gazebo/odom_gt", Odometry, self.robot_pose_update, queue_size=10)
         self.robot_pose = Pose()
+        
+        # self.mirte_role_sub = rospy.Subscriber("mirte/role", Robot_role, self.farmer_pose_update, queue_size=10)
+        # self.mirte_role = Robot_role()
+
         rospy.sleep(1)
         timer = rospy.Timer(rospy.Duration.from_sec(0.2), self.run)
+
 
     @staticmethod
     def pose2d_from_odom(odom_msg:Odometry):
@@ -52,7 +64,11 @@ class RobotPlanner:
     def robot_pose_update(self, msg:Odometry):
         self.robot_pose = msg.pose.pose
 
+    def robot_role_update(self, msg):
+        self.robot_role = msg
+
     def run(self, event=None):
+        # if self.robot_role == Robot_role.FOLLOW:
         dx = self.farmer_pose.position.x - self.robot_pose.position.x
         dy = self.farmer_pose.position.y - self.robot_pose.position.y
 
