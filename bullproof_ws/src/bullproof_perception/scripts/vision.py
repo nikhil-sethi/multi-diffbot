@@ -80,10 +80,67 @@ def generate_occupancy_map():
         rate.sleep()
 
 
-if __name__ == '__main__':
-    try:
-        generate_occupancy_map()
-    except rospy.ROSInterruptException:
-        pass
 
+
+
+
+
+
+
+
+
+
+
+
+# import numpy as np
+# import cv2
+# import rospy
+# from sensor_msgs.msg import Image
+# from cv_bridge import CvBridge
+
+
+
+# def test_img_out():
+    
+#     bridge = CvBridge()
+
+#     image_pub = rospy.Publisher('image_raw/compressed', Image, queue_size=1)
+
+#     rospy.init_node('fake_camera')
+
+#     rate = rospy.Rate(1) # 1hz
+
+
+#     while not rospy.is_shutdown():
+#         file = '../images/apriltag_example_image.jpg'
+#         cv_image = cv2.imread(file)
+
+#         # cv2.imshow('aa', cv_image)
+#         # cv2.waitKey(0)
+
+#         # img_to_pub = Image
+
+#         # img_to_pub.data = cv_image
+#         # img_to_pub.height = cv_image.shape[0]
+#         # img_to_pub.width = cv_image.shape[1]
+
+        
+#         rospy.loginfo('publishing image')
+
+#         try:
+#             img_msg = bridge.cv2_to_imgmsg(cv_image, encoding='bgr8')
+#             image_pub.publish(img_msg)
+#         except:
+#             pass
+        
+#         rospy.loginfo('done publishing image')
+
+#         rate.sleep()
+
+
+
+
+
+# if __name__ == '__main__':
+#     test_img_out()
 
