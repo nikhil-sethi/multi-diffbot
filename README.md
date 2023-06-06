@@ -25,9 +25,14 @@ This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, 
     - [bullproof_perception](#bullproof_perception)
     - [ldlidar_stl_ros](#ldlidar_stl_ros)
     - [mirte-ros-packages](#mirte-ros-packages)
-- [Node Structure](#node-structure)
+- [Software Architecture](#software-architecture)
+    - [camera_top_view](#camera_top_view)
+    - [map_server](#map_server)
+    - [map_update](#map_update)
+    - [farmer_planner](#farmer_planner)
+    - [robot_planner](#robot_planner)
     - [move_base](#move_base)
-- [ToDo's](#todos)
+
 # Installation, Setup and Robot Shutdown
 ## Cloning repository
 To clone this repository, please open a terminal in the folder where you would like to create the repository and run the following command:
@@ -126,16 +131,33 @@ Once started, the robot (white) and farmer (red) should start to navigate around
 ## bullproof_control
 `bullproof_control` is responsible for the motion control of the Mirte robot. Since Mirte has an on-board differential drive controller, which can be accessed through the topic `/mobile_base_controller/cmd_vel`, this package only contains a method to manually control the Mirte.
 ### manual_control.launch
-In order to manually control the Mirte robot using arrow keys on your keyboard, you can launch `manual_control.launch` as follows:
+In order to manually control the Mirte robot using arrow keys on your keyboard, first ensure you have the python package `pynput` installed. If not, install it via:
+
+```bash
+pip install pynput
+```
+Then, you can launch `manual_control.launch` as follows:
 
 ```bash
 roslaunch bullproof_control manual_control.launch
 ```
 While this is running, you will be able to control the Mirte robot.
 ## bullproof_hri
-`bullproof_hri` contains the behavioural tree for the Mirte robot. The behaviour tree determines if the robot is following the farmer, blocking the cow, or helping the farmer exit.
+`bullproof_hri` contains the state machine for the Mirte robot. The state machine determines if the robot is following the farmer, blocking the cow, or helping the farmer exit as well as all other functionality.
+
+In order to run the state machine, run the following command:
+```bash
+roslaunch bullproof_hri state_machine.launch
+```
+
+Once running, the state machine can be visualised by running:
+``` bash
+rosrun smach_viewer smach_viewer.py
+```
+
+> Note: the state machine is still under development, and is not fully integrated into the simulation yet.
 ## bullproof_nav
-`bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Node Structure](#node-structure).
+`bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Software Architecture](#software-architecture).
 
 ### move_base.launch
 The [move_base](http://wiki.ros.org/move_base) package allows for moving the robot. This package handles both navigation and motion control. It can be started seperately. To do so, run the following command:
@@ -153,7 +175,7 @@ This is not necessary in general use, as [bullproof_bringup](#bullproof_bringup)
 ## mirte-ros-packages
 `mirte-ros-packages` is a metapackage containing the on-board ROS packages used by the Mirte robot, used for simulating robot in [bullproof_sim.launch](#bullproof_simlaunch).
 
-# Software architecture
+# Software Architecture
 The general software architecture of this project is represented by the following graph:
 
 <img src="https://drive.google.com/uc?id=1UTpOm2Vy6-1HAnEzOcGxgt-OdvMn5Rqz"
@@ -162,26 +184,62 @@ alt="node_arch" title="Node Structure">
 An in-depth explanation of each node is given in the following sections:
 
 ## camera_top_view
-This node uses the apriltag library and topview camera to get the positions of the bull, the farmer, and the robot.
-
-## map_server
-This node contains the map of the stable containing the obstacles (e.g. stable walls)
-
-## map_update
-This node updates the positions of the bull, the farmer and the robot.
-
-## farmer_planner
-This node publishes cyclical poses for the farmer who patrols the stable
-
-## robot_planner
-This node calculates the optimal location for the robot to be in the space occupied by the farmer and the bull. It also connects to move_base and publishes the optimal location as a 2D NAV goal.
-
-## move_base
-The node `move_base` is created by the [move_base](#move_base) package. The nodes has the following inputs and outputs:
+`camera_top_view` uses the apriltag library and topview camera to get the positions of the bull, the farmer, and the robot. The node has the following in- and outputs:
 
 **Inputs:** 
-- */map* (nav_msgs/GetMap) - Occupancy Map
-- */odomo* (nav_msgs/Odometry) - Robot Odometry Pose
+- No topics as input, this directly takes the camera image
+
+**Outputs:**
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose
+- */webcam/image_compressed* (msg_type TBC) - Compressed Overhead Image
+
+
+## map_server
+`map_server`contains the map of the stable containing the obstacles (e.g. stable walls). The node has the following in- and outputs:
+
+
+**Inputs:** 
+- */webcam/image_compressed* (msg_type TBC) - Compressed Overhead Image
+
+**Outputs:**
+- */map* (nav_msgs/OccupancyGrid) - Occupancy Grip of the Robot Workspace
+
+## map_update
+`map_update`updates the positions of the bull, the farmer and the robot. The node has the following in- and outputs:
+
+
+**Inputs:** 
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose 
+- */map* (nav_msgs/OccupancyGrid) - Occupancy Grip of the Robot Workspace
+
+**Outputs:**
+- */map_dynamic* (nav_msgs/GetMap) - Occupancy Map
+
+## farmer_planner
+`farmer_planner`publishes cyclical poses for the farmer who patrols the stable. The node has the following in- and outputs:O
+
+**Inputs:** 
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose 
+
+**Outputs:**
+- */move_base_simple/goal* (geometry_msgs/PoseStamped) - 2D Nav Goal
+
+
+## robot_planner
+`robot_planner` calculates the optimal location for the robot to be in the space occupied by the farmer and the bull. It also connects to move_base and publishes the optimal location as a 2D NAV goal.
+
+**Inputs:** 
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose 
+
+**Outputs:**
+- */move_base_simple/goal* (geometry_msgs/PoseStamped) - 2D Nav Goal
+
+## move_base
+The node `move_base` is created by the [move_base](#move_base) package. The node has the following inputs and outputs:
+
+**Inputs:** 
+- */map_dynamic* (nav_msgs/GetMap) - Occupancy Map
+- */odom* (nav_msgs/Odometry) - Robot Odometry Pose 
 - */move_base_simple/goal* (geometry_msgs/PoseStamped) - 2D Nav Goal
 
 **Outputs:**
@@ -195,5 +253,7 @@ A diagram of the navigation stack setup is shown below:
 
 For the local planner, the packages is configured to use the `teb_local_planner` This has additional benefits over the basic ROSTrajectoryPlanner, as it allows the robot to move back- as well as forward. For more info, please check out the [teb_local_planner Wiki here](http://wiki.ros.org/teb_local_planner).
 
-> **NOTE:** You might need to install the TEB local planner if you don't have it. You can do this using `sudo apt-get install ros-noetic-teb-local-planner`
+The result of this `move_base` implementation can be seen in [this video](https://drive.google.com/uc?id=1aDXfBCpLTQjYPrEhuM-sRDxeSWZhZGoR), where [bullproof_sim.launch](#bullproof_simlaunch) is used to show the Navigation stack in action.
+
+> **NOTE:** While rosdep should take care of dependencies, you might need to install the TEB local planner manually. You can do this using `sudo apt-get install ros-noetic-teb-local-planner`
 

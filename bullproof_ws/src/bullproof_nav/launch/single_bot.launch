@@ -1,0 +1,12 @@
+<launch>
+    <arg name="model" default="mirte"/>
+    <group ns="$(arg model)">
+        <!-- planning base -->
+        <include file="$(find bullproof_nav)/launch/move_base.launch">
+            <arg name="robot_name" value="$(arg model)"/>
+        </include>
+        
+        <!-- planning script -->
+        <node pkg="bullproof_nav" name="$(arg model)_client" type="$(arg model)_client.py" ns="/"/>
+    </group>
+</launch>

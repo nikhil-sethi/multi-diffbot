@@ -49,7 +49,7 @@ mobile_base_controller:
       #max_jerk               : 2.5  # rad/s^3
 
 #Publish to TF directly or not
-enable_odom_tf: false
+enable_odom_tf: true
 
 #Name of frame to publish odometry in
 odom_frame_id: odom

@@ -5,20 +5,18 @@ from geometry_msgs.msg import PoseStamped, Pose2D
 from actionlib_msgs.msg import GoalStatusArray, GoalStatus
 import math
 
-class FarmerPlanner:
+class BullPlanner:
     def __init__(self) -> None:
-        rospy.init_node('farmer_client_py')
-        self.wps = [Pose2D(2.6, 1.2, 0),
-                Pose2D(2.6, 2.6, 1.57),
-                Pose2D(0.4, 2.6, 3.14),
-                Pose2D(0.4, 1.2, 4.71)]
+        rospy.init_node('bull_client_py')
+        self.wps = [Pose2D(1.2, 1.2, 0),
+                    Pose2D(0.3, 0.3, 0)]
         self.wp_counter = 0
 
-        self.goal_pub = rospy.Publisher("farmer/move_base_simple/goal", PoseStamped, queue_size=10)
+        self.goal_pub = rospy.Publisher("bull/move_base_simple/goal", PoseStamped, queue_size=10)
         
         # self.farmer_pose_sub = rospy.Subscriber("farmer/gazebo/odom_gt", Odometry, self.farmer_pose_update, queue_size=10)
         # self.farmer_pose = Pose()
-        self.goal_status_sub = rospy.Subscriber("farmer/move_base/status", GoalStatusArray, self.goal_status_callback, queue_size=10)
+        self.goal_status_sub = rospy.Subscriber("bull/move_base/status", GoalStatusArray, self.goal_status_callback, queue_size=10)
 
         # self.robot_pose_sub = rospy.Subscriber("mirte/gazebo/odom_gt", Odometry, self.robot_pose_update, queue_size=10)
         # self.robot_pose = Pose()
@@ -29,7 +27,7 @@ class FarmerPlanner:
         if goal_status == GoalStatus.SUCCEEDED:
             wp = self.wps[self.wp_counter % len(self.wps)]
             target_pose = PoseStamped()
-            target_pose.header.frame_id = "farmer_tf/map"
+            target_pose.header.frame_id = "bull_tf/map"
             target_pose.header.stamp = rospy.Time.now()
             target_pose.pose.position.x = wp.x
             target_pose.pose.position.y = wp.y
@@ -47,6 +45,6 @@ class FarmerPlanner:
 
 if __name__ == '__main__':
 
-    farmer_planner = FarmerPlanner()
+    farmer_planner = BullPlanner()
 
     rospy.spin()

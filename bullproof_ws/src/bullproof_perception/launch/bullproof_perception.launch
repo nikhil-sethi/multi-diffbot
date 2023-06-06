@@ -1,0 +1,26 @@
+<launch>
+
+    <!-- pretentious maps. huh -->
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find bullproof_nav)/maps/robohouse.yaml"/>
+
+    <!-- Dynamic mapper -->
+    <!-- <node pkg="bullproof_perception" type="map_updater.py"> -->
+
+    <!-- fake localization -->
+    
+    <!-- farmer -->
+    <include file="$(find bullproof_perception)/launch/fake_localization.launch">
+        <arg name="model" value="farmer"/>
+    </include>
+
+    <!-- robot -->
+    <include file="$(find bullproof_perception)/launch/fake_localization.launch">
+        <arg name="model" value="mirte"/>
+    </include>
+
+    <!-- bull -->
+    <include file="$(find bullproof_perception)/launch/fake_localization.launch">
+        <arg name="model" value="bull"/>
+    </include>
+
+</launch>
