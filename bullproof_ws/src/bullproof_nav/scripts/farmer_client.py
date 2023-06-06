@@ -46,7 +46,6 @@ class FarmerPlanner:
             self.goal_publish(goal_status)
 
 if __name__ == '__main__':
-
     farmer_planner = FarmerPlanner()
 
     rospy.spin()
