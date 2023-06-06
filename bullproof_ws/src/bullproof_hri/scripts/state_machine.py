@@ -16,7 +16,6 @@ class Clean_Stable(smach.State):
         self.publish_thread = None
         self.run = False
 
-
     def execute(self, userdata):
         # Clear console
         os.system('clear')
@@ -49,7 +48,7 @@ class Clean_Stable(smach.State):
                 self.listener.stop()
                 self.next_state = 'quit'
                 self.run, self.publish_thread.daemon = False
-        except AttributeError:
+        except AttributeError: # if it is not a character, such as 'Shift'
             pass
     
     def publish_robot_role(self):
@@ -100,7 +99,7 @@ class Follow_Farmer(smach.State):
             if key.char == 'q':
                 self.listener.stop()
                 self.next_state = 'quit'
-        except AttributeError:
+        except AttributeError: # if it is not a character, such as 'Shift'
             pass
 
     def publish_robot_role(self):
