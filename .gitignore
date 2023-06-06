@@ -1,8 +1,4 @@
-# bullproof_ws/build
-# bullproof_ws/install
-# bullproof_ws/devel
-# bullproof_ws/devel_isolated
-# bullproof_ws/devel_isolated
 build
 devel
 install
+.idea

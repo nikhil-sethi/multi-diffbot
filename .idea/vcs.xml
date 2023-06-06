@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/bullproof_ws/src/apriltag" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/bullproof_ws/src/apriltag_ros" vcs="Git" />
-  </component>
-</project>

@@ -154,6 +154,8 @@ Once running, the state machine can be visualised by running:
 ``` bash
 rosrun smach_viewer smach_viewer.py
 ```
+
+> Note: the state machine is still under development, and is not fully integrated into the simulation yet.
 ## bullproof_nav
 `bullproof_nav` contains the navigation stack that contains Planning for the Mirte robot. This package imports the existing [move_base](http://wiki.ros.org/move_base) package and configurates it using the configuration files from `bullproof_nav/config`. For more information about the node structure of this package, see [Software Architecture](#software-architecture).
 
