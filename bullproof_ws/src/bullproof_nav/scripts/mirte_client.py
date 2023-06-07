@@ -5,6 +5,13 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import Int32
 from geometry_msgs.msg import Quaternion
 from actionlib_msgs.msg import GoalStatusArray, GoalStatus, GoalID
+from enum import IntEnum
+class RobotRole(IntEnum):
+    CLEAN = 0
+    FOLLOW = 1
+    PROTECT = 2
+    STAY = 3
+
 
 def euler_from_quaternion(q:Quaternion):
     """ Conversion script to get Euler Angles from Quaternions"""
@@ -143,10 +150,10 @@ class RobotPlanner:
             self.cancel_current_goal()
             self.prev_role = self.robot_role
 
-        if self.robot_role == 0: # Clean stable
+        if self.robot_role == RobotRole.CLEAN: # Clean stable
             self.waypoint_publish(self.waypoint_status)
 
-        elif self.robot_role == 1: # Following
+        elif self.robot_role == RobotRole.FOLLOW: # Following
 
             angles = euler_from_quaternion(self.farmer_pose.orientation) # optimal theta is same as farmers pose 
             
@@ -163,7 +170,7 @@ class RobotPlanner:
 
             self.goal_pub.publish(pose_opt)
         
-        elif self.robot_role == 2: # protect the farmer
+        elif self.robot_role == RobotRole.PROTECT: # protect the farmer
             dx = -self.bull_pose.position.x + self.farmer_pose.position.x
             dy = -self.bull_pose.position.y + self.farmer_pose.position.y 
 

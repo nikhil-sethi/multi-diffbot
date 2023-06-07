@@ -8,6 +8,13 @@ from pynput import keyboard
 import rospy
 from std_msgs.msg import Int32
 # from bullproof_interfaces.msg import RobotState, BullState, FarmerState
+from enum import IntEnum
+
+class RobotRole(IntEnum):
+    CLEAN = 0
+    FOLLOW = 1
+    PROTECT = 2
+    STAY = 3
 
 class RoleManager:
     def __init__(self) -> None:
@@ -51,12 +58,10 @@ class Clean_Stable(smach.State):
             if key.char == 'e':
                 self.listener.stop()  # Stops listener
                 self.next_state = 'start_following'
-                self.role_manager.robot_role = 1
-                # self.run, self.publish_thread.daemon = False
+                self.role_manager.robot_role = RobotRole.FOLLOW
             if key.char =='q':
                 self.listener.stop()
                 self.next_state = 'quit'
-                # self.run, self.publish_thread.daemon = False
         except AttributeError: # if it is not a character, such as 'Shift'
             pass
 
@@ -79,11 +84,11 @@ class Follow_Farmer(smach.State):
             if key.char == 'e':
                 self.listener.stop()  # Stops listener
                 self.next_state = 'start_cleaning'
-                self.role_manager.robot_role = 0
+                self.role_manager.robot_role = RobotRole.CLEAN
             if key.char == 'r':
                 self.listener.stop()  
                 self.next_state = 'start_protecting'
-                self.role_manager.robot_role = 2
+                self.role_manager.robot_role = RobotRole.PROTECT
             if key.char == 'q':
                 self.listener.stop()
                 self.next_state = 'quit'
@@ -111,7 +116,7 @@ class Protect_Farmer(smach.State):
             if key.char == 'r':
                 self.listener.stop()  # Stops listener
                 self.next_state = 'start_following'
-                self.role_manager.robot_role = 1
+                self.role_manager.robot_role = RobotRole.FOLLOW
             if key.char =='q':
                 self.listener.stop()
                 self.next_state = 'quit'
