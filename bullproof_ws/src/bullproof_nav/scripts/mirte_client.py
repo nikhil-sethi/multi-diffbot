@@ -26,6 +26,22 @@ def euler_from_quaternion(q:Quaternion):
 
     return angles
 
+def quaternion_from_euler(roll, pitch, yaw):
+    cr = math.cos(roll * 0.5)
+    sr = math.sin(roll * 0.5)
+    cp = math.cos(pitch * 0.5)
+    sp = math.sin(pitch * 0.5)
+    cy = math.cos(yaw * 0.5)
+    sy = math.sin(yaw * 0.5)
+
+    q = Quaternion()
+    q.w = cr * cp * cy + sr * sp * sy
+    q.x = sr * cp * cy - cr * sp * sy
+    q.y = cr * sp * cy + sr * cp * sy
+    q.z = cr * cp * sy - sr * sp * cy
+
+    return q
+
 
 def pose_to_posestamped(pose_msg):
     # Create a new PoseStamped message
@@ -36,12 +52,12 @@ def pose_to_posestamped(pose_msg):
 
     return pose_stamped_msg
 
-
 class RobotPlanner:
     def __init__(self) -> None:
         rospy.init_node('mirte_client_py')
         rospy.loginfo("Starting mirte_client_py" )
         self.r_safe = 0.3
+        self.r_protect = 0.2
         # Goal publisher for mirte
         self.goal_pub = rospy.Publisher("mirte/move_base_simple/goal", PoseStamped, queue_size=10)
         
@@ -50,6 +66,8 @@ class RobotPlanner:
         self.farmer_pose = Pose()
         self.robot_pose_sub = rospy.Subscriber("mirte/gazebo/odom_gt", Odometry, self.robot_pose_update, queue_size=10)
         self.robot_pose = Pose()
+        self.bull_pose_sub = rospy.Subscriber("bull/gazebo/odom_gt", Odometry, self.bull_pose_update, queue_size=10)
+        self.bull_pose = Pose()
         
         # Robot role subscriber for state machine
         self.robot_role_sub = rospy.Subscriber("mirte/robot_role", Int32, self.robot_role_update, queue_size=10)
@@ -83,11 +101,11 @@ class RobotPlanner:
     def farmer_pose_update(self, msg:Odometry):
         self.farmer_pose = msg.pose.pose
 
-    def bull_pose_update(self, msg:Odometry):
-        self.bull_pose = self.pose2d_from_odom(msg)
-
     def robot_pose_update(self, msg:Odometry):
         self.robot_pose = msg.pose.pose
+    
+    def bull_pose_update(self, msg:Odometry):
+        self.bull_pose = msg.pose.pose
 
     def robot_role_update(self, msg):
         self.robot_role = msg.data
@@ -129,10 +147,10 @@ class RobotPlanner:
             self.waypoint_publish(self.waypoint_status)
 
         elif self.robot_role == 1: # Following
-            dx = self.farmer_pose.position.x - self.robot_pose.position.x
-            dy = self.farmer_pose.position.y - self.robot_pose.position.y
+            # dx = self.farmer_pose.position.x - self.robot_pose.position.x
+            # dy = self.farmer_pose.position.y - self.robot_pose.position.y
 
-            mag = math.sqrt(dx**2 + dy**2)
+            # mag = math.sqrt(dx**2 + dy**2)
             
             # unit vectors
             # dx_c = dx/mag
@@ -154,7 +172,32 @@ class RobotPlanner:
             # pose_opt.pose.orientation.z = abs(math.sin(theta_opt/2))
 
             self.goal_pub.publish(pose_opt)
+        
+        elif self.robot_role == 2: # protect the farmer
+            dx = -self.bull_pose.position.x + self.farmer_pose.position.x
+            dy = -self.bull_pose.position.y + self.farmer_pose.position.y 
 
+            mag = math.sqrt(dx**2 + dy**2)
+            
+            # unit vectors
+            if mag!=0:
+                dx_c = dx/mag
+                dy_c = dy/mag 
+
+            theta_opt = math.atan2(dy_c, dx_c)
+            quat = quaternion_from_euler(0,0,theta_opt+3.14)
+
+            x_opt = self.farmer_pose.position.x - self.r_protect*math.cos(theta_opt)
+            y_opt =  self.farmer_pose.position.y - self.r_protect*math.sin(theta_opt)
+            
+            pose_opt = PoseStamped()
+            pose_opt.header.frame_id = "mirte_tf/map"
+            pose_opt.header.stamp = rospy.Time.now()
+            pose_opt.pose.position.x = x_opt
+            pose_opt.pose.position.y = y_opt
+            pose_opt.pose.orientation = quat
+
+            self.goal_pub.publish(pose_opt)
 
 if __name__=="__main__":
     robot_planner = RobotPlanner()
