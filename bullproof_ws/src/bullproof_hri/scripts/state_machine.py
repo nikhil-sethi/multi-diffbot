@@ -7,6 +7,30 @@ import smach_ros
 from pynput import keyboard
 import rospy
 from std_msgs.msg import Int32
+# from bullproof_interfaces.msg import RobotState, BullState, FarmerState
+
+# class RoleManager:
+#     def __init__(self) -> None:
+#         robot_sub = rospy.Subscriber("mirte/state", RobotState, self.robot_update, queue_size=10)
+#         farmer_sub = rospy.Subscriber("farmer/state", FarmerState, self.farmer_update, queue_size=10)
+#         bull_sub = rospy.Subscriber("bull/state", BullState, self.bull_update, queue_size=10)
+
+#         self.robot_pub = rospy.Publisher("mirte/state", RobotState, queue_size=10)
+#         self.farmer_pub = rospy.Publisher("farmer/state", FarmerState, queue_size=10)
+#         self.bull_pub = rospy.Publisher("bull/state", BullState, queue_size=10)
+
+#     def robot_update(self, msg):
+#         self.robot_state = msg
+
+#     def farmer_update(self, msg):
+#         self.farmer_state = msg
+
+#     def bull_update(self, msg):
+#         self.bull_state = msg
+
+#     def robot_state_timer(self):
+
+
 
 class Clean_Stable(smach.State):
     """ Robot cleans stable, no farmer detected (F2 in activity diagram) """
@@ -14,11 +38,12 @@ class Clean_Stable(smach.State):
         smach.State.__init__(self, outcomes=['start_following', 'quit'])
         self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
         self.publish_thread = None
+        # self.role_manager = role_manager
         self.run = False
 
     def execute(self, userdata):
         # Clear console
-        os.system('clear')
+        # os.system('clear')
 
         # Start publishing thread
         self.run = True 
@@ -64,11 +89,12 @@ class Follow_Farmer(smach.State):
         smach.State.__init__(self, outcomes=['start_cleaning', 'start_protecting', 'quit'])
         self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
         self.publish_thread = None
+        # self.role_manager = role_manager
         self.run = False
 
     def execute(self, userdata):
         # Clear console
-        os.system('clear')
+        # os.system('clear')
 
         # Start publishing thread
         self.run = True 
@@ -114,11 +140,12 @@ class Protect_Farmer(smach.State):
         smach.State.__init__(self, outcomes=['start_following', 'quit'])
         self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
         self.publish_thread = None
+        # self.role_manager = role_manager
         self.run = False
 
     def execute(self, userdata):
         # Clear console
-        os.system('clear')
+        # os.system('clear')
 
         # Start publishing thread
         self.run = True 
