@@ -147,20 +147,11 @@ class RobotPlanner:
             self.waypoint_publish(self.waypoint_status)
 
         elif self.robot_role == 1: # Following
-            # dx = self.farmer_pose.position.x - self.robot_pose.position.x
-            # dy = self.farmer_pose.position.y - self.robot_pose.position.y
 
-            # mag = math.sqrt(dx**2 + dy**2)
+            angles = euler_from_quaternion(self.farmer_pose.orientation) # optimal theta is same as farmers pose 
             
-            # unit vectors
-            # dx_c = dx/mag
-            # dy_c = dy/mag 
-
-            # theta_opt = math.tan(dy/dx)
-            angles = euler_from_quaternion(self.farmer_pose.orientation)
-            
-            # rospy.loginfo(theta_opt)
-            x_opt = self.farmer_pose.position.x - self.r_safe*math.cos(angles[-1])
+            # optimal position is a safe distance behind it
+            x_opt = self.farmer_pose.position.x - self.r_safe*math.cos(angles[-1]) 
             y_opt =  self.farmer_pose.position.y - self.r_safe*math.sin(angles[-1])
             
             pose_opt = PoseStamped()
@@ -169,7 +160,6 @@ class RobotPlanner:
             pose_opt.pose.position.x = x_opt
             pose_opt.pose.position.y = y_opt
             pose_opt.pose.orientation = self.farmer_pose.orientation
-            # pose_opt.pose.orientation.z = abs(math.sin(theta_opt/2))
 
             self.goal_pub.publish(pose_opt)
         
@@ -184,18 +174,18 @@ class RobotPlanner:
                 dx_c = dx/mag
                 dy_c = dy/mag 
 
-            theta_opt = math.atan2(dy_c, dx_c)
-            quat = quaternion_from_euler(0,0,theta_opt+3.14)
+            theta_bull_farmer = math.atan2(dy, dx)  # angle between bull and farmer
+            # quat = quaternion_from_euler(0, 0, theta_from_bull+3.14)
 
-            x_opt = self.farmer_pose.position.x - self.r_protect*math.cos(theta_opt)
-            y_opt =  self.farmer_pose.position.y - self.r_protect*math.sin(theta_opt)
+            x_opt = self.farmer_pose.position.x - self.r_protect*math.cos(theta_bull_farmer)
+            y_opt =  self.farmer_pose.position.y - self.r_protect*math.sin(theta_bull_farmer)
             
             pose_opt = PoseStamped()
             pose_opt.header.frame_id = "mirte_tf/map"
             pose_opt.header.stamp = rospy.Time.now()
             pose_opt.pose.position.x = x_opt
             pose_opt.pose.position.y = y_opt
-            pose_opt.pose.orientation = quat
+            pose_opt.pose.orientation = self.farmer_pose.orientation
 
             self.goal_pub.publish(pose_opt)
 
