@@ -16,14 +16,11 @@ This repostory contains the Multi-Disciplinary Project of 2022/2023 of Group 8, 
     - [Starting the robot](#starting-the-robot)
     - [Shutting down the robot](#shutting-down-the-robot)
 - [Packages](#packages)
-    - [apriltag](#apriltag)
-    - [apriltag_ros](#apriltag_ros)
     - [bullproof_bringup](#bullproof_bringup)
     - [bullproof_control](#bullproof_control)
     - [bullproof_hri](#bullproof_hri)
     - [bullproof_nav](#bullproof_nav)
     - [bullproof_perception](#bullproof_perception)
-    - [ldlidar_stl_ros](#ldlidar_stl_ros)
     - [mirte-ros-packages](#mirte-ros-packages)
 - [Software Architecture](#software-architecture)
     - [camera_top_view](#camera_top_view)
@@ -63,26 +60,156 @@ Firstly, one must connect to the WiFi network that the Mirte robot creates. Look
 Once connected, one can connect to the `$mirte` shell via ssh by running the following commands:
 
 ```bash
-$mirte ssh mirte@192.168.42.1
+$ ssh mirte@192.168.42.1
 ```
+
 It will then ask for a password, this password is "bullproof". Once connected, you now have access to the `$mirte` shell. This is required to shut the robot down later.
 
+## Connecting the robot to the camera network
+Within the arena, there is an overhead camera located that is used by this project. This camera is in essence another Mirte robot, but only serves to publish to a camera topic. In order to connect to this camera, follow these instructions:
 
-## Starting the robot
-In order to start up the robot, the package `bullproof-bringup` should be used. See the section [bullproof-bringup](#bullproof_bringup) for more information on how to start up the robot.
+### Connecting to the camera network
+First, connect to the following WiFi network:
+* Network: Lely Camera
+* Password: Camera01
 
-In order to connect to the ROS master running on Mirte, open a new terminal and run the following in the user shell `$` (not `$mirte`):
+Then, connect to the `$mirte` shell of the camera (caled `$camera` in this ReadMe for clarity).
 
 ```bash
-$ export ROS_MASTER_URI=http://192.168.42.1:11311
+$ ssh mirte@192.168.20.198
+```
+
+It will ask you for confirmation, and then a password, which is "dev_dev".
+
+Now open the `etc/hosts file on the Camera Mirte:
+
+```bash
+$camera sudo nano /etc/hosts
+```
+
+Add your PC's IP and IP name (on the Lely Camera Network) to this file. If you do not know your IP address, run `$ ifconfig` or `$ ip a` to check.
+
+Now add the Mirte to your _own_ `etc/hosts` file:
+
+```bash
+$ sudo nano /etc/hosts
+```
+And add a line with the following details:
+* IP-address: 192.168.20.198
+* IP-name: Mirte-2917C3
+
+To test whether the camera is working, run the following commands
+```bash
+$ export ROS_MASTER_URI=http://192.168.20.198:11311
+$ rostopic list
+```
+If you can see the topic `/webcam/image_raw/compressed` or any similar topics, it is connected correctly.
+
+### Connecting Mirte to camera network
+Now you must connect the Mirte robot to the camera network. To do so, re-open the `$mirte` shell from [Connecting to the robot](#connecting-to-the-robot), and run the following command:
+
+```bash
+$mirte nohup `$(sleep 10; sudo nmcli d wifi connect "Lely Camera"
+password "Camera01")` & sudo nmcli d disconnect wlan0
+```
+This will disconnect the "mirte_bullproof" network and connect the Mirte robot to the "Lely Camera" network. Re-connect your PC to the "Lely Camera" network, and run the following command to connect to the `$mirte` shell:
+
+```bash
+ssh mirte@192.168.20.104
+```
+Again, the password is "bullproof". Now you are once again connected to the `$mirte` shell, but it is now located on the "Lely Camera" network.
+
+### Setting the Camera as ROS Master (only first-time setup)
+In order to run ROS nodes on both the Camera and Mirte, one must be set as the ROS master. This will be done on the Camera. In order to make the Camera the ROS Master, connect to the `$mirte` shell and run the following commands.
+
+> Note: This only has to be done once, when you are starting from a fresh Mirte robot. For the current Mirte robot we are using, this does not have to be done again.
+
+```bash
+$mirte sudo nano mirte_ws/devel/setup.bash
+```
+
+And add the following lines to the end of the file (make sure you are connected to the "Lely Camera" network):
+
+```
+ip4=$(/sbin/ip -o -4 addr list wlan0 | awk ’{print $4}’ | cut -d/ -f1)
+export ROS_IP=$ip4
+if [[ $ip4 == 192.168.20.* ]] ; then
+export ROS_MASTER_URI=http://192.168.20.198:11311
+fi
+```
+
+This will set the ROS IP variable to the wifi ip address and the ROS MASTER URI to the camera Mirte if it is connected to the ”Lely Camera” wifi network.
+
+Now open the following file:
+```bash
+$mite sudo nano mirte_ws/src/mirte-ros-packages/mirte_bringup/launch/minimal.launch
+```
+
+And remove any launch files for the camera nodes. Now close and save the file.
+
+### Restart the ROS service on the Mirte robot (in case of error)
+Depending on the start-up, the ROS service on the Mirte robot may not start correctly. Examples of this are when you edited the `devel/setup.bash` as described in the last step. In order to fix any issues, restart the ROS service on the Mirte as follows:
+
+```bash
+$mirte sudo systemctl stop mirte-ros
+$mirte sudo systemctl start mirte-ros
+```
+## Starting the robot
+Before starting the robot or running any packages, you must run the following in the user shell `$` (not `$mirte`):
+
+```bash
+$ export ROS_MASTER_URI=http://192.168.20.198:11311
 $ export ROS_IP=<your_wlan_ip>
 ```
-If you do not know what your WLAN IP address is, run `$ ifconfig` or `$ hostname -I` to check.
+
+Add your PC's IP and IP name (on the Lely Camera Network) to this file. If you do not know your IP address, run `$ ifconfig` or `$ ip a` to check.
 
 Once connected, you can now execute any scripts or commands to the ROS master on the Mirte robot. This must be re-done for every new shell instance. You do not need to run `$roscore` locally.
 
+In order to start-up the robot properly, [bullproof_bringup](#bullproof_bringup) should be used. See the package for an in-depth explanation of the launch files that can be used.
+
+
+## Starting the Farmer and Bull in the arena
+The arena has two dynamic obstacles, the farmer and the bull. To start them, follow these instructions:
+
+### Farmer
+The farmer is manually controlled by a human. For this, you need another laptop. Connect this laptop to the [Lely Camera network](#connecting-to-the-camera-network).
+
+Once connected, turn on the Farmer robot in the Arena. Wait for it to boot. Once booted, connect to it via SSH:
+```bash
+$ ssh mirte@192.168.20.199
+```
+Password is "dev_dev". You are now connected to the `$farmer` shell. Then start the manual control node
+
+```bash
+$farmer roslaunch bullproof_control manual_control.launch
+```
+
+Now you can control the farmer from another laptop.
+
+### Bull
+To start the bull, you can use the same PC as in all other sections (except for [Farmer](#farmer)). Again, make sure you are connected to the [Lely Camera network](#connecting-to-the-camera-network).
+
+Then, connect to the Bull robot via SSH:
+
+```bash
+$ ssh mirte@192.168.20.200
+```
+Password is "dev_dev". You are now connected to the `$bull` shell.
+
+Then, start the bull's pathfinding:
+
+```bash
+$bull roslaunch mdp bull.launch
+```
+
 ## Shutting down the robot
-To shut down mirte, run the following command in the `$mirte`:
+First, shutdown the Bull and Farmer by connecting to their respective shells `$farmer` and `$bull` and running:
+
+```bash
+sudo shutdown no
+```
+To shut down the Mirte robot, run the following command in `$mirte`:
 
 ```bash
 $mirte sudo shutdown now

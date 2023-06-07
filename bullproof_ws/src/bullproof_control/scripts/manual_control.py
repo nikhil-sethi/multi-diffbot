@@ -4,8 +4,8 @@ import rospy
 from geometry_msgs.msg import Twist
 from pynput import keyboard
 
-max_forward = 0.42
-max_angular = 1.7
+max_forward = 0.42 # m/s
+max_angular = 1.7 # rad/s
 
 def on_press(key):
     try:

@@ -25,6 +25,6 @@
     <include file="$(find bullproof_perception)/launch/bullproof_perception.launch"/>
     <include file="$(find bullproof_nav)/launch/bullproof_nav.launch"/>
     <include file="$(find bullproof_hri)/launch/state_machine.launch"/>
-    <include file="$(find bullproof_nav)/launch/continuous_detection.launch"/>
+    <include file="$(find bullproof_perception)/launch/continuous_detection.launch"/>
     <!-- <node name="vel_forward" pkg="bullproof_bringup" type="sim_publisher.py" output="screen"/> -->
 </launch>
