@@ -42,7 +42,6 @@ The repository should now be cloned on your machine.
 To build the repository, open the `bullproof-tech` folder (=location of the repository) in a terminal and run the following commands:
 
 ``` bash
-git submodule update --init --recursive
 cd bullproof_ws
 rosdep install --from-paths src --ignore-src -r -y
 catkin_make
