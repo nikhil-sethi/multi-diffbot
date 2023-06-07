@@ -106,12 +106,6 @@ source devel/setup.bash
 
 This must be done before running any of the following commands described in the other packages.
 
-## apriltag
-`apriltag` is the apriltag library for the AprilTag 3 visual fiducial detector made by the APRIL Robotics Lab at The University of Michigan.
-
-## apriltag_ros
-`apriltag_ros` is the apriltag ROS wrapper of the apriltag library package made by the APRIL Robotics Lab at The University of Michigan. the configuration file has been edited to match the used camera and printed APRIL tags.
-
 ## bullproof_bringup
 `bullproof_bringup` is responsible for the start-up of the robot or simulation. This package contains the following launch files that the user can use:
 
@@ -168,9 +162,6 @@ This is not necessary in general use, as [bullproof_bringup](#bullproof_bringup)
 
 ## bullproof_perception
 `bullproof_perception` contains the perception stack used by this project.
-
-## ldlidar_stl_ros
-`ldlidar_stl_ros` is a submodule containing the packages for the LIDAR on-board the Mirte robot. Cannot be started seperately. 
 
 ## mirte-ros-packages
 `mirte-ros-packages` is a metapackage containing the on-board ROS packages used by the Mirte robot, used for simulating robot in [bullproof_sim.launch](#bullproof_simlaunch).
