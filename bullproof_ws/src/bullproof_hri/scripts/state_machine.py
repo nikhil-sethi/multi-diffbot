@@ -18,25 +18,13 @@ class RobotRole(IntEnum):
 
 class RoleManager:
     def __init__(self) -> None:
-
-        self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
-        # self.farmer_pub = rospy.Publisher("farmer/state", FarmerState, queue_size=10)
-        # self.bull_pub = rospy.Publisher("bull/state", BullState, queue_size=10)
+        self.pub = rospy.Publisher('mirte/state', Int32, queue_size=10)
 
         timer = rospy.Timer(rospy.Duration.from_sec(1), self.role_publisher)
-        self.robot_role = 0 # clean by default
+        self.mirte_state = 0 # clean by default
         
     def role_publisher(self, event=None):
-        self.pub.publish(self.robot_role)
-
-    # def robot_update(self, msg):
-    #     self.robot_state = msg
-
-    # def farmer_update(self, msg):
-    #     self.farmer_state = msg
-
-    # def bull_update(self, msg):
-    #     self.bull_state = msg
+        self.pub.publish(self.mirte_state)
 
 
 class Clean_Stable(smach.State):
@@ -58,7 +46,7 @@ class Clean_Stable(smach.State):
             if key.char == 'e':
                 self.listener.stop()  # Stops listener
                 self.next_state = 'start_following'
-                self.role_manager.robot_role = RobotRole.FOLLOW
+                self.role_manager.mirte_state = RobotRole.FOLLOW
             if key.char =='q':
                 self.listener.stop()
                 self.next_state = 'quit'
@@ -84,11 +72,11 @@ class Follow_Farmer(smach.State):
             if key.char == 'e':
                 self.listener.stop()  # Stops listener
                 self.next_state = 'start_cleaning'
-                self.role_manager.robot_role = RobotRole.CLEAN
+                self.role_manager.mirte_state = RobotRole.CLEAN
             if key.char == 'r':
                 self.listener.stop()  
                 self.next_state = 'start_protecting'
-                self.role_manager.robot_role = RobotRole.PROTECT
+                self.role_manager.mirte_state = RobotRole.PROTECT
             if key.char == 'q':
                 self.listener.stop()
                 self.next_state = 'quit'
@@ -116,7 +104,7 @@ class Protect_Farmer(smach.State):
             if key.char == 'r':
                 self.listener.stop()  # Stops listener
                 self.next_state = 'start_following'
-                self.role_manager.robot_role = RobotRole.FOLLOW
+                self.role_manager.mirte_state = RobotRole.FOLLOW
             if key.char =='q':
                 self.listener.stop()
                 self.next_state = 'quit'
