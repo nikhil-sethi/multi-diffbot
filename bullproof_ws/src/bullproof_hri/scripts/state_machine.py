@@ -17,9 +17,6 @@ class Clean_Stable(smach.State):
         self.run = False
 
     def execute(self, userdata):
-        # Clear console
-        os.system('clear')
-
         # Start publishing thread
         self.run = True 
         self.publish_thread = threading.Thread(target=self.publish_robot_role)
@@ -67,9 +64,6 @@ class Follow_Farmer(smach.State):
         self.run = False
 
     def execute(self, userdata):
-        # Clear console
-        os.system('clear')
-
         # Start publishing thread
         self.run = True 
         self.publish_thread = threading.Thread(target=self.publish_robot_role)
@@ -117,9 +111,6 @@ class Protect_Farmer(smach.State):
         self.run = False
 
     def execute(self, userdata):
-        # Clear console
-        os.system('clear')
-
         # Start publishing thread
         self.run = True 
         self.publish_thread = threading.Thread(target=self.publish_robot_role)

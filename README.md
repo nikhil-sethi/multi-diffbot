@@ -66,6 +66,8 @@ $ ssh mirte@192.168.42.1
 It will then ask for a password, this password is "bullproof". Once connected, you now have access to the `$mirte` shell. This is required to shut the robot down later.
 
 ## Connecting the robot to the camera network
+> Note: Anything labeled (first time) only has to be done when using a fresh Mirte. The Mirte used by this group is already configured.
+
 Within the arena, there is an overhead camera located that is used by this project. This camera is in essence another Mirte robot, but only serves to publish to a camera topic. In order to connect to this camera, follow these instructions:
 
 ### Connecting to the camera network
@@ -105,7 +107,7 @@ $ rostopic list
 ```
 If you can see the topic `/webcam/image_raw/compressed` or any similar topics, it is connected correctly.
 
-### Connecting Mirte to camera network
+### Connecting Mirte to camera network (first time)
 Now you must connect the Mirte robot to the camera network. To do so, re-open the `$mirte` shell from [Connecting to the robot](#connecting-to-the-robot), and run the following command:
 
 ```bash
@@ -119,7 +121,7 @@ ssh mirte@192.168.20.104
 ```
 Again, the password is "bullproof". Now you are once again connected to the `$mirte` shell, but it is now located on the "Lely Camera" network.
 
-### Setting the Camera as ROS Master (only first-time setup)
+### Setting the Camera as ROS Master (first time)
 In order to run ROS nodes on both the Camera and Mirte, one must be set as the ROS master. This will be done on the Camera. In order to make the Camera the ROS Master, connect to the `$mirte` shell and run the following commands.
 
 > Note: This only has to be done once, when you are starting from a fresh Mirte robot. For the current Mirte robot we are using, this does not have to be done again.
@@ -151,6 +153,7 @@ And remove any launch files for the camera nodes. Now close and save the file.
 Depending on the start-up, the ROS service on the Mirte robot may not start correctly. Examples of this are when you edited the `devel/setup.bash` as described in the last step. In order to fix any issues, restart the ROS service on the Mirte as follows:
 
 ```bash
+$ rosnode cleanup
 $mirte sudo systemctl stop mirte-ros
 $mirte sudo systemctl start mirte-ros
 ```
@@ -207,7 +210,7 @@ $bull roslaunch mdp bull.launch
 First, shutdown the Bull and Farmer by connecting to their respective shells `$farmer` and `$bull` and running:
 
 ```bash
-sudo shutdown no
+sudo shutdown now
 ```
 To shut down the Mirte robot, run the following command in `$mirte`:
 
