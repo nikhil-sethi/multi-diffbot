@@ -11,6 +11,32 @@ import os
 # sensor_msgs/CameraInfo Message
 
 
+# def callback_sub_camera(msg):
+
+#     camera_info_pub.publish(cam_inf)
+
+
+
+
+# def republish_camera():
+#     rospy.init_node('sub_to_camera')
+
+#     image_pub = rospy.Publisher('webcam2/image', Image, queue_size=1)
+#     camera_info_pub = rospy.Publisher('webcam2/camera_info', CameraInfo, queue_size=1)
+    
+#     # create subscriber
+#     rospy.Subscriber('webcam/image_raw/compressed', Image, callback_sub_camera)
+
+#     # cam_inf = CameraInfo()
+#     camera_info_pub.publish(cam_inf)
+
+#     # img_msg = Image()
+#     image_pub.publish(img_msg)
+
+#     rospy.spin()
+
+
+
 
 def test_img_out():
     
@@ -18,8 +44,8 @@ def test_img_out():
     current_directory = os.getcwdb()
 
 
-    image_pub = rospy.Publisher('webcam/image_raw/compressed', Image, queue_size=1)
-    camera_info_pub = rospy.Publisher('webcam/image_raw/camera_info', CameraInfo, queue_size=1)
+    image_pub = rospy.Publisher('webcam2/image_raw', Image, queue_size=1)
+    camera_info_pub = rospy.Publisher('webcam2/camera_info', CameraInfo, queue_size=1)
     # image_pub = rospy.Publisher('image_raw', String, queue_size=1)
 
 
@@ -30,11 +56,11 @@ def test_img_out():
 
     while not rospy.is_shutdown():
 
-        file = os.path.join(current_directory, '/../images/apriltag_example_image.jpg')
-        print(current_directory)
-        print(file)
+        # file = os.path.join(current_directory, '/../images/apriltag_example_image.jpg')
+        # print(current_directory)
+        # print(file)
 
-        # '/home/dborstlap/unif/mdp/bullproof-tech/bullproof_ws/src/bullproof_perception/images/apriltag_example_image.jpg'
+        file = '/home/dborstlap/unif/mdp/bullproof-tech/bullproof_ws/src/bullproof_perception/images/apriltag_example_image.jpg'
         cv_image = cv2.imread(file)
 
         # cv2.imshow('aa', cv_image)
@@ -45,7 +71,6 @@ def test_img_out():
         #     img_to_pub.data = cv_image
         #     img_to_pub.height = cv_image.shape[0]
         #     img_to_pub.width = cv_image.shape[1]
-
         
         rospy.loginfo('publishing image')
         # msg = Image()
@@ -61,12 +86,35 @@ def test_img_out():
         
         # rospy.loginfo('done publishing image')
 
+
+
         rate.sleep()
+
+
+
 
 
 
 if __name__ == '__main__':
     test_img_out()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
