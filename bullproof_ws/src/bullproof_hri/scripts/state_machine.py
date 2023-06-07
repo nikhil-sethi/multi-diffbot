@@ -37,15 +37,13 @@ class Clean_Stable(smach.State):
     def __init__(self, role_manager):
         smach.State.__init__(self, outcomes=['start_following', 'quit'])
         self.role_manager = role_manager
-        self.listener = None
-        
+
     def execute(self, userdata):
         # Start keyboard listener thread
         rospy.loginfo("State Clean_Stable triggered. (e to transition to Follow_farmer, q to quit)" )
-        if self.listener == None:
-            self.listener = keyboard.Listener(on_press=self.on_key_press)
-            self.listener.start()
-            self.listener.join()  # Wait for keyboard listener thread to stop
+        self.listener = keyboard.Listener(on_press=self.on_key_press)
+        self.listener.start()
+        self.listener.join()  # Wait for keyboard listener thread to stop
         return self.next_state
         
     def on_key_press(self, key):
@@ -67,15 +65,13 @@ class Follow_Farmer(smach.State):
     def __init__(self, role_manager):
         smach.State.__init__(self, outcomes=['start_cleaning', 'start_protecting', 'quit'])
         self.role_manager = role_manager
-        self.listener = None
 
     def execute(self, userdata):
         # Start keyboard listener thread
         rospy.loginfo("State Follow_Farmer triggered. (e to transition to Clean_Stable, r to transition to Protect_Farmer, q to quit)")
-        if self.listener == None:
-            self.listener = keyboard.Listener(on_press=self.on_key_press)
-            self.listener.start()
-            self.listener.join()  # Wait for keyboard listener thread to stop
+        self.listener = keyboard.Listener(on_press=self.on_key_press)
+        self.listener.start()
+        self.listener.join()  # Wait for keyboard listener thread to stop
         return self.next_state
     
     def on_key_press(self, key):
@@ -100,17 +96,13 @@ class Protect_Farmer(smach.State):
     def __init__(self, role_manager):
         smach.State.__init__(self, outcomes=['start_following', 'quit'])
         self.role_manager = role_manager
-        self.listener = None
 
     def execute(self, userdata):
         # Start keyboard listener thread
         rospy.loginfo("State Protect_Farmer triggered. (r to transition to Follow_Farmer, q to quit)")
-        if self.listener == None:
-            self.listener = keyboard.Listener(on_press=self.on_key_press)
-            self.listener.start()
-            self.listener.join()  # Wait for keyboard listener thread to stop
-
-        self.run = False  # Turn off publishing thread
+        self.listener = keyboard.Listener(on_press=self.on_key_press)
+        self.listener.start()
+        self.listener.join()  # Wait for keyboard listener thread to stop
 
         return self.next_state
 
