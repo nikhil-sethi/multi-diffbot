@@ -1,3 +1,6 @@
 <launch>
-  <node name="manual_control_node" pkg="bullproof_control" type="manual_control.py" output="screen"/>
+  <arg name="remap_topic" default="false" />
+  <node name="manual_control_node" pkg="bullproof_control" type="manual_control.py" output="screen">
+    <remap if="$(arg remap_topic)" from="/mobile_base_controller/cmd_vel" to="/farmer/mobile_base_controller/cmd_vel" />
+  </node>
 </launch>

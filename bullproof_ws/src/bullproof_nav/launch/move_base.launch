@@ -13,7 +13,6 @@
          
          <!-- _local_planner_params -->
          <rosparam file="$(find bullproof_nav)/config/base_local_planner_params.yaml" command="load" />
-         <!-- <rosparam file="$(find bullproof_nav)/config2/teb_local_planner_params.yaml" command="load" />   -->
 
          <remap from="cmd_vel" to="/$(arg robot_name)/mobile_base_controller/cmd_vel"/>
          <remap from="map" to="/map"/>
