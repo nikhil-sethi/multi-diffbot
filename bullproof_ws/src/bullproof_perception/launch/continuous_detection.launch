@@ -1,4 +1,7 @@
 <launch>
+
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find bullproof_perception)/maps/robohouse.yaml"/>
+
   <!-- set to value="gdbserver localhost:10000" for remote debugging -->
   <arg name="launch_prefix" default="" />
 
