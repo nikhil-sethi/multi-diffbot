@@ -8,56 +8,37 @@ from pynput import keyboard
 import rospy
 from std_msgs.msg import Int32
 # from bullproof_interfaces.msg import RobotState, BullState, FarmerState
+from enum import IntEnum
 
-# class RoleManager:
-#     def __init__(self) -> None:
-#         robot_sub = rospy.Subscriber("mirte/state", RobotState, self.robot_update, queue_size=10)
-#         farmer_sub = rospy.Subscriber("farmer/state", FarmerState, self.farmer_update, queue_size=10)
-#         bull_sub = rospy.Subscriber("bull/state", BullState, self.bull_update, queue_size=10)
+class RobotRole(IntEnum):
+    CLEAN = 0
+    FOLLOW = 1
+    PROTECT = 2
+    STAY = 3
 
-#         self.robot_pub = rospy.Publisher("mirte/state", RobotState, queue_size=10)
-#         self.farmer_pub = rospy.Publisher("farmer/state", FarmerState, queue_size=10)
-#         self.bull_pub = rospy.Publisher("bull/state", BullState, queue_size=10)
+class RoleManager:
+    def __init__(self) -> None:
+        self.pub = rospy.Publisher('mirte/state', Int32, queue_size=10)
 
-#     def robot_update(self, msg):
-#         self.robot_state = msg
-
-#     def farmer_update(self, msg):
-#         self.farmer_state = msg
-
-#     def bull_update(self, msg):
-#         self.bull_state = msg
-
-#     def robot_state_timer(self):
-
+        timer = rospy.Timer(rospy.Duration.from_sec(1), self.role_publisher)
+        self.mirte_state = 0 # clean by default
+        
+    def role_publisher(self, event=None):
+        self.pub.publish(self.mirte_state)
 
 
 class Clean_Stable(smach.State):
     """ Robot cleans stable, no farmer detected (F2 in activity diagram) """
-    def __init__(self):
+    def __init__(self, role_manager):
         smach.State.__init__(self, outcomes=['start_following', 'quit'])
-        self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
-        self.publish_thread = None
-        # self.role_manager = role_manager
-        self.run = False
+        self.role_manager = role_manager
 
     def execute(self, userdata):
-        # Start publishing thread
-        self.run = True 
-        self.publish_thread = threading.Thread(target=self.publish_robot_role)
-        self.publish_thread.daemon = True
-        self.publish_thread.start()
-
         # Start keyboard listener thread
         rospy.loginfo("State Clean_Stable triggered. (e to transition to Follow_farmer, q to quit)" )
         self.listener = keyboard.Listener(on_press=self.on_key_press)
         self.listener.start()
-        
         self.listener.join()  # Wait for keyboard listener thread to stop
-
-        self.run = False  # Turn off publishing thread
-        self.publish_thread.join()  # Wait for the publishing thread to stop
-
         return self.next_state
         
     def on_key_press(self, key):
@@ -65,47 +46,25 @@ class Clean_Stable(smach.State):
             if key.char == 'e':
                 self.listener.stop()  # Stops listener
                 self.next_state = 'start_following'
-                self.run, self.publish_thread.daemon = False
+                self.role_manager.mirte_state = RobotRole.FOLLOW
             if key.char =='q':
                 self.listener.stop()
                 self.next_state = 'quit'
-                self.run, self.publish_thread.daemon = False
         except AttributeError: # if it is not a character, such as 'Shift'
             pass
-    
-    def publish_robot_role(self):
-        while self.run and not rospy.is_shutdown():
-            role_value = 0  # Modify this value if needed
-            self.pub.publish(role_value)
-            rospy.Rate(1).sleep() # Publish rate of 1 Hz
-
 
 class Follow_Farmer(smach.State):
     """ Robot follows farmer, farmer has been detected but no aggressive cow (F3 in activity diagram) """
-    def __init__(self):
+    def __init__(self, role_manager):
         smach.State.__init__(self, outcomes=['start_cleaning', 'start_protecting', 'quit'])
-        self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
-        self.publish_thread = None
-        # self.role_manager = role_manager
-        self.run = False
+        self.role_manager = role_manager
 
     def execute(self, userdata):
-        # Start publishing thread
-        self.run = True 
-        self.publish_thread = threading.Thread(target=self.publish_robot_role)
-        self.publish_thread.daemon = True
-        self.publish_thread.start()
-
         # Start keyboard listener thread
         rospy.loginfo("State Follow_Farmer triggered. (e to transition to Clean_Stable, r to transition to Protect_Farmer, q to quit)")
         self.listener = keyboard.Listener(on_press=self.on_key_press)
         self.listener.start()
-        
         self.listener.join()  # Wait for keyboard listener thread to stop
-
-        self.run = False  # Turn off publishing thread
-        self.publish_thread.join()  # Wait for the publishing thread to stop
-
         return self.next_state
     
     def on_key_press(self, key):
@@ -113,46 +72,30 @@ class Follow_Farmer(smach.State):
             if key.char == 'e':
                 self.listener.stop()  # Stops listener
                 self.next_state = 'start_cleaning'
+                self.role_manager.mirte_state = RobotRole.CLEAN
             if key.char == 'r':
                 self.listener.stop()  
                 self.next_state = 'start_protecting'
+                self.role_manager.mirte_state = RobotRole.PROTECT
             if key.char == 'q':
                 self.listener.stop()
                 self.next_state = 'quit'
         except AttributeError: # if it is not a character, such as 'Shift'
             pass
 
-    def publish_robot_role(self):
-        while self.run and not rospy.is_shutdown():
-            role_value = 1  # Modify this value if needed
-            self.pub.publish(role_value)
-            rospy.Rate(1).sleep() # Publish rate of 1 Hz
 
 class Protect_Farmer(smach.State):
     """ Robot protects farmer, both farmer and aggressive cow are detected (F6 in activity diagram) """
-    def __init__(self):
+    def __init__(self, role_manager):
         smach.State.__init__(self, outcomes=['start_following', 'quit'])
-        self.pub = rospy.Publisher('mirte/robot_role', Int32, queue_size=10)
-        self.publish_thread = None
-        # self.role_manager = role_manager
-        self.run = False
+        self.role_manager = role_manager
 
     def execute(self, userdata):
-        # Start publishing thread
-        self.run = True 
-        self.publish_thread = threading.Thread(target=self.publish_robot_role)
-        self.publish_thread.daemon = True
-        self.publish_thread.start()
-
         # Start keyboard listener thread
         rospy.loginfo("State Protect_Farmer triggered. (r to transition to Follow_Farmer, q to quit)")
         self.listener = keyboard.Listener(on_press=self.on_key_press)
         self.listener.start()
-        
         self.listener.join()  # Wait for keyboard listener thread to stop
-
-        self.run = False  # Turn off publishing thread
-        self.publish_thread.join()  # Wait for the publishing thread to stop
 
         return self.next_state
 
@@ -161,29 +104,25 @@ class Protect_Farmer(smach.State):
             if key.char == 'r':
                 self.listener.stop()  # Stops listener
                 self.next_state = 'start_following'
+                self.role_manager.mirte_state = RobotRole.FOLLOW
             if key.char =='q':
                 self.listener.stop()
                 self.next_state = 'quit'
         except AttributeError:
             pass
 
-    def publish_robot_role(self):
-        while self.run and not rospy.is_shutdown():
-            role_value = 2 # Modify this value if needed
-            self.pub.publish(role_value)
-            rospy.Rate(1).sleep() # Publish rate of 1 Hz
-
 def main():
     rospy.init_node('state_machine_node')
     sm = smach.StateMachine(outcomes=['exit'])
 
     with sm:
-        smach.StateMachine.add('Clean_Stable', Clean_Stable(), transitions={'start_following': 'Follow_Farmer', 
+        role_manager = RoleManager()
+        smach.StateMachine.add('Clean_Stable', Clean_Stable(role_manager), transitions={'start_following': 'Follow_Farmer', 
                                                                             'quit': 'exit'})
-        smach.StateMachine.add('Follow_Farmer', Follow_Farmer(), transitions={'start_cleaning': 'Clean_Stable',
+        smach.StateMachine.add('Follow_Farmer', Follow_Farmer(role_manager), transitions={'start_cleaning': 'Clean_Stable',
                                                                               'start_protecting': 'Protect_Farmer',
                                                                               'quit': 'exit'})
-        smach.StateMachine.add('Protect_Farmer', Protect_Farmer(), transitions={'start_following': 'Follow_Farmer',
+        smach.StateMachine.add('Protect_Farmer', Protect_Farmer(role_manager), transitions={'start_following': 'Follow_Farmer',
                                                                                 'quit': 'exit'})
         
     # Create and start the introspection server

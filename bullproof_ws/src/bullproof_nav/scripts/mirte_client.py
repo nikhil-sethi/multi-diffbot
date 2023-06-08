@@ -5,6 +5,13 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import Int32
 from geometry_msgs.msg import Quaternion
 from actionlib_msgs.msg import GoalStatusArray, GoalStatus, GoalID
+from enum import IntEnum
+class RobotRole(IntEnum):
+    CLEAN = 0
+    FOLLOW = 1
+    PROTECT = 2
+    STAY = 3
+
 
 def euler_from_quaternion(q:Quaternion):
     """ Conversion script to get Euler Angles from Quaternions"""
@@ -70,8 +77,8 @@ class RobotPlanner:
         self.bull_pose = Pose()
         
         # Robot role subscriber for state machine
-        self.robot_role_sub = rospy.Subscriber("mirte/robot_role", Int32, self.robot_role_update, queue_size=10)
-        self.robot_role = None
+        self.robot_state_sub = rospy.Subscriber("mirte/state", Int32, self.state_update, queue_size=10)
+        self.state = None
         self.prev_role = None
 
         # Waypoints for Mirte cleaning
@@ -107,8 +114,8 @@ class RobotPlanner:
     def bull_pose_update(self, msg:Odometry):
         self.bull_pose = msg.pose.pose
 
-    def robot_role_update(self, msg):
-        self.robot_role = msg.data
+    def state_update(self, msg):
+        self.state = msg.data
 
     def waypoint_publish(self, waypoint_status):
         if waypoint_status == GoalStatus.SUCCEEDED:
@@ -134,19 +141,19 @@ class RobotPlanner:
         goal_id = GoalID()
         goal_id.stamp = rospy.Time.now()
         cancel_pub.publish(goal_id)
-        if self.robot_role == 0:
+        if self.state == 0:
             self.waypoint_publish(GoalStatus.SUCCEEDED) # restart the waypoint following
 
     def run(self, event=None):
         # Reset navgoal if role change occured
-        if self.prev_role != self.robot_role:
+        if self.prev_role != self.state:
             self.cancel_current_goal()
-            self.prev_role = self.robot_role
+            self.prev_role = self.state
 
-        if self.robot_role == 0: # Clean stable
+        if self.state == RobotRole.CLEAN: # Clean stable
             self.waypoint_publish(self.waypoint_status)
 
-        elif self.robot_role == 1: # Following
+        elif self.state == RobotRole.FOLLOW: # Following
 
             angles = euler_from_quaternion(self.farmer_pose.orientation) # optimal theta is same as farmers pose 
             
@@ -163,7 +170,7 @@ class RobotPlanner:
 
             self.goal_pub.publish(pose_opt)
         
-        elif self.robot_role == 2: # protect the farmer
+        elif self.state == RobotRole.PROTECT: # protect the farmer
             dx = -self.bull_pose.position.x + self.farmer_pose.position.x
             dy = -self.bull_pose.position.y + self.farmer_pose.position.y 
 
