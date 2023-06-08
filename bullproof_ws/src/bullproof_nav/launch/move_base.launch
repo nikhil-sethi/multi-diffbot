@@ -22,15 +22,15 @@
          <param name="global_costmap/robot_base_frame" value="$(arg robot_name)_tf/base_link"/>
          <param name="local_costmap/global_frame" value="$(arg robot_name)_tf/map"/>
          <param name="local_costmap/robot_base_frame" value="$(arg robot_name)_tf/base_link"/>
-         <param name="local_costmap/obstacle_layer/scan/sensor_frame" value="$(arg robot_name)_tf/rplidar_lase_link"/>
+         <!-- <param name="local_costmap/obstacle_layer/scan/sensor_frame" value="$(arg robot_name)_tf/rplidar_lase_link"/> -->
          
          <param name="TebLocalPlannerROS/include_costmap_obstacles" value="False" />
          <param name="TebLocalPlannerROS/include_dynamic_obstacles" value="True" />
 
-         <param name="base_global_planner" value="navfn/NavfnROS" />
+         <!-- <param name="base_global_planner" value="navfn/NavfnROS" /> -->
          <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
          <param name="controller_frequency" value="10.0" />
-         <param name="controller_patience" value="15.0" />
+         <!-- <param name="controller_patience" value="15.0" /> -->
 
          <!-- <remap from="/move_base_simple/goal"                                           to="/$(arg robot_name)/move_base_simple/goal" />
          <remap from="/move_base/TebLocalPlannerROS/global_plan"                        to="/$(arg robot_name)/move_base/TebLocalPlannerROS/global_plan" />
