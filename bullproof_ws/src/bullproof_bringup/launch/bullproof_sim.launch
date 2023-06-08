@@ -23,7 +23,5 @@
     <!-- bullproof packages-->
     <include file="$(find bullproof_bringup)/launch/spawn_bots.launch"/>
     <include file="$(find bullproof_perception)/launch/fake_perception.launch"/>
-    <include file="$(find bullproof_nav)/launch/bullproof_nav.launch"/>
     <include file="$(find bullproof_hri)/launch/state_machine.launch"/>
-    <!-- <node name="vel_forward" pkg="bullproof_bringup" type="sim_publisher.py" output="screen"/> -->
 </launch>
