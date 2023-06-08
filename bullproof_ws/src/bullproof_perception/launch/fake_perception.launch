@@ -1,7 +1,7 @@
 <launch>
 
     <!-- pretentious maps. huh -->
-    <node pkg="map_server" type="map_server" name="map_server" args="$(find bullproof_nav)/maps/robohouse.yaml"/>
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find bullproof_perception)/maps/robohouse.yaml"/>
 
     <!-- Dynamic mapper -->
     <!-- <node pkg="bullproof_perception" type="map_updater.py"> -->
