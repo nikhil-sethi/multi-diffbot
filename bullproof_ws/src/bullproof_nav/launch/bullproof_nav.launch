@@ -1,9 +1,6 @@
 <launch>
         <node pkg="bullproof_nav" type="dynamic_obstacles.py" name="dynamic_obstacle_publisher"/>
         <!-- Farmer -->
-        <!-- <include file="$(find bullproof_nav)/launch/single_bot.launch">
-                <arg name="model" value="farmer"/>
-        </include> -->
         <include file="$(find bullproof_control)/launch/manual_control.launch">
                 <arg name="remap_topic" value="true"/>
         </include>
@@ -11,10 +8,5 @@
         <!-- Robot -->
         <include file="$(find bullproof_nav)/launch/single_bot.launch">
                 <arg name="model" value="mirte"/>
-        </include>
-
-        <!-- Bull -->
-        <include file="$(find bullproof_nav)/launch/single_bot.launch">
-                <arg name="model" value="bull"/>
         </include>
 </launch>
