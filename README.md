@@ -403,3 +403,16 @@ The result of this `move_base` implementation can be seen in [this video](https:
 
 > **NOTE:** While rosdep should take care of dependencies, you might need to install the TEB local planner manually. You can do this using `sudo apt-get install ros-noetic-teb-local-planner`
 
+
+
+## contributors
+* Jelmer van der Saag
+* Nikhil Sethi
+* David Janssen
+* Tanya Spee
+* Dries Borstlap
+
+
+
+
+
