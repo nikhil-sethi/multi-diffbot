@@ -44,10 +44,10 @@ To build the repository, open the `bullproof-tech` folder (=location of the repo
 ``` bash
 cd bullproof_ws
 rosdep install --from-paths src --ignore-src -r -y
+sudo apt-get install ros-noetic-teb-local-planner
 catkin_make
 ```
-
-> **NOTE:** Beware of the suggestion 'rosdep2 install...'. Make sure you are using rosdep for ROS Noetic! Any other version may result in unwanted consequences.
+> **NOTE:** Do not use `rosdep2 install`. Make sure you are using rosdep for ROS Noetic! Any other version may result in unwanted consequences. The manual installation of `ros-noetic-teb-local-planner` may also be required if rosdep cannot find this package.
 
 This will update any submodules, install dependencies and then build the workspace for ROS within the workspace folder `bullproof_ws`.
 
@@ -99,12 +99,14 @@ And add a line with the following details:
 * IP-address: 192.168.20.198
 * IP-name: Mirte-2917C3
 
-To test whether the camera is working, run the following commands
+To test whether the camera is working, run the following commands:
+
 ```bash
 $ export ROS_MASTER_URI=http://192.168.20.198:11311
-$ rostopic list
+$ export ROS_IP=<your_wlan_ip>
 ```
-If you can see the topic `/webcam/image_raw/compressed` or any similar topics, it is connected correctly.
+
+Add your PC's IP and IP name (on the Lely Camera Network) to this file. If you do not know your IP address, run `$ ifconfig` or `$ ip a` to check. If you can see the topic `/webcam/image_raw/compressed` or any similar topics, it is connected correctly.
 
 ### Connecting Mirte to camera network (first time)
 Now you must connect the Mirte robot to the camera network. To do so, re-open the `$mirte` shell from [Connecting to the robot](#connecting-to-the-robot), and run the following command:
