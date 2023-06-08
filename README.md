@@ -118,7 +118,7 @@ password "Camera01")` & sudo nmcli d disconnect wlan0
 This will disconnect the "mirte_bullproof" network and connect the Mirte robot to the "Lely Camera" network. Re-connect your PC to the "Lely Camera" network, and run the following command to connect to the `$mirte` shell:
 
 ```bash
-ssh mirte@192.168.20.104
+ssh mirte@192.168.20.110
 ```
 Again, the password is "bullproof". Now you are once again connected to the `$mirte` shell, but it is now located on the "Lely Camera" network.
 
