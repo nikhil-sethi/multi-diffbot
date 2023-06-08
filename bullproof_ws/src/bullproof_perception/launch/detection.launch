@@ -1,0 +1,5 @@
+<launch>
+
+    <node pkg="bullproof_perception" name="detection" type="detection.py"/>
+
+</launch>

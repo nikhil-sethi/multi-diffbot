@@ -1,53 +1,85 @@
-#!/usr/bin/env python3
-import numpy as np
-import cv2
+#!/usr/bin/env python
+
 import rospy
-from apriltag_ros.msg import AprilTagDetectionArray, AprilTagDetection
-from geometry_msgs.msg import Pose, Pose2D, PoseStamped
-from tf.transformations import euler_from_quaternion, quaternion_from_euler
-
-farmer_pose = Pose2D()
-bull_pose = Pose2D()
-mirte_pose = Pose2D()
-
-def get_yaw (msg):
-    orientation_q = msg.pose.pose.pose.orientation
-    orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
-    roll, pitch, yaw = euler_from_quaternion (orientation_list)
-    return yaw
-
-def callback_april_detections(msg):
-    bull_pose.x = msg.detections[0].pose.pose.pose.position.x
-    bull_pose.y = msg.detections[0].pose.pose.pose.position.y
-    farmer_pose.x = msg.detections[1].pose.pose.pose.position.x
-    farmer_pose.y = msg.detections[1].pose.pose.pose.position.y
-    mirte_pose.x = msg.detections[2].pose.pose.pose.position.x
-    mirte_pose.y = msg.detections[2].pose.pose.pose.position.y
-
-    bull_pose.theta = get_yaw(msg.detections[0])
-    farmer_pose.theta = get_yaw(msg.detections[1])
-    mirte_pose.theta = get_yaw(msg.detections[2])
-    print('hoi')
-
-    locations_farmer_pub.publish(farmer_pose)
-    locations_mirte_pub.publish(mirte_pose)
-    locations_bull_pub.publish(bull_pose)
+from apriltag_ros.msg import AprilTagDetectionArray
+from nav_msgs.msg import Odometry
+from geometry_msgs.msg import PoseWithCovariance, PoseStamped, TwistWithCovariance
 
 
+class AprilTagConverter:
+    def __init__(self):
+        rospy.init_node('april_tag_converter')
 
-def get_detections():
-    rospy.init_node('get_detections_py', anonymous=True)
-    print('hoi1')
-    locations_farmer_pub = rospy.Publisher('locations/farmer', Pose2D, queue_size=1)
-    locations_mirte_pub = rospy.Publisher('locations/mirte', Pose2D, queue_size=1)
-    locations_bull_pub = rospy.Publisher('locations/bull', Pose2D, queue_size=1)
-    while not rospy.is_shutdown():
-        rospy.Subscriber('tag_detections', AprilTagDetectionArray, callback_april_detections)
-        rospy.sleep(1)
+        self.window_size = 5
+        self.sliding_windows = {1: [], 2: [], 3: []}
+        self.odometry_pubs = {
+            1: rospy.Publisher('/bulls/odom', Odometry, queue_size=5),
+            2: rospy.Publisher('/farmers/odom', Odometry, queue_size=5),
+            3: rospy.Publisher('/mirtes/odom', Odometry, queue_size=5)
+        }
+
+        rospy.Subscriber('/tag_detections', AprilTagDetectionArray, self.april_tag_callback)
+
+    def april_tag_callback(self, msg):
+        for detection in msg.detections:
+            tag_id = detection.id[0]
+            posecovstamped = detection.pose
+            posecov = posecovstamped.pose
+            pose = posecov.pose
+            point = pose.position
+
+            try:
+                # Create a new odometry message
+                odometry_msg = Odometry()
+                odometry_msg.header = posecovstamped.header
+                odometry_msg.child_frame_id = posecovstamped.header.frame_id
+                # Estimate the velocities using a sliding window algorithm
+                twist = self.estimate_twist(tag_id, posecov)
+                odometry_msg.twist = twist
+
+                # Fill in the pose information
+                odometry_msg.pose = posecov
+
+                # rospy.logwarn(odometry_msg)
+
+                # Publish the odometry message for the corresponding tag
+                self.odometry_pubs[tag_id].publish(odometry_msg)
+                # rospy.sleep(1)
+
+            except Exception as e:
+                rospy.logwarn("Failed to process the AprilTag detection: {}".format(str(e)))
+
+    def estimate_twist(self, tag_id, posecov):
+        # rospy.logwarn(tag_id)
+        # rospy.logwarn(pose)
+        self.sliding_windows[tag_id].append(posecov)
+
+        if len(self.sliding_windows[tag_id]) > self.window_size:
+            self.sliding_windows[tag_id].pop(0)
+
+        if len(self.sliding_windows[tag_id]) < 2:
+            return TwistWithCovariance()
+
+
+        vel_x = (self.sliding_windows[tag_id][-1].pose.position.x - self.sliding_windows[tag_id][0].pose.position.x) / (
+                    self.window_size - 1)
+        vel_y = (self.sliding_windows[tag_id][-1].pose.position.y - self.sliding_windows[tag_id][0].pose.position.y) / (
+                    self.window_size - 1)
+        vel_z = (self.sliding_windows[tag_id][-1].pose.position.z - self.sliding_windows[tag_id][0].pose.position.z) / (
+                    self.window_size - 1)
+
+
+        twist = TwistWithCovariance()
+        twist.twist.linear.x = vel_x
+        twist.twist.linear.y = vel_y
+        twist.twist.linear.z = vel_z
+
+        return twist
 
 
 if __name__ == '__main__':
     try:
-        get_detections()
+        converter = AprilTagConverter()
+        rospy.spin()
     except rospy.ROSInterruptException:
         pass
