@@ -31,7 +31,7 @@ FakeLocalizer::FakeLocalizer(ros::NodeHandle& nh):nh_(nh){
     frame_id="";
     odom_sub = nh_.subscribe("gazebo/odom_gt", 10, &FakeLocalizer::OdomCallback, this);
 
-    timer = nh_.createTimer(ros::Duration(0.5), &FakeLocalizer::transformPublisher, this);
+    timer = nh_.createTimer(ros::Duration(0.01), &FakeLocalizer::transformPublisher, this);
 
 }
 
