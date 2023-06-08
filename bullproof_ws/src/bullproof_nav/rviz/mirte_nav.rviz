@@ -197,14 +197,13 @@ Visualization Manager:
               Unreliable: false
               Value: true
             - Class: rviz/Marker
-              Enabled: true
+              Enabled: false
               Marker Topic: /mirte/move_base/TebLocalPlannerROS/teb_markers
               Name: Marker
               Namespaces:
-                PointObstacles: true
-                TebContainer: true
+                {}
               Queue Size: 100
-              Value: true
+              Value: false
           Enabled: true
           Name: Robot Local Map
         - Alpha: 1
