@@ -71,8 +71,6 @@ class RobotPlanner:
         # Pose subscribers for farmer and robot
         self.farmer_pose_sub = rospy.Subscriber("farmer/gazebo/odom_gt", Odometry, self.farmer_pose_update, queue_size=10)
         self.farmer_pose = Pose()
-        self.robot_pose_sub = rospy.Subscriber("mirte/gazebo/odom_gt", Odometry, self.robot_pose_update, queue_size=10)
-        self.robot_pose = Pose()
         self.bull_pose_sub = rospy.Subscriber("bull/gazebo/odom_gt", Odometry, self.bull_pose_update, queue_size=10)
         self.bull_pose = Pose()
         
@@ -107,9 +105,6 @@ class RobotPlanner:
 
     def farmer_pose_update(self, msg:Odometry):
         self.farmer_pose = msg.pose.pose
-
-    def robot_pose_update(self, msg:Odometry):
-        self.robot_pose = msg.pose.pose
     
     def bull_pose_update(self, msg:Odometry):
         self.bull_pose = msg.pose.pose
