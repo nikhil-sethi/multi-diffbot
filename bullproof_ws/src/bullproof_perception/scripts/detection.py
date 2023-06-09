@@ -13,9 +13,9 @@ class AprilTagConverter:
         self.window_size = 5
         self.sliding_windows = {1: [], 2: [], 3: []}
         self.odometry_pubs = {
-            1: rospy.Publisher('/bulls/odom', Odometry, queue_size=5),
-            2: rospy.Publisher('/farmers/odom', Odometry, queue_size=5),
-            3: rospy.Publisher('/mirtes/odom', Odometry, queue_size=5)
+            1: rospy.Publisher('/bull/odom', Odometry, queue_size=5),
+            2: rospy.Publisher('/farmer/odom', Odometry, queue_size=5),
+            3: rospy.Publisher('/mirte/odom', Odometry, queue_size=5)
         }
 
         rospy.Subscriber('/tag_detections', AprilTagDetectionArray, self.april_tag_callback)

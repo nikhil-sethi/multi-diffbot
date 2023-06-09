@@ -1,6 +1,6 @@
 <launch>
 
-  <node pkg="map_server" type="map_server" name="map_server" args="$(find bullproof_perception)/maps/robohouse.yaml"/>
+  <!-- <node pkg="map_server" type="map_server" name="map_server" args="$(find bullproof_perception)/maps/robohouse.yaml"/> -->
 
   <!-- set to value="gdbserver localhost:10000" for remote debugging -->
   <arg name="launch_prefix" default="" />
@@ -25,6 +25,8 @@
   </node>
 
   <node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/webcam/image_raw raw out:=/webcam/image_sync" />
+
+  <node pkg="bullproof_perception" name="get_detections" type="detection.py"/>
 
 </launch>
 
