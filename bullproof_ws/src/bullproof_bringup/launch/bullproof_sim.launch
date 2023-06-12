@@ -5,7 +5,7 @@
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
     <arg name="world_name" default="$(find mirte_sim)/worlds/robohouse.world"/>
-    <arg name="rvizconfig" default="$(find bullproof_nav)/rviz/mirte_nav.rviz" />
+    <arg name="rvizconfig" default="$(find bullproof_bringup)/rviz/sim.rviz" />
 
     <!-- Gazebo: We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">

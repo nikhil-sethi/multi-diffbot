@@ -2,4 +2,8 @@
     <include file="$(find bullproof_nav)/launch/bullproof_nav.launch"/>
     <include file="$(find bullproof_perception)/launch/bullproof_perception.launch"/>
     <include file="$(find bullproof_hri)/launch/bullproof_hri.launch"/>
+
+    <!-- visualization -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find bullproof_bringup)/rviz/nosim.rviz" required="false"/>
+
 </launch>
