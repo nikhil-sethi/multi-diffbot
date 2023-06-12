@@ -162,10 +162,8 @@ target_link_libraries(fake_localizer
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/testing.py
-  scripts/vision.py
   scripts/detection.py
-  scripts/fake_camera.py
+  scripts/map_server.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

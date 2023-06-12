@@ -6,7 +6,7 @@ import smach
 import smach_ros
 from pynput import keyboard
 import rospy
-from std_msgs.msg import Int32
+from std_msgs.msg import Int32, Bool
 # from bullproof_interfaces.msg import RobotState, BullState, FarmerState
 from enum import IntEnum
 
@@ -19,12 +19,16 @@ class RobotRole(IntEnum):
 class RoleManager:
     def __init__(self) -> None:
         self.pub = rospy.Publisher('mirte/state', Int32, queue_size=10)
+        self.alert_pub = rospy.Publisher('/alert', Bool, queue_size=1)
 
         timer = rospy.Timer(rospy.Duration.from_sec(1), self.role_publisher)
         self.mirte_state = 0 # clean by default
         
     def role_publisher(self, event=None):
         self.pub.publish(self.mirte_state)
+
+        if self.mirte_state == RobotRole.PROTECT:
+            self.alert_pub.publish(True)
 
 
 class Clean_Stable(smach.State):

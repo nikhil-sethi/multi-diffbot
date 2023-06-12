@@ -47,5 +47,4 @@ class FarmerPlanner:
 
 if __name__ == '__main__':
     farmer_planner = FarmerPlanner()
-
     rospy.spin()

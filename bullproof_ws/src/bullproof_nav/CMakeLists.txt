@@ -165,9 +165,11 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/farmer_client.py
-  scripts/bull_client.py
+  scripts/farmer_client_sim.py
+  scripts/bull_client_sim.py
   scripts/mirte_client.py
+  scripts/mirte_client_sim.py
+  scripts/dynamic_obstacles_sim.py
   scripts/dynamic_obstacles.py
   # scripts/farmer_server.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

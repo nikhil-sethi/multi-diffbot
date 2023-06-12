@@ -1,5 +1,7 @@
 <launch>
     <arg name="model" default="mirte"/>
+    <arg name="if_sim" default="false"/>
+
     <group ns="$(arg model)">
         <!-- planning base -->
         <include file="$(find bullproof_nav)/launch/move_base.launch">
@@ -7,6 +9,14 @@
         </include>
         
         <!-- planning script -->
-        <node pkg="bullproof_nav" name="$(arg model)_client" type="$(arg model)_client.py" ns="/"/>
+        <!-- Conditionally launch different files based on the argument -->
+        <group if="$(arg if_sim)">
+            <node pkg="bullproof_nav" name="$(arg model)_client" type="$(arg model)_client_sim.py" ns="/"/>
+        </group>
+
+        <group unless="$(arg if_sim)">
+            <node pkg="bullproof_nav" name="$(arg model)_client" type="$(arg model)_client.py" ns="/"/>
+        </group>
+       
     </group>
 </launch>
