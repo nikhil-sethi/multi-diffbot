@@ -1,6 +1,7 @@
 <launch>
       <arg name="robot_name" default="mirte"/>
       <arg name="local_planner" default="dwa"/>
+      <arg name="simulation" default="false"/>
       <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
 
          <!-- global_costmap -->
@@ -15,12 +16,22 @@
          <rosparam file="$(find bullproof_nav)/config/base_local_planner_params.yaml" command="load" />
 
          <remap from="cmd_vel" to="/$(arg robot_name)/mobile_base_controller/cmd_vel"/>
-         <remap from="map" to="/map"/>
+         
+         <!-- topic to get the actual map from  -->
+         <remap from="map" to="/map_test"/>
 
-         <param name="global_costmap/global_frame" value="$(arg robot_name)_tf/map"/>
-         <param name="global_costmap/robot_base_frame" value="$(arg robot_name)_tf/base_link"/>
+
+         <!-- global fixed frame -->
+         <param name="global_costmap/global_frame" value="$(arg robot_name)_tf/map"/>   
          <param name="local_costmap/global_frame" value="$(arg robot_name)_tf/map"/>
-         <param name="local_costmap/robot_base_frame" value="$(arg robot_name)_tf/base_link"/>
+      
+ 
+            <param name="local_costmap/robot_base_frame" value="$(arg robot_name)_tf/base_link" if="$(arg simulation)"/>
+            <param name="global_costmap/robot_base_frame" value="$(arg robot_name)_tf/base_link" if="$(arg simulation)"/>
+
+            <param name="local_costmap/robot_base_frame" value="$(arg robot_name)_tf/odom" unless="$(arg simulation)"/>
+            <param name="global_costmap/robot_base_frame" value="$(arg robot_name)_tf/odom" unless="$(arg simulation)"/>
+
          <!-- <param name="local_costmap/obstacle_layer/scan/sensor_frame" value="$(arg robot_name)_tf/rplidar_lase_link"/> -->
          
          <param name="TebLocalPlannerROS/include_costmap_obstacles" value="False" />

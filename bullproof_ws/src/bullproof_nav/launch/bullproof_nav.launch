@@ -3,6 +3,6 @@
         <!-- Robot -->
         <include file="$(find bullproof_nav)/launch/single_bot.launch">
                 <arg name="model" value="mirte"/>
-                <arg name="if_sim" value="false"/>
+                <arg name="simulation" value="false"/>
         </include>
 </launch>

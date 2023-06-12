@@ -38,7 +38,7 @@ Localizer::Localizer(ros::NodeHandle& nh):nh_(nh){
 void Localizer::OdomCallback(const nav_msgs::OdometryConstPtr& msg){
     frame_id = msg->header.frame_id;
     // int end = frame_id.find("/");
-    child_frame_id = "odom_test";
+    // child_frame_id = "odom_test";
 
     geometry_msgs::Point position = msg->pose.pose.position;
     transform.setOrigin(tf::Vector3(position.x, position.y, position.z));
@@ -51,7 +51,7 @@ void Localizer::OdomCallback(const nav_msgs::OdometryConstPtr& msg){
 
 void Localizer::transformPublisher(const ros::TimerEvent& event){
     if (frame_id!=""){
-        br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map_test", "odom_test"));}
+        br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "mirte_tf/map", "mirte_tf/odom"));}
     // ROS_INFO("dfg %s", frame_id);
 }
 

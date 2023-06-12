@@ -21,7 +21,7 @@ class AprilTagConverter:
             3: rospy.Publisher('/mirte/odom', Odometry, queue_size=5)
         }
 
-        rospy.Subscriber('/tag_detections', AprilTagDetectionArray, self.april_tag_callback)
+        rospy.Subscriber('/test/tag_detections', AprilTagDetectionArray, self.april_tag_callback)
 
     def april_tag_callback(self, msg):
         for detection in msg.detections:
@@ -35,9 +35,9 @@ class AprilTagConverter:
                 # Create a new odometry message
                 odometry_msg = Odometry()
                 odometry_msg.header = posecovstamped.header
-                odometry_msg.header.frame_id = "map_test"
-                odometry_msg.child_frame_id = posecovstamped.header.frame_id
-                # odometry_msg.child_frame_id = "map_test"
+                odometry_msg.header.frame_id = "mirte_tf/map"
+                # odometry_msg.child_frame_id = posecovstamped.header.frame_id
+                odometry_msg.child_frame_id = "mirte_tf/odom"
                 # Estimate the velocities using a sliding window algorithm
                 twist = self.estimate_twist(tag_id, posecov)
                 odometry_msg.twist = twist
