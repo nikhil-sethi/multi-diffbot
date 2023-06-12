@@ -23,5 +23,5 @@
     <!-- bullproof packages-->
     <include file="$(find bullproof_bringup)/launch/spawn_bots.launch"/>
     <include file="$(find bullproof_perception)/launch/fake_perception.launch"/>
-    <include file="$(find bullproof_hri)/launch/state_machine.launch"/>
+    <include file="$(find bullproof_hri)/launch/bullproof_hri.launch"/>
 </launch>

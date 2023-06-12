@@ -15,8 +15,8 @@ class DynamicObstaclesPublisher:
         self.bull_odom = Odometry()
         self.robot_odom = Odometry()
 
-        self.farmer_odom_sub = rospy.Subscriber("/farmer/odom", Odometry, self.farmer_odom_callback, queue_size=10)
-        self.bull_odom_sub = rospy.Subscriber("/bull/odom", Odometry, self.bull_odom_callback, queue_size=10)
+        self.farmer_odom_sub = rospy.Subscriber("farmer/gazebo/odom_gt", Odometry, self.farmer_odom_callback, queue_size=10)
+        self.bull_odom_sub = rospy.Subscriber("bull/gazebo/odom_gt", Odometry, self.bull_odom_callback, queue_size=10)
         # self.robot_odom_sub = rospy.Subscriber("mirte/gazebo/odom_gt", Odometry, self.robot_odom_callback, queue_size=10)
 
         self.robot_obs_pub = rospy.Publisher("/mirte/move_base/TebLocalPlannerROS/obstacles", ObstacleArrayMsg, queue_size=1)
