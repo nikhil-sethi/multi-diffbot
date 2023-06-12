@@ -11,7 +11,7 @@
 
   <!-- configure camera input -->
   <arg name="camera_name" default="/webcam" />
-  <arg name="image_topic" default="image_sync" />
+  <arg name="image_topic" default="image_raw" />
   <arg name="queue_size" default="1" />
 
   <!-- apriltag_ros continuous detection node -->
@@ -20,15 +20,16 @@
     <remap from="image_rect" to="$(arg camera_name)/$(arg image_topic)" />
     <remap from="camera_info" to="$(arg camera_name)/camera_info" />
 
-    <param name="publish_tag_detections_image" type="bool" value="true" /><!-- default: false -->
+    <param name="publish_tag_detections_image" type="bool" value="false" /><!-- default: false -->
     <param name="queue_size" type="int" value="$(arg queue_size)" />
+    <param name="~image_transport" type="string" value="compressed"/>
 
     <!-- load parameters (incl. tag family, tags, etc.) -->
     <rosparam command="load" file="$(find bullproof_perception)/config/settings.yaml"/>
     <rosparam command="load" file="$(find bullproof_perception)/config/tags.yaml"/>
   </node>
 
-  <node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/webcam/image_raw raw out:=/webcam/image_sync" />
+  <!-- <node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/webcam/image_raw raw out:=/webcam/image_sync" /> -->
 
   <node pkg="bullproof_perception" name="get_detections" type="detection.py"/>
 
