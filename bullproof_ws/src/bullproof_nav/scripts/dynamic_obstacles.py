@@ -17,13 +17,9 @@ class DynamicObstaclesPublisher:
 
         self.farmer_odom_sub = rospy.Subscriber("/farmer/odom", Odometry, self.farmer_odom_callback, queue_size=10)
         self.bull_odom_sub = rospy.Subscriber("/bull/odom", Odometry, self.bull_odom_callback, queue_size=10)
-        # self.robot_odom_sub = rospy.Subscriber("mirte/gazebo/odom_gt", Odometry, self.robot_odom_callback, queue_size=10)
 
         self.robot_obs_pub = rospy.Publisher("/mirte/move_base/TebLocalPlannerROS/obstacles", ObstacleArrayMsg, queue_size=1)
-        # self.bull_obs_pub = rospy.Publisher("/bull/move_base/TebLocalPlannerROS/obstacles", ObstacleArrayMsg, queue_size=1)
-        # self.farmer_obs_pub = rospy.Publisher("/farmer/move_base/TebLocalPlannerROS/obstacles", ObstacleArrayMsg, queue_size=1)
-
-        obs_timer = rospy.Timer(rospy.Duration.from_sec(0.2), self.publish_obstacles)
+        obs_timer = rospy.Timer(rospy.Duration.from_sec(0.05), self.publish_obstacles)
 
     def farmer_odom_callback(self, msg:Odometry):
         self.farmer_odom = msg
@@ -52,12 +48,9 @@ class DynamicObstaclesPublisher:
         # Farmer obstacle
         farmer_obs = self.obs_from_odom(1, "farmer")
         bull_obs = self.obs_from_odom(2, "bull")
-        robot_obs = self.obs_from_odom(3, "robot")
 
         self.obs_array_msg.obstacles = [farmer_obs, bull_obs]
 
-        # self.farmer_obs_pub.publish(self.obs_array_msg)
-        # self.bull_obs_pub.publish(self.obs_array_msg)
         self.robot_obs_pub.publish(self.obs_array_msg)
 
 
