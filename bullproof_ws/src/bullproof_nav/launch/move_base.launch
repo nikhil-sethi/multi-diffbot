@@ -15,7 +15,8 @@
          <!-- _local_planner_params -->
          <rosparam file="$(find bullproof_nav)/config/base_local_planner_params.yaml" command="load" />
 
-         <remap from="cmd_vel" to="/$(arg robot_name)/mobile_base_controller/cmd_vel"/>
+         <remap from="cmd_vel" to="/mobile_base_controller/cmd_vel"/>
+         <remap from="move_base_simple/goal" to="/move_base_simple/goal"/>
          
          <!-- topic to get the actual map from  -->
          <remap from="map" to="/map"/>

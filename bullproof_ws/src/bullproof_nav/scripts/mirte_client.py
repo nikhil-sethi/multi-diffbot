@@ -66,7 +66,7 @@ class RobotPlanner:
         self.r_safe = 0.3
         self.r_protect = 0.2
         # Goal publisher for mirte
-        self.goal_pub = rospy.Publisher("mirte/move_base_simple/goal", PoseStamped, queue_size=10)
+        self.goal_pub = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=10)
         
         # Pose subscribers for farmer and robot
         self.farmer_pose_sub = rospy.Subscriber("farmer/odom", Odometry, self.farmer_pose_update, queue_size=10)
