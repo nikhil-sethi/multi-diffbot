@@ -18,7 +18,7 @@
          <remap from="cmd_vel" to="/$(arg robot_name)/mobile_base_controller/cmd_vel"/>
          
          <!-- topic to get the actual map from  -->
-         <remap from="map" to="/map_test"/>
+         <remap from="map" to="/map"/>
 
 
          <!-- global fixed frame -->
