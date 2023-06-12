@@ -49,10 +49,8 @@ class AprilTagConverter:
             except Exception as e:
                 rospy.logwarn("Failed to process the AprilTag detection: {}".format(str(e)))
 
-    def estimate_twist(self, tag_id, posecov):
-        # rospy.logwarn(tag_id)
-        # rospy.logwarn(pose)
-        self.sliding_windows[tag_id].append(posecov)
+    def estimate_twist(self, tag_id, pose):
+        self.sliding_windows[tag_id].append(pose)
 
         if len(self.sliding_windows[tag_id]) > self.window_size:
             self.sliding_windows[tag_id].pop(0)
@@ -60,19 +58,24 @@ class AprilTagConverter:
         if len(self.sliding_windows[tag_id]) < 2:
             return TwistWithCovariance()
 
+        window_poses = self.sliding_windows[tag_id]
+        vel_x_sum = 0.0
+        vel_y_sum = 0.0
+        vel_z_sum = 0.0
 
-        vel_x = (self.sliding_windows[tag_id][-1].pose.position.x - self.sliding_windows[tag_id][0].pose.position.x) / (
-                    self.window_size - 1)
-        vel_y = (self.sliding_windows[tag_id][-1].pose.position.y - self.sliding_windows[tag_id][0].pose.position.y) / (
-                    self.window_size - 1)
-        vel_z = (self.sliding_windows[tag_id][-1].pose.position.z - self.sliding_windows[tag_id][0].pose.position.z) / (
-                    self.window_size - 1)
+        for i in range(len(window_poses) - 1):
+            vel_x_sum += (window_poses[i + 1].pose.position.x - window_poses[i].pose.position.x)
+            vel_y_sum += (window_poses[i + 1].pose.position.y - window_poses[i].pose.position.y)
+            vel_z_sum += (window_poses[i + 1].pose.position.z - window_poses[i].pose.position.z)
 
+        vel_x_avg = vel_x_sum / (self.window_size - 1)
+        vel_y_avg = vel_y_sum / (self.window_size - 1)
+        vel_z_avg = vel_z_sum / (self.window_size - 1)
 
         twist = TwistWithCovariance()
-        twist.twist.linear.x = vel_x
-        twist.twist.linear.y = vel_y
-        twist.twist.linear.z = vel_z
+        twist.twist.linear.x = vel_x_avg
+        twist.twist.linear.y = vel_y_avg
+        twist.twist.linear.z = vel_z_avg
 
         return twist
 
