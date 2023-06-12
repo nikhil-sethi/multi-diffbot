@@ -18,11 +18,11 @@ TebLocalPlannerROS:
  publish_feedback: False
     
  # Robot
- max_vel_x: 0.05 #0.42
+ max_vel_x: 0.06 #0.42
  max_vel_x_backwards: 0.05 #0.42
  max_vel_y: 0.0
- max_vel_theta: 0.1
- acc_lim_x: 0.03 #0.8
+ max_vel_theta: 0.2
+ acc_lim_x: 0.06 #0.8
  acc_lim_theta: 1.00
  min_turning_radius: 0.0 # diff-drive robot (can turn in place!)
 
@@ -61,7 +61,7 @@ TebLocalPlannerROS:
  weight_acc_lim_x: 1
  weight_acc_lim_theta: 1
  weight_kinematics_nh: 1000
- weight_kinematics_forward_drive: 1
+ weight_kinematics_forward_drive: 1.3
  weight_kinematics_turning_radius: 1
  weight_optimaltime: 1
  weight_obstacle: 100
