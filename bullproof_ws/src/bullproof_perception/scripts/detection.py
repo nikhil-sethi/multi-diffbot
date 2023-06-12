@@ -53,6 +53,9 @@ class AprilTagConverter:
                 q_new = quaternion_multiply(q_rot, [q_orig.x,q_orig.y,q_orig.z,q_orig.w])
                 odometry_msg.pose.pose.orientation = Quaternion(q_new[0], q_new[1], q_new[2], q_new[3])
 
+                odometry_msg.pose.pose.orientation.y = 0
+                odometry_msg.pose.pose.orientation.x = 0
+
                 # print(euler_from_quaternion(odometry_msg.pose.pose.orientation))
                 # Publish the odometry message for the corresponding tag
                 self.odometry_pubs[tag_id].publish(odometry_msg)
@@ -85,10 +88,10 @@ class AprilTagConverter:
             ang_vel_z_sum += self.calculate_angular_velocity(window_poses[i].pose.orientation,
                                                              window_poses[i + 1].pose.orientation)
 
-        vel_x_avg = vel_x_sum / (self.window_size - 1)
-        vel_y_avg = vel_y_sum / (self.window_size - 1)
-        vel_z_avg = vel_z_sum / (self.window_size - 1)
-        ang_vel_z_avg = ang_vel_z_sum / (self.window_size - 1)
+        vel_x_avg = vel_x_sum / (self.window_size)
+        vel_y_avg = vel_y_sum / (self.window_size)
+        vel_z_avg = vel_z_sum / (self.window_size)
+        ang_vel_z_avg = ang_vel_z_sum / (self.window_size)
 
         twist = TwistWithCovariance()
         twist.twist.linear.x = vel_x_avg

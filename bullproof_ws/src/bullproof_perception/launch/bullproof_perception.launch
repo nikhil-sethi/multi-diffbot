@@ -1,9 +1,9 @@
 <launch>
 
   <node pkg="map_server" type="map_server" name="map_server_node" args="$(find bullproof_perception)/maps/robohouse.yaml">
-    <remap from="map" to="map_test"/>
-    <remap from="map_metadata" to="map_test_metadata"/>
-    <param name="frame_id" value="map_test" />
+    <!-- <remap from="map" to="map_test"/> -->
+    <!-- <remap from="map_metadata" to="map_test_metadata"/> -->
+    <param name="frame_id" value="mirte_tf/map" />
   </node>
 
   <!-- set to value="gdbserver localhost:10000" for remote debugging -->
@@ -33,7 +33,7 @@
   <node pkg="bullproof_perception" name="get_detections" type="detection.py"/>
 
   <!-- transforms -->
-  <node pkg="tf" type="static_transform_publisher" name="tf_camera_map" args="0.0 0.0 0 0 0 0 head_camera map_test 20"/>
+  <node pkg="tf" type="static_transform_publisher" name="tf_camera_map" args="0.0 0.0 0 0 0 0 head_camera mirte_tf/map 20"/>
   <node pkg="bullproof_perception" type="localizer" name="localizer"/>
 
 
