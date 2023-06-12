@@ -136,6 +136,7 @@ ${catkin_INCLUDE_DIRS}
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(fake_localizer src/fake_localizer.cpp)
+add_executable(localizer src/localizer.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -151,7 +152,9 @@ add_executable(fake_localizer src/fake_localizer.cpp)
 target_link_libraries(fake_localizer
   ${catkin_LIBRARIES}
 )
-
+target_link_libraries(localizer
+  ${catkin_LIBRARIES}
+)
 #############
 ## Install ##
 #############
@@ -163,7 +166,7 @@ target_link_libraries(fake_localizer
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   scripts/detection.py
-  scripts/map_server.py
+  # scripts/map_server.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
