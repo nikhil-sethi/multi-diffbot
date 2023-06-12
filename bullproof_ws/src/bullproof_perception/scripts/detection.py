@@ -5,7 +5,7 @@ from apriltag_ros.msg import AprilTagDetectionArray
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import PoseWithCovariance, PoseStamped, TwistWithCovariance, Quaternion
 import math
-from tf.transformations import quaternion_multiply, quaternion_from_euler
+from tf.transformations import quaternion_multiply, quaternion_from_euler, euler_from_quaternion
 
 def euler_from_quaternion(q:Quaternion):
     """ Conversion script to get Euler Angles from Quaternions"""
@@ -117,8 +117,8 @@ class AprilTagConverter:
         return twist
 
     def calculate_angular_velocity(self, quat1, quat2):
-        euler1 = tf.euler_from_quaternion([quat1.x, quat1.y, quat1.z, quat1.w])
-        euler2 = tf.euler_from_quaternion([quat2.x, quat2.y, quat2.z, quat2.w])
+        euler1 = euler_from_quaternion([quat1.x, quat1.y, quat1.z, quat1.w])
+        euler2 = euler_from_quaternion([quat2.x, quat2.y, quat2.z, quat2.w])
         diff_euler = [euler2[i] - euler1[i] for i in range(3)]
 
         return diff_euler[2]
