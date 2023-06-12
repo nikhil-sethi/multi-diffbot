@@ -94,7 +94,7 @@ class RobotPlanner:
 
         # Start repeating with timer
         rospy.sleep(1)
-        timer = rospy.Timer(rospy.Duration.from_sec(0.2), self.run)
+        timer = rospy.Timer(rospy.Duration.from_sec(0.1), self.run)
 
 
     @staticmethod

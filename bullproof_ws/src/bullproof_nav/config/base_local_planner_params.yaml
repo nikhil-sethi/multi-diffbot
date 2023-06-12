@@ -66,7 +66,7 @@ TebLocalPlannerROS:
  weight_optimaltime: 1
  weight_obstacle: 100
  weight_inflation: 0.2
- weight_dynamic_obstacle: 8
+ weight_dynamic_obstacle: 30
  weight_dynamic_obstacle_inflation: 0.1
  weight_adapt_factor: 2
 
