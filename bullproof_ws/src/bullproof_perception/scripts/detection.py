@@ -21,7 +21,7 @@ class AprilTagConverter:
             3: rospy.Publisher('/mirte/odom', Odometry, queue_size=5)
         }
 
-        rospy.Subscriber('/test/tag_detections', AprilTagDetectionArray, self.april_tag_callback)
+        rospy.Subscriber('/tag_detections', AprilTagDetectionArray, self.april_tag_callback)
 
     def april_tag_callback(self, msg):
         for detection in msg.detections:
