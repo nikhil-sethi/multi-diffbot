@@ -9,7 +9,10 @@ class BullPlanner:
     def __init__(self) -> None:
         rospy.init_node('bull_client_py')
         self.wps = [Pose2D(1.2, 1.2, 0),
-                    Pose2D(0.3, 0.3, 0)]
+                    Pose2D(0.3, 0.3, 0),
+                    Pose2D(0.5, 0.8, 0),
+                    Pose2D(0.8, 1.0, 0),
+                    Pose2D(0.7, 0.3, 0)]
         self.wp_counter = 0
 
         self.goal_pub = rospy.Publisher("bull/move_base_simple/goal", PoseStamped, queue_size=10)

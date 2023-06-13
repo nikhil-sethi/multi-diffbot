@@ -10,7 +10,7 @@
     </group>
     <include file="$(find bullproof_nav)/launch/single_bot.launch">
             <arg name="model" value="mirte"/>
-            <arg name="if_sim" value="true"/>
+            <arg name="simulation" value="true"/>
     </include>
 
     <group ns="farmer">
@@ -33,6 +33,6 @@
     </group>
     <include file="$(find bullproof_nav)/launch/single_bot.launch">
             <arg name="model" value="bull"/>
-            <arg name="if_sim" value="true"/>
+            <arg name="simulation" value="true"/>
     </include>
 </launch>

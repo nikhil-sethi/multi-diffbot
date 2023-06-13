@@ -3,19 +3,22 @@
     <arg name="simulation" default="false"/>
 
     <group ns="$(arg model)">
-        <!-- planning base -->
-        <include file="$(find bullproof_nav)/launch/move_base.launch">
-            <arg name="robot_name" value="$(arg model)"/>
-            <arg name="simulation" value="$(arg simulation)"/>
-        </include>
-        
-        <!-- planning script -->
         <!-- Conditionally launch different files based on the argument -->
         <group if="$(arg simulation)">
+            <!-- planning base -->
+            <include file="$(find bullproof_nav)/launch/move_base_sim.launch">
+                <arg name="robot_name" value="$(arg model)"/>
+                <arg name="simulation" value="$(arg simulation)"/>
+            </include>
             <node pkg="bullproof_nav" name="$(arg model)_client" type="$(arg model)_client_sim.py" ns="/"/>
         </group>
-
+        
+        <!-- planning script -->
         <group unless="$(arg simulation)">
+            <!-- planning base -->
+            <include file="$(find bullproof_nav)/launch/move_base.launch">
+                <arg name="robot_name" value="$(arg model)"/>
+            </include>
             <node pkg="bullproof_nav" name="$(arg model)_client" type="$(arg model)_client.py" ns="/"/>
         </group>
        
