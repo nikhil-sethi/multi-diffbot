@@ -64,7 +64,7 @@ class RobotPlanner:
         rospy.init_node('mirte_client_py')
         rospy.loginfo("Starting mirte_client_py" )
         self.r_safe = 0.3
-        self.r_protect = 0.2
+        self.r_protect = 0.3
         # Goal publisher for mirte
         self.goal_pub = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=10)
         
@@ -118,8 +118,8 @@ class RobotPlanner:
             target_pose = PoseStamped()
             target_pose.header.frame_id = "mirte_tf/map"
             target_pose.header.stamp = rospy.Time.now()
-            target_pose.pose.position.x = wp.x
-            target_pose.pose.position.y = wp.y
+            target_pose.pose.position.x = wp.x +4.37
+            target_pose.pose.position.y = wp.y + 2.39
 
             target_pose.pose.orientation.w = math.cos(wp.theta/2)
             target_pose.pose.orientation.z = math.sin(wp.theta/2)

@@ -22,8 +22,16 @@ class AprilTagConverter:
         }
 
         rospy.Subscriber('/tag_detections', AprilTagDetectionArray, self.april_tag_callback)
+        self.odom_msgs=[0,0,0]
+        pub_timer = rospy.Timer(rospy.Duration.from_sec(0.03), self.odom_publisher)
+        
+    def odom_publisher(self, event=None):
+        for i in range(3):
+            if self.odom_msgs[i]!=0:
+                self.odometry_pubs[i+1].publish(self.odom_msgs[i])
 
     def april_tag_callback(self, msg):
+        
         for detection in msg.detections:
             tag_id = detection.id[0]
             posecovstamped = detection.pose
@@ -58,13 +66,12 @@ class AprilTagConverter:
 
                 # print(euler_from_quaternion(odometry_msg.pose.pose.orientation))
                 # Publish the odometry message for the corresponding tag
-                self.odometry_pubs[tag_id].publish(odometry_msg)
+                
+                self.odom_msgs[tag_id-1] = odometry_msg
                 # rospy.sleep(1)
 
             except Exception as e:
                 rospy.logwarn("Failed to process the AprilTag detection: {}".format(str(e)))
-
-    import tf.transformations as tf
 
     def estimate_twist(self, tag_id, pose):
         self.sliding_windows[tag_id].append(pose)

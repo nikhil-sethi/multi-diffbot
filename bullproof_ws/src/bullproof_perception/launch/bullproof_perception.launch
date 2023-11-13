@@ -1,6 +1,6 @@
 <launch>
 
-  <node pkg="map_server" type="map_server" name="map_server_node" args="$(find bullproof_perception)/maps/robohouse.yaml">
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find bullproof_perception)/maps/robohouse.yaml">
     <!-- <remap from="map" to="map_test"/> -->
     <!-- <remap from="map_metadata" to="map_test_metadata"/> -->
     <param name="frame_id" value="mirte_tf/map" />
